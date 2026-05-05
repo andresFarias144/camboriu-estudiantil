@@ -15,11 +15,11 @@ export default async function ClientesPage() {
 
   if (error) throw error
 
-  const groupedByCountry = (clients ?? []).reduce((acc, client) => {
-    if (!acc[client.country]) acc[client.country] = []
-    acc[client.country].push(client)
-    return acc
-  }, {} as Record<string, Client[]>)
+  const groupedByCountry: Record<string, Client[]> = {}
+for (const client of (clients ?? [])) {
+  if (!groupedByCountry[client.country]) groupedByCountry[client.country] = []
+  groupedByCountry[client.country].push(client)
+}
 
   return (
     <div>
