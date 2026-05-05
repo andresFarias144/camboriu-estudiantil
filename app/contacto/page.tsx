@@ -6,28 +6,44 @@ import { Mail, Phone, MapPin } from 'lucide-react'
 
 export default function ContactoPage() {
   return (
-    <div style={{ background: '#080c0a', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className="min-h-screen bg-[#080c0a] text-white">
       <PublicNavbar />
 
-      <section style={{ padding: '60px 48px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '60px', maxWidth: '1100px', margin: '0 auto' }}>
+      <section className="container-page py-10 sm:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-10 lg:gap-16 items-start max-w-6xl mx-auto">
+          {/* Texto */}
           <div>
-            <div style={{ fontSize: '11px', color: '#3df070', letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 700, marginBottom: '8px' }}>Contacto</div>
-            <h1 style={{ fontSize: 'clamp(40px, 6vw, 60px)', fontWeight: 800, textTransform: 'uppercase', lineHeight: 0.95, margin: 0 }}>
+            <div className="eyebrow mb-2">Contacto</div>
+            <h1 className="h-display">
               Tu próxima<br />temporada<br />
-              <span style={{ color: '#3df070' }}>empieza acá</span>
+              <span className="text-brand-green">empieza acá</span>
             </h1>
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)', marginTop: '20px', lineHeight: 1.6, maxWidth: '480px' }}>
+            <p className="text-base sm:text-lg text-white/50 mt-5 leading-relaxed max-w-md">
               Contanos sobre tu grupo y te armamos una propuesta personalizada en menos de 24 horas.
             </p>
 
-            <div style={{ marginTop: '36px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <ContactItem icon={<Phone size={18} />} label="Teléfono" value="+55 47 99281 6769" href="tel:+5547992816769" />
-              <ContactItem icon={<Mail size={18} />} label="Email" value="info@camboriuestudiantil.com" href="mailto:info@camboriuestudiantil.com" />
-              <ContactItem icon={<MapPin size={18} />} label="Ubicación" value="Balneário Camboriú, SC, Brasil" />
+            <div className="mt-8 flex flex-col gap-4">
+              <ContactItem
+                icon={<Phone size={18} />}
+                label="Teléfono"
+                value="+55 47 99281 6769"
+                href="tel:+5547992816769"
+              />
+              <ContactItem
+                icon={<Mail size={18} />}
+                label="Email"
+                value="info@camboriuestudiantil.com"
+                href="mailto:info@camboriuestudiantil.com"
+              />
+              <ContactItem
+                icon={<MapPin size={18} />}
+                label="Ubicación"
+                value="Balneário Camboriú, SC, Brasil"
+              />
             </div>
           </div>
 
+          {/* Formulario */}
           <ContactForm />
         </div>
       </section>
@@ -38,20 +54,37 @@ export default function ContactoPage() {
   )
 }
 
-function ContactItem({ icon, label, value, href }: { icon: React.ReactNode; label: string; value: string; href?: string }) {
+function ContactItem({
+  icon,
+  label,
+  value,
+  href,
+}: {
+  icon: React.ReactNode
+  label: string
+  value: string
+  href?: string
+}) {
   const content = (
     <>
-      <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(61,240,112,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3df070', flexShrink: 0 }}>{icon}</div>
-      <div>
-        <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>{label}</div>
-        <div style={{ fontSize: '14px', color: '#fff' }}>{value}</div>
+      <div className="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0">
+        {icon}
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-[11px] text-white/40 tracking-wider uppercase mb-0.5">{label}</div>
+        <div className="text-sm sm:text-base text-white break-all">{value}</div>
       </div>
     </>
   )
 
   return href ? (
-    <a href={href} style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit' }}>{content}</a>
+    <a
+      href={href}
+      className="flex items-center gap-3 no-underline text-inherit hover:opacity-80 transition-opacity"
+    >
+      {content}
+    </a>
   ) : (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>{content}</div>
+    <div className="flex items-center gap-3">{content}</div>
   )
 }

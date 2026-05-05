@@ -17,33 +17,41 @@ export default async function ClientesPublicPage() {
     .order('country', { ascending: true })
     .order('name', { ascending: true })
 
- const grouped: Record<string, Client[]> = {}
-for (const c of (clients ?? [])) {
-  if (!grouped[c.country]) grouped[c.country] = []
-  grouped[c.country].push(c)
-}
+  const grouped: Record<string, Client[]> = {}
+  for (const c of (clients ?? [])) {
+    if (!grouped[c.country]) grouped[c.country] = []
+    grouped[c.country].push(c)
+  }
 
   const totalClients = clients?.length || 0
   const countriesCount = Object.keys(grouped).length
 
   return (
-    <div style={{ background: '#080c0a', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className="min-h-screen bg-[#080c0a] text-white">
       <PublicNavbar />
 
-      <section style={{ padding: '60px 48px 30px' }}>
-        <div style={{ fontSize: '11px', color: '#3df070', letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 700, marginBottom: '8px' }}>Nuestras agencias</div>
-        <h1 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 800, textTransform: 'uppercase', lineHeight: 0.95, margin: 0 }}>
-          +{totalClients} agencias en <span style={{ color: '#3df070' }}>{countriesCount} países</span>
+      {/* Header */}
+      <section className="container-page py-10 sm:py-14">
+        <div className="eyebrow mb-2">Nuestras agencias</div>
+        <h1 className="h-display">
+          +{totalClients} agencias en <span className="text-brand-green">{countriesCount} países</span>
         </h1>
-        <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)', marginTop: '14px', maxWidth: '700px' }}>
+        <p className="text-base sm:text-lg text-white/50 mt-4 max-w-2xl">
           Las mejores agencias de turismo estudiantil de Latinoamérica confían en nosotros temporada tras temporada.
         </p>
       </section>
 
-      <section style={{ padding: '20px 48px 80px' }}>
+      {/* Country blocks */}
+      <section className="container-page pb-16 sm:pb-20">
         {Object.entries(grouped).map(([country, items]) => (
           <CountryBlock key={country} country={country as ClientCountry} clients={items} />
         ))}
+
+        {totalClients === 0 && (
+          <div className="border border-dashed border-white/10 rounded-xl p-12 text-center text-white/30 text-sm">
+            Aún no hay agencias cargadas.
+          </div>
+        )}
       </section>
 
       <PublicFooter />
@@ -55,40 +63,63 @@ for (const c of (clients ?? [])) {
 function CountryBlock({ country, clients }: { country: ClientCountry; clients: Client[] }) {
   const label = COUNTRY_LABELS[country]
   return (
-    <div style={{ marginBottom: '48px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-        <span style={{ fontSize: '24px' }}>{label.flag}</span>
-        <h2 style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: 0 }}>
+    <div className="mb-12 last:mb-0">
+      {/* Header país */}
+      <div className="flex items-center gap-3 mb-5">
+        <span className="text-2xl sm:text-3xl">{label.flag}</span>
+        <h2 className="text-xs sm:text-sm font-semibold tracking-[0.16em] uppercase text-white/70">
           {label.es}
         </h2>
-        <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)', padding: '2px 8px', borderRadius: '20px' }}>
+        <span className="bg-white/8 text-white/50 text-[11px] px-2 py-0.5 rounded-full">
           {clients.length}
         </span>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
+      {/* Grid de agencias */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
         {clients.map((c) => (
-          <div key={c.id} style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ height: '70px', background: c.logo_url ? '#fff' : 'rgba(255,255,255,0.04)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px' }}>
-              {c.logo_url ? (
-                <img src={c.logo_url} alt={c.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-              ) : (
-                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>{c.name}</span>
-              )}
-            </div>
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: 500 }}>{c.name}</div>
-              {c.city && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{c.city}</div>}
-              {c.since_year && <div style={{ fontSize: '10px', color: '#3df070', marginTop: '4px' }}>Desde {c.since_year}</div>}
-            </div>
-            {c.website && (
-              <a href={c.website} target="_blank" rel="noreferrer" style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <ExternalLink size={11} /> Sitio web
-              </a>
-            )}
-          </div>
+          <ClientCard key={c.id} client={c} />
         ))}
       </div>
+    </div>
+  )
+}
+
+function ClientCard({ client: c }: { client: Client }) {
+  return (
+    <div className="card-base p-4 flex flex-col gap-3 hover:border-brand-green/30 transition-colors">
+      {/* Logo */}
+      <div
+        className="h-16 sm:h-20 rounded-md flex items-center justify-center p-2"
+        style={{ background: c.logo_url ? '#fff' : 'rgba(255,255,255,0.04)' }}
+      >
+        {c.logo_url ? (
+          <img src={c.logo_url} alt={c.name} className="max-w-full max-h-full object-contain" />
+        ) : (
+          <span className="text-[11px] text-white/40 text-center">{c.name}</span>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="flex-1">
+        <div className="text-sm font-medium leading-snug">{c.name}</div>
+        {c.city && <div className="text-[11px] text-white/40 mt-0.5">{c.city}</div>}
+        {c.since_year && (
+          <div className="text-[10px] text-brand-green mt-1.5 font-semibold">Desde {c.since_year}</div>
+        )}
+      </div>
+
+      {/* Website */}
+      {c.website && (
+        <a
+          href={c.website}
+          target="_blank"
+          rel="noreferrer"
+          className="text-[11px] text-white/50 hover:text-white no-underline flex items-center gap-1 transition-colors"
+        >
+          <ExternalLink size={11} /> Sitio web
+        </a>
+      )}
     </div>
   )
 }

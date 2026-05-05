@@ -41,28 +41,18 @@ export function ContactForm() {
     }
   }
 
-  const inputStyle: React.CSSProperties = {
-    background: 'rgba(255,255,255,0.06)',
-    border: '0.5px solid rgba(255,255,255,0.12)',
-    borderRadius: '8px',
-    color: '#fff',
-    fontSize: '14px',
-    padding: '12px 16px',
-    width: '100%',
-    outline: 'none',
-    fontFamily: 'inherit',
-    boxSizing: 'border-box',
-  }
-
   if (success) {
     return (
-      <div style={{ background: 'rgba(61,240,112,0.08)', border: '0.5px solid rgba(61,240,112,0.3)', borderRadius: '12px', padding: '40px', textAlign: 'center' }}>
-        <CheckCircle2 size={48} color="#3df070" style={{ marginBottom: '16px' }} />
-        <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#3df070', marginBottom: '8px' }}>¡Consulta enviada!</h3>
-        <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>
+      <div className="bg-brand-green/[0.08] border border-brand-green/30 rounded-xl p-8 sm:p-10 text-center">
+        <CheckCircle2 size={48} className="text-brand-green mx-auto mb-4" />
+        <h3 className="text-lg sm:text-xl font-semibold text-brand-green mb-2">¡Consulta enviada!</h3>
+        <p className="text-sm text-white/60 leading-relaxed">
           Recibimos tu consulta. Te respondemos en menos de 24 horas.
         </p>
-        <button onClick={() => setSuccess(false)} style={{ marginTop: '20px', background: 'transparent', color: 'rgba(255,255,255,0.6)', border: '0.5px solid rgba(255,255,255,0.15)', padding: '10px 20px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer' }}>
+        <button
+          onClick={() => setSuccess(false)}
+          className="btn-secondary mt-5 !py-2.5 !px-5 !text-xs"
+        >
           Enviar otra consulta
         </button>
       </div>
@@ -70,12 +60,34 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '28px' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <input style={inputStyle} required placeholder="Nombre y apellido *" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
-        <input style={inputStyle} required type="email" placeholder="Email *" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
-        <input style={inputStyle} placeholder="Agencia / Colegio" value={form.agency} onChange={(e) => setForm((f) => ({ ...f, agency: e.target.value }))} />
-        <select style={inputStyle} value={form.country} onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))}>
+    <form onSubmit={handleSubmit} className="card-base p-6 sm:p-7">
+      <div className="flex flex-col gap-3">
+        <input
+          className="input-base"
+          required
+          placeholder="Nombre y apellido *"
+          value={form.name}
+          onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+        />
+        <input
+          className="input-base"
+          required
+          type="email"
+          placeholder="Email *"
+          value={form.email}
+          onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+        />
+        <input
+          className="input-base"
+          placeholder="Agencia / Colegio"
+          value={form.agency}
+          onChange={(e) => setForm((f) => ({ ...f, agency: e.target.value }))}
+        />
+        <select
+          className="input-base"
+          value={form.country}
+          onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
+        >
           <option value="">País...</option>
           <option value="Argentina">🇦🇷 Argentina</option>
           <option value="Uruguay">🇺🇾 Uruguay</option>
@@ -84,22 +96,39 @@ export function ContactForm() {
           <option value="Bolivia">🇧🇴 Bolivia</option>
           <option value="Perú">🇵🇪 Perú</option>
         </select>
-        <input style={inputStyle} placeholder="Destino o atracción de interés" value={form.interest} onChange={(e) => setForm((f) => ({ ...f, interest: e.target.value }))} />
-        <input style={inputStyle} type="number" placeholder="Cantidad de pasajeros" value={form.passengers} onChange={(e) => setForm((f) => ({ ...f, passengers: e.target.value }))} />
-        <textarea style={{ ...inputStyle, height: '100px', resize: 'vertical' }} placeholder="Mensaje (opcional)" value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} />
+        <input
+          className="input-base"
+          placeholder="Destino o atracción de interés"
+          value={form.interest}
+          onChange={(e) => setForm((f) => ({ ...f, interest: e.target.value }))}
+        />
+        <input
+          className="input-base"
+          type="number"
+          placeholder="Cantidad de pasajeros"
+          value={form.passengers}
+          onChange={(e) => setForm((f) => ({ ...f, passengers: e.target.value }))}
+        />
+        <textarea
+          className="input-base resize-y"
+          rows={4}
+          placeholder="Mensaje (opcional)"
+          value={form.message}
+          onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+        />
 
         {error && (
-          <div style={{ padding: '10px 14px', background: 'rgba(230,30,60,0.1)', border: '0.5px solid rgba(230,30,60,0.3)', borderRadius: '7px', fontSize: '13px', color: '#ff8080' }}>
+          <div className="px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
             {error}
           </div>
         )}
 
-        <button type="submit" disabled={loading} style={{ background: '#3df070', color: '#080c0a', padding: '14px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '4px', opacity: loading ? 0.7 : 1 }}>
-          {loading && <Loader2 size={14} />}
+        <button type="submit" disabled={loading} className="btn-primary mt-2 !py-3.5 disabled:opacity-70 disabled:cursor-not-allowed">
+          {loading && <Loader2 size={14} className="animate-spin" />}
           Enviar consulta
         </button>
 
-        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', textAlign: 'center', marginTop: '4px' }}>
+        <p className="text-[11px] text-white/35 text-center mt-1">
           Te respondemos en menos de 24 horas.
         </p>
       </div>
