@@ -19,40 +19,47 @@ export default async function DestinosPage() {
   const noche = (attractions || []).filter((a) => a.category === 'noche')
 
   return (
-    <div style={{ background: '#080c0a', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className="min-h-screen bg-[#080c0a] text-white">
       <PublicNavbar />
 
-      <section style={{ padding: '60px 48px 30px' }}>
-        <div style={{ fontSize: '11px', color: '#3df070', letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 700, marginBottom: '8px' }}>Destinos</div>
-        <h1 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 800, textTransform: 'uppercase', lineHeight: 0.95, margin: 0 }}>
-          Todas las <span style={{ color: '#3df070' }}>experiencias</span>
+      {/* Header */}
+      <section className="container-page py-10 sm:py-14">
+        <div className="eyebrow mb-2">Destinos</div>
+        <h1 className="h-display">
+          Todas las <span className="text-brand-green">experiencias</span>
         </h1>
-        <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)', marginTop: '14px', maxWidth: '600px' }}>
+        <p className="text-base sm:text-lg text-white/50 mt-4 max-w-2xl">
           Descubrí todas las atracciones disponibles en Camboriú, desde los clubes nocturnos exclusivos hasta los parques temáticos más grandes de Latinoamérica.
         </p>
       </section>
 
-      <section style={{ padding: '20px 48px 60px' }}>
-        <h2 style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ display: 'block', width: '32px', height: '1px', background: '#3df070' }} />
-          Día <span style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)', fontSize: '11px', padding: '2px 8px', borderRadius: '20px' }}>{dia.length}</span>
+      {/* DÍA */}
+      <section className="container-page pb-12 sm:pb-16">
+        <h2 className="text-xs font-semibold tracking-[0.16em] uppercase text-white/50 mb-5 flex items-center gap-2.5">
+          <span className="block w-8 h-px bg-brand-green" />
+          Día
+          <span className="bg-white/8 text-white/50 text-[11px] px-2 py-0.5 rounded-full">{dia.length}</span>
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {dia.map((a) => (
             <AttractionCard key={a.id} attraction={a} />
           ))}
         </div>
       </section>
 
-      <section style={{ padding: '20px 48px 80px', background: 'rgba(230,30,140,0.03)', borderTop: '0.5px solid rgba(230,30,140,0.12)' }}>
-        <h2 style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', margin: '40px 0 20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ display: 'block', width: '32px', height: '1px', background: '#e61e8c' }} />
-          Noche <span style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)', fontSize: '11px', padding: '2px 8px', borderRadius: '20px' }}>{noche.length}</span>
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
-          {noche.map((a) => (
-            <AttractionCard key={a.id} attraction={a} variant="night" />
-          ))}
+      {/* NOCHE */}
+      <section className="bg-brand-magenta/[0.03] border-t border-brand-magenta/[0.12] py-12 sm:py-16">
+        <div className="container-page">
+          <h2 className="text-xs font-semibold tracking-[0.16em] uppercase text-white/50 mb-5 flex items-center gap-2.5">
+            <span className="block w-8 h-px bg-brand-magenta" />
+            Noche
+            <span className="bg-white/8 text-white/50 text-[11px] px-2 py-0.5 rounded-full">{noche.length}</span>
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {noche.map((a) => (
+              <AttractionCard key={a.id} attraction={a} variant="night" />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -63,25 +70,17 @@ export default async function DestinosPage() {
 }
 
 function AttractionCard({ attraction: a, variant }: { attraction: any; variant?: 'day' | 'night' }) {
-  const badgeColors: Record<string, { bg: string; color: string }> = {
-    exclusivo: { bg: '#e61e8c', color: '#fff' },
-    nuevo: { bg: 'rgba(255,255,255,0.15)', color: '#fff' },
-    popular: { bg: '#3df070', color: '#080c0a' },
+  const badgeStyles: Record<string, string> = {
+    exclusivo: 'bg-brand-magenta text-white',
+    nuevo: 'bg-white/15 text-white border border-white/30',
+    popular: 'bg-brand-green text-[#080c0a]',
   }
 
   return (
     <Link
       href={`/destinos/${a.slug}`}
+      className="relative rounded-xl overflow-hidden border border-white/10 h-72 sm:h-80 flex flex-col justify-end no-underline group hover:border-brand-green/40 transition-colors"
       style={{
-        position: 'relative',
-        borderRadius: '12px',
-        overflow: 'hidden',
-        border: '0.5px solid rgba(255,255,255,0.1)',
-        height: '280px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        textDecoration: 'none',
         backgroundImage: a.main_image
           ? `linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%, transparent 100%), url(${a.main_image})`
           : `linear-gradient(135deg, ${variant === 'night' ? '#1a0820 0%, #2a1030 50%, #3a1840' : '#041208 0%, #0a2a18 50%, #0d3a20'} 100%)`,
@@ -89,14 +88,17 @@ function AttractionCard({ attraction: a, variant }: { attraction: any; variant?:
         backgroundPosition: 'center',
       }}
     >
-      <div style={{ position: 'relative', zIndex: 2, padding: '18px' }}>
+      <div className="relative z-10 p-4 sm:p-5">
         {a.badge && (
-          <span style={{ display: 'inline-block', fontSize: '10px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '4px', marginBottom: '8px', background: badgeColors[a.badge]?.bg, color: badgeColors[a.badge]?.color }}>
+          <span className={`inline-block text-[10px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded mb-2 ${badgeStyles[a.badge]}`}>
             {a.badge}
           </span>
         )}
-        <div style={{ fontSize: '24px', fontWeight: 800, textTransform: 'uppercase', lineHeight: 1, color: '#fff' }}>{a.title}</div>
-        <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', marginTop: '4px' }}>{a.type.replace('_', ' ')}</div>
+        <div className="h-card text-white">{a.title}</div>
+        {a.subtitle && (
+          <div className="text-xs sm:text-sm text-brand-green mt-1.5 font-medium">{a.subtitle}</div>
+        )}
+        <div className="text-xs text-white/60 mt-1 capitalize">{a.type.replace('_', ' ')}</div>
       </div>
     </Link>
   )

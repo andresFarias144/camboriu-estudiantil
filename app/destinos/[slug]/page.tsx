@@ -2,11 +2,10 @@ import { createClient } from '../../../lib/supabase/server'
 import { PublicNavbar } from '../../../components/public/PublicNavbar'
 import { PublicFooter } from '../../../components/public/PublicFooter'
 import { WhatsAppFab } from '../../../components/public/WhatsAppFab'
+import { Gallery } from '../../../components/public/Gallery'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, MapPin, Navigation } from 'lucide-react'
-import { Gallery } from '../../../components/public/Gallery'
-
 
 export const revalidate = 60
 
@@ -30,18 +29,23 @@ export default async function AttractionDetailPage({
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
   const whatsappMsg = encodeURIComponent(a.whatsapp_msg || `Hola! Consulto por ${a.title}.`)
 
+  // Auto-convert YouTube/Vimeo URL to embed
+  let embedUrl = a.video_url
+  if (a.video_url) {
+    const ytMatch = a.video_url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)
+    if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`
+    const vimeoMatch = a.video_url.match(/vimeo\.com\/(\d+)/)
+    if (vimeoMatch) embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}`
+  }
+
   return (
-    <div style={{ background: '#080c0a', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className="min-h-screen bg-[#080c0a] text-white">
       <PublicNavbar />
 
       {/* HERO */}
       <section
+        className="relative min-h-[55vh] sm:min-h-[60vh] flex items-end pt-16 pb-10 sm:pt-24 sm:pb-14"
         style={{
-          position: 'relative',
-          minHeight: '60vh',
-          display: 'flex',
-          alignItems: 'flex-end',
-          padding: '80px 48px 60px',
           backgroundImage: a.main_image
             ? `linear-gradient(to top, rgba(8,12,10,1) 0%, rgba(8,12,10,0.4) 50%, rgba(8,12,10,0.6) 100%), url(${a.main_image})`
             : 'linear-gradient(135deg, #041208 0%, #0a2a18 50%, #0d3a20 100%)',
@@ -49,70 +53,67 @@ export default async function AttractionDetailPage({
           backgroundPosition: 'center',
         }}
       >
-        <div style={{ maxWidth: '900px' }}>
-          <Link href="/destinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'rgba(255,255,255,0.6)', textDecoration: 'none', marginBottom: '20px' }}>
+        <div className="container-page">
+          <Link
+            href="/destinos"
+            className="inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white mb-5 no-underline transition-colors"
+          >
             <ArrowLeft size={14} /> Volver a destinos
           </Link>
 
           {a.badge && (
-            <span style={{ display: 'inline-block', fontSize: '11px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '4px', marginBottom: '14px', background: a.badge === 'exclusivo' ? '#e61e8c' : a.badge === 'popular' ? '#3df070' : 'rgba(255,255,255,0.15)', color: a.badge === 'popular' ? '#080c0a' : '#fff' }}>
+            <span
+              className={`inline-block text-xs font-extrabold tracking-wider uppercase px-2.5 py-1 rounded mb-3 ${
+                a.badge === 'exclusivo'
+                  ? 'bg-brand-magenta text-white'
+                  : a.badge === 'popular'
+                  ? 'bg-brand-green text-[#080c0a]'
+                  : 'bg-white/15 text-white border border-white/30'
+              }`}
+            >
               {a.badge}
             </span>
           )}
 
-          <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', fontWeight: 800, textTransform: 'uppercase', lineHeight: 0.95, margin: 0 }}>{a.title}</h1>
+          <h1 className="h-display">{a.title}</h1>
+
           {a.subtitle && (
-            <p style={{ fontSize: '20px', color: '#3df070', marginTop: '12px', maxWidth: '700px', lineHeight: 1.4 }}>
+            <p className="text-lg sm:text-xl text-brand-green mt-3 max-w-2xl">
               {a.subtitle}
             </p>
           )}
-          <p style={{ fontSize: '14px', color: '#3df070', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '12px' }}>
-            {a.category === 'noche' ? 'Noche' : 'Día'} · {a.type.replace('_', ' ')}
+
+          <p className="text-xs sm:text-sm text-white/70 uppercase tracking-widest mt-3">
+            {a.category === 'noche' ? 'Noche' : 'Día'} · <span className="capitalize">{a.type.replace('_', ' ')}</span>
           </p>
         </div>
       </section>
 
       {/* CONTENT */}
-      <section style={{ padding: '60px 48px', maxWidth: '1100px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '48px', alignItems: 'start' }}>
+      <section className="container-page py-12 sm:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr,320px] gap-8 lg:gap-12 items-start">
+          {/* Main content */}
           <div>
             {a.description && (
-              <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, whiteSpace: 'pre-wrap', margin: 0 }}>
+              <p className="text-base sm:text-lg text-white/75 leading-relaxed whitespace-pre-wrap">
                 {a.description}
               </p>
             )}
 
-            {a.video_url && (() => {
-                // Convertir cualquier URL de YouTube o Vimeo a formato embed
-                let embedUrl = a.video_url
-                
-                // YouTube: youtu.be/ID, youtube.com/watch?v=ID, youtube.com/shorts/ID
-                const ytMatch = a.video_url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)
-                if (ytMatch) {
-                  embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`
-                }
-                
-                // Vimeo: vimeo.com/ID
-                const vimeoMatch = a.video_url.match(/vimeo\.com\/(\d+)/)
-                if (vimeoMatch) {
-                  embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}`
-                }
-
-                return (
-                  <div style={{ marginTop: '32px', borderRadius: '12px', overflow: 'hidden', aspectRatio: '16/9' }}>
-                    <iframe
-                      src={embedUrl}
-                      style={{ width: '100%', height: '100%', border: 'none' }}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                )
-              })()}
+            {embedUrl && (
+              <div className="mt-8 rounded-xl overflow-hidden aspect-video">
+                <iframe
+                  src={embedUrl}
+                  className="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            )}
 
             {a.gallery && a.gallery.length > 0 && (
-              <div style={{ marginTop: '40px' }}>
-                <h2 style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#3df070', marginBottom: '14px' }}>
+              <div className="mt-10">
+                <h2 className="text-[11px] font-bold tracking-[0.16em] uppercase text-brand-green mb-4">
                   Galería
                 </h2>
                 <Gallery images={a.gallery} alt={a.title} />
@@ -121,33 +122,51 @@ export default async function AttractionDetailPage({
           </div>
 
           {/* SIDEBAR */}
-          <aside style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '24px', position: 'sticky', top: '100px' }}>
-            <h3 style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>Información</h3>
+          <aside className="card-base p-5 sm:p-6 lg:sticky lg:top-24">
+            <h3 className="text-[11px] font-bold tracking-[0.16em] uppercase text-white/50 mb-4">
+              Información
+            </h3>
 
             <a
               href={`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`}
               target="_blank"
               rel="noreferrer"
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: '#3df070', color: '#080c0a', fontSize: '14px', fontWeight: 700, padding: '14px', borderRadius: '8px', textDecoration: 'none', marginBottom: '12px' }}
+              className="btn-primary w-full !py-3.5 mb-3"
             >
               {a.consultation_cta || 'Consultar disponibilidad'}
             </a>
 
             {a.address && (
-              <div style={{ padding: '16px 0', borderTop: '0.5px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '6px' }}>Ubicación</div>
-                <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'flex-start', gap: '6px', marginBottom: '12px' }}>
-                  <MapPin size={14} style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <span>{a.address}</span>
+              <div className="py-5 border-t border-white/10">
+                <div className="text-[11px] font-bold tracking-[0.16em] uppercase text-brand-green mb-3.5">
+                  Ubicación
+                </div>
+
+                {/* Card visual de ubicación */}
+                <div className="bg-brand-green/[0.05] border border-brand-green/20 rounded-xl px-5 py-6 text-center mb-3">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-brand-green/[0.12] flex items-center justify-center">
+                    <MapPin size={24} className="text-brand-green" fill="#3df070" strokeWidth={1.5} />
+                  </div>
+                  <div className="text-sm text-white/85 leading-relaxed">{a.address}</div>
                 </div>
 
                 {a.lat && a.lng && (
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <a href={`https://waze.com/ul?ll=${a.lat},${a.lng}&navigate=yes`} target="_blank" rel="noreferrer" style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.7)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
-                      <Navigation size={12} /> Waze
+                  <div className="grid grid-cols-2 gap-2">
+                    <a
+                      href={`https://waze.com/ul?ll=${a.lat},${a.lng}&navigate=yes`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg py-2.5 px-3 text-center text-xs font-medium text-white/80 no-underline flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <Navigation size={13} /> Waze
                     </a>
-                    <a href={`https://maps.google.com/?q=${a.lat},${a.lng}`} target="_blank" rel="noreferrer" style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.7)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
-                      <Navigation size={12} /> Maps
+                    <a
+                      href={`https://maps.google.com/?q=${a.lat},${a.lng}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg py-2.5 px-3 text-center text-xs font-medium text-white/80 no-underline flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <Navigation size={13} /> Maps
                     </a>
                   </div>
                 )}
@@ -155,9 +174,11 @@ export default async function AttractionDetailPage({
             )}
 
             {a.season && a.season.length > 0 && (
-              <div style={{ padding: '16px 0', borderTop: '0.5px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '6px' }}>Temporadas</div>
-                <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>{a.season.join(', ')}</div>
+              <div className="py-5 border-t border-white/10">
+                <div className="text-[11px] font-bold tracking-[0.08em] uppercase text-white/40 mb-1.5">
+                  Temporadas
+                </div>
+                <div className="text-sm text-white/70">{a.season.join(', ')}</div>
               </div>
             )}
           </aside>
