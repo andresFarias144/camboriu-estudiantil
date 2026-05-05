@@ -280,8 +280,15 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
             <label style={labelStyle}>Galería ({gallery.length})</label>
             <CldUploadWidget
               uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-              options={{ folder: 'camboriu/attractions', multiple: true, maxFiles: 10, resourceType: 'image' }}
-              onSuccess={(result: any) => setGallery((g) => [...g, result.info.secure_url])}
+options={{ 
+  folder: 'camboriu/attractions', 
+  multiple: true, 
+  maxFiles: 50,
+  sources: ['local', 'url', 'camera', 'google_drive', 'dropbox'],
+  resourceType: 'image',
+  clientAllowedFormats: ['png', 'jpg', 'jpeg', 'webp', 'gif'],
+  maxFileSize: 10000000
+}}              onSuccess={(result: any) => setGallery((g) => [...g, result.info.secure_url])}
             >
               {({ open }) => (
                 <div>
