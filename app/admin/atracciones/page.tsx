@@ -19,27 +19,17 @@ export default async function AtraccionesPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-7">
         <div>
-          <h1 style={{ fontSize: '22px', fontWeight: 600, margin: 0 }}>Atracciones</h1>
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', marginTop: '4px' }}>
+          <h1 className="text-xl sm:text-2xl font-semibold">Atracciones</h1>
+          <p className="text-sm text-white/45 mt-1">
             {attractions?.length ?? 0} atracciones cargadas
           </p>
         </div>
         <Link
           href="/admin/atracciones/nueva"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: '#3df070',
-            color: '#080c0a',
-            padding: '10px 18px',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            fontSize: '14px',
-            fontWeight: 600,
-          }}
+          className="btn-primary !text-sm self-start sm:self-auto"
         >
           <Plus size={16} /> Nueva atracción
         </Link>
@@ -53,22 +43,18 @@ export default async function AtraccionesPage() {
 
 function Section({ title, count, items }: { title: string; count: number; items: Attraction[] }) {
   return (
-    <div style={{ marginBottom: '36px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-        <h2 style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', margin: 0 }}>
-          {title}
-        </h2>
-        <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', padding: '1px 8px', borderRadius: '20px', color: 'rgba(255,255,255,0.4)' }}>
-          {count}
-        </span>
+    <div className="mb-9">
+      <div className="flex items-center gap-2.5 mb-3.5">
+        <h2 className="text-xs font-semibold tracking-[0.1em] uppercase text-white/50">{title}</h2>
+        <span className="text-[11px] bg-white/8 px-2 py-0.5 rounded-full text-white/40">{count}</span>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div className="flex flex-col gap-2">
         {items.map((attraction) => (
           <AttractionRow key={attraction.id} attraction={attraction} />
         ))}
         {items.length === 0 && (
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', padding: '20px', textAlign: 'center', border: '0.5px dashed rgba(255,255,255,0.1)', borderRadius: '8px' }}>
+          <p className="text-sm text-white/30 p-5 text-center border border-dashed border-white/10 rounded-lg">
             No hay atracciones en esta categoría
           </p>
         )}
@@ -78,95 +64,66 @@ function Section({ title, count, items }: { title: string; count: number; items:
 }
 
 function AttractionRow({ attraction: a }: { attraction: Attraction }) {
-  const badgeColors: Record<string, string> = {
-    exclusivo: '#e61e8c',
-    nuevo: 'rgba(255,255,255,0.3)',
-    popular: '#3df070',
+  const badgeStyles: Record<string, string> = {
+    exclusivo: 'bg-brand-magenta/15 text-brand-magenta border border-brand-magenta/30',
+    nuevo: 'bg-white/10 text-white/80 border border-white/20',
+    popular: 'bg-brand-green/15 text-brand-green border border-brand-green/30',
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '14px',
-        background: 'rgba(255,255,255,0.04)',
-        border: '0.5px solid rgba(255,255,255,0.08)',
-        borderRadius: '10px',
-        padding: '14px 16px',
-      }}
-    >
-      <div
-        style={{
-          width: '52px',
-          height: '52px',
-          borderRadius: '8px',
-          flexShrink: 0,
-          background: 'rgba(255,255,255,0.08)',
-          backgroundImage: a.main_image ? `url(${a.main_image})` : undefined,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
-
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
-          <span style={{ fontSize: '14px', fontWeight: 500 }}>{a.title}</span>
-          {a.badge && (
-            <span
-              style={{
-                fontSize: '10px',
-                fontWeight: 700,
-                padding: '1px 6px',
-                borderRadius: '3px',
-                background: badgeColors[a.badge] + '22',
-                color: badgeColors[a.badge],
-                border: `0.5px solid ${badgeColors[a.badge]}44`,
-              }}
-            >
-              {a.badge}
-            </span>
-          )}
-          {a.is_featured && <Star size={12} color="#3df070" fill="#3df070" />}
-        </div>
-        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
-          {a.type.replace('_', ' ')} · Orden: {a.sort_order}
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
-        {a.is_active ? (
-          <>
-            <Eye size={13} color="#3df070" />
-            <span style={{ color: '#3df070' }}>Activa</span>
-          </>
-        ) : (
-          <>
-            <EyeOff size={13} color="rgba(255,255,255,0.3)" />
-            <span style={{ color: 'rgba(255,255,255,0.3)' }}>Oculta</span>
-          </>
-        )}
-      </div>
-
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <Link
-          href={`/admin/atracciones/${a.id}`}
+    <div className="card-base p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+      {/* Top row: image + info */}
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div
+          className="w-12 h-12 sm:w-13 sm:h-13 rounded-lg flex-shrink-0 bg-white/8 bg-cover bg-center"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            padding: '6px 12px',
-            borderRadius: '6px',
-            fontSize: '13px',
-            background: 'rgba(255,255,255,0.06)',
-            border: '0.5px solid rgba(255,255,255,0.12)',
-            color: 'rgba(255,255,255,0.8)',
-            textDecoration: 'none',
+            width: '52px',
+            height: '52px',
+            backgroundImage: a.main_image ? `url(${a.main_image})` : undefined,
           }}
-        >
-          <Pencil size={13} /> Editar
-        </Link>
-        <DeleteAttractionButton id={a.id} title={a.title} />
+        />
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap mb-0.5">
+            <span className="text-sm font-medium truncate">{a.title}</span>
+            {a.badge && (
+              <span className={`text-[10px] font-bold tracking-wider uppercase px-1.5 py-0.5 rounded ${badgeStyles[a.badge]}`}>
+                {a.badge}
+              </span>
+            )}
+            {a.is_featured && <Star size={12} className="text-brand-green fill-brand-green flex-shrink-0" />}
+          </div>
+          <div className="text-xs text-white/40 capitalize">
+            {a.type.replace('_', ' ')} · Orden: {a.sort_order}
+          </div>
+        </div>
+      </div>
+
+      {/* Status + actions */}
+      <div className="flex items-center justify-between sm:justify-end gap-3 flex-shrink-0">
+        <div className="flex items-center gap-1.5 text-xs">
+          {a.is_active ? (
+            <>
+              <Eye size={13} className="text-brand-green" />
+              <span className="text-brand-green">Activa</span>
+            </>
+          ) : (
+            <>
+              <EyeOff size={13} className="text-white/30" />
+              <span className="text-white/30">Oculta</span>
+            </>
+          )}
+        </div>
+
+        <div className="flex gap-2">
+          <Link
+            href={`/admin/atracciones/${a.id}`}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 no-underline transition-colors"
+          >
+            <Pencil size={12} /> Editar
+          </Link>
+          <DeleteAttractionButton id={a.id} title={a.title} />
+        </div>
       </div>
     </div>
   )

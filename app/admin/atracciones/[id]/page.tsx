@@ -22,13 +22,9 @@ export default async function EditAttractionPage({
 
   return (
     <div>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '22px', fontWeight: 600, margin: 0 }}>
-          Editar atracción
-        </h1>
-        <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', marginTop: '4px' }}>
-          {attraction.title}
-        </p>
+      <div className="mb-7">
+        <h1 className="text-xl sm:text-2xl font-semibold">Editar atracción</h1>
+        <p className="text-sm text-white/45 mt-1">{attraction.title}</p>
       </div>
       <AttractionForm attraction={attraction} />
     </div>

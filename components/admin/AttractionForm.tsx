@@ -22,8 +22,8 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
   const [form, setForm] = useState({
     title: attraction?.title ?? '',
     title_pt: attraction?.title_pt ?? '',
-    subtitle: attraction?.subtitle ?? '',
-    subtitle_pt: attraction?.subtitle_pt ?? '',
+    subtitle: (attraction as any)?.subtitle ?? '',
+    subtitle_pt: (attraction as any)?.subtitle_pt ?? '',
     slug: attraction?.slug ?? '',
     category: attraction?.category ?? ('dia' as AttractionCategory),
     type: attraction?.type ?? ('paseo' as AttractionType),
@@ -85,71 +85,88 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
     }
   }
 
-  const inputStyle: React.CSSProperties = {
-    background: 'rgba(255,255,255,0.05)',
-    border: '0.5px solid rgba(255,255,255,0.12)',
-    borderRadius: '8px',
-    color: '#fff',
-    fontSize: '14px',
-    padding: '10px 14px',
-    width: '100%',
-    outline: 'none',
-    fontFamily: 'inherit',
-    boxSizing: 'border-box',
-  }
-
-  const labelStyle: React.CSSProperties = {
-    fontSize: '11px',
-    color: 'rgba(255,255,255,0.5)',
-    marginBottom: '6px',
-    display: 'block',
-    fontWeight: 500,
-    letterSpacing: '0.04em',
-    textTransform: 'uppercase',
-  }
-
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '24px', alignItems: 'start' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,300px] gap-6">
+        {/* Left column */}
+        <div className="flex flex-col gap-5">
+          {/* Title bilingual */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label style={labelStyle}>Título (ES)</label>
-              <input style={inputStyle} required value={form.title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Green Valley" />
+              <label className="label-base">Título (ES) *</label>
+              <input
+                className="input-base"
+                required
+                value={form.title}
+                onChange={(e) => handleTitleChange(e.target.value)}
+                placeholder="Green Valley"
+              />
             </div>
             <div>
-              <label style={labelStyle}>Título (PT)</label>
-              <input style={inputStyle} value={form.title_pt} onChange={(e) => setForm((f) => ({ ...f, title_pt: e.target.value }))} placeholder="Green Valley" />
+              <label className="label-base">Título (PT)</label>
+              <input
+                className="input-base"
+                value={form.title_pt}
+                onChange={(e) => setForm((f) => ({ ...f, title_pt: e.target.value }))}
+                placeholder="Green Valley"
+              />
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          {/* Subtitle bilingual */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label style={labelStyle}>Subtítulo (ES)</label>
-              <input style={inputStyle} value={form.subtitle} onChange={(e) => setForm((f) => ({ ...f, subtitle: e.target.value }))} placeholder="Diversión, agua y naturaleza" />
+              <label className="label-base">Subtítulo (ES)</label>
+              <input
+                className="input-base"
+                value={form.subtitle}
+                onChange={(e) => setForm((f) => ({ ...f, subtitle: e.target.value }))}
+                placeholder="Diversión, agua y naturaleza"
+              />
             </div>
             <div>
-              <label style={labelStyle}>Subtítulo (PT)</label>
-              <input style={inputStyle} value={form.subtitle_pt} onChange={(e) => setForm((f) => ({ ...f, subtitle_pt: e.target.value }))} placeholder="Diversão, água e natureza" />
+              <label className="label-base">Subtítulo (PT)</label>
+              <input
+                className="input-base"
+                value={form.subtitle_pt}
+                onChange={(e) => setForm((f) => ({ ...f, subtitle_pt: e.target.value }))}
+                placeholder="Diversão, água e natureza"
+              />
             </div>
           </div>
 
+          {/* Slug */}
           <div>
-            <label style={labelStyle}>Slug (URL)</label>
-            <input style={inputStyle} required value={form.slug} onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))} placeholder="green-valley" />
+            <label className="label-base">Slug (URL)</label>
+            <input
+              className="input-base"
+              required
+              value={form.slug}
+              onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
+              placeholder="green-valley"
+            />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+          {/* Category / Type / Badge */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label style={labelStyle}>Categoría</label>
-              <select style={inputStyle} value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value as AttractionCategory }))}>
+              <label className="label-base">Categoría</label>
+              <select
+                className="input-base"
+                value={form.category}
+                onChange={(e) => setForm((f) => ({ ...f, category: e.target.value as AttractionCategory }))}
+              >
                 <option value="dia">Día</option>
                 <option value="noche">Noche</option>
               </select>
             </div>
             <div>
-              <label style={labelStyle}>Tipo</label>
-              <select style={inputStyle} value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value as AttractionType }))}>
+              <label className="label-base">Tipo</label>
+              <select
+                className="input-base"
+                value={form.type}
+                onChange={(e) => setForm((f) => ({ ...f, type: e.target.value as AttractionType }))}
+              >
                 <option value="paseo">Paseo</option>
                 <option value="discoteca">Discoteca</option>
                 <option value="parque_acuatico">Parque acuático</option>
@@ -159,8 +176,12 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
               </select>
             </div>
             <div>
-              <label style={labelStyle}>Badge</label>
-              <select style={inputStyle} value={form.badge} onChange={(e) => setForm((f) => ({ ...f, badge: e.target.value }))}>
+              <label className="label-base">Badge</label>
+              <select
+                className="input-base"
+                value={form.badge}
+                onChange={(e) => setForm((f) => ({ ...f, badge: e.target.value }))}
+              >
                 <option value="">Sin badge</option>
                 <option value="exclusivo">Exclusivo</option>
                 <option value="nuevo">Nuevo</option>
@@ -169,88 +190,154 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          {/* Description bilingual */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label style={labelStyle}>Descripción (ES)</label>
-              <textarea style={{ ...inputStyle, height: '110px', resize: 'vertical' }} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
+              <label className="label-base">Descripción (ES)</label>
+              <textarea
+                className="input-base resize-y min-h-[110px]"
+                value={form.description}
+                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+              />
             </div>
             <div>
-              <label style={labelStyle}>Descripción (PT)</label>
-              <textarea style={{ ...inputStyle, height: '110px', resize: 'vertical' }} value={form.description_pt} onChange={(e) => setForm((f) => ({ ...f, description_pt: e.target.value }))} />
+              <label className="label-base">Descripción (PT)</label>
+              <textarea
+                className="input-base resize-y min-h-[110px]"
+                value={form.description_pt}
+                onChange={(e) => setForm((f) => ({ ...f, description_pt: e.target.value }))}
+              />
             </div>
           </div>
 
+          {/* Address */}
           <div>
-            <label style={labelStyle}>Dirección</label>
-            <input style={inputStyle} value={form.address} onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))} />
+            <label className="label-base">Dirección</label>
+            <input
+              className="input-base"
+              value={form.address}
+              onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
+            />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          {/* Lat/lng */}
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <label style={labelStyle}>Latitud</label>
-              <input style={inputStyle} type="number" step="any" value={form.lat} onChange={(e) => setForm((f) => ({ ...f, lat: e.target.value }))} placeholder="-26.9919" />
+              <label className="label-base">Latitud</label>
+              <input
+                className="input-base"
+                type="number"
+                step="any"
+                value={form.lat}
+                onChange={(e) => setForm((f) => ({ ...f, lat: e.target.value }))}
+                placeholder="-26.9919"
+              />
             </div>
             <div>
-              <label style={labelStyle}>Longitud</label>
-              <input style={inputStyle} type="number" step="any" value={form.lng} onChange={(e) => setForm((f) => ({ ...f, lng: e.target.value }))} placeholder="-48.6345" />
+              <label className="label-base">Longitud</label>
+              <input
+                className="input-base"
+                type="number"
+                step="any"
+                value={form.lng}
+                onChange={(e) => setForm((f) => ({ ...f, lng: e.target.value }))}
+                placeholder="-48.6345"
+              />
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          {/* CTA + WhatsApp */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label style={labelStyle}>Texto botón consulta</label>
-              <input style={inputStyle} value={form.consultation_cta} onChange={(e) => setForm((f) => ({ ...f, consultation_cta: e.target.value }))} />
+              <label className="label-base">Texto botón consulta</label>
+              <input
+                className="input-base"
+                value={form.consultation_cta}
+                onChange={(e) => setForm((f) => ({ ...f, consultation_cta: e.target.value }))}
+              />
             </div>
             <div>
-              <label style={labelStyle}>Mensaje WhatsApp</label>
-              <input style={inputStyle} value={form.whatsapp_msg} onChange={(e) => setForm((f) => ({ ...f, whatsapp_msg: e.target.value }))} placeholder="Hola! Consulto por..." />
+              <label className="label-base">Mensaje WhatsApp</label>
+              <input
+                className="input-base"
+                value={form.whatsapp_msg}
+                onChange={(e) => setForm((f) => ({ ...f, whatsapp_msg: e.target.value }))}
+                placeholder="Hola! Consulto por..."
+              />
             </div>
           </div>
 
+          {/* Video URL */}
           <div>
-            <label style={labelStyle}>URL de video (YouTube/Vimeo)</label>
-            <input style={inputStyle} value={form.video_url} onChange={(e) => setForm((f) => ({ ...f, video_url: e.target.value }))} placeholder="https://www.youtube.com/embed/..." />
+            <label className="label-base">URL de video (YouTube/Vimeo)</label>
+            <input
+              className="input-base"
+              value={form.video_url}
+              onChange={(e) => setForm((f) => ({ ...f, video_url: e.target.value }))}
+              placeholder="https://www.youtube.com/watch?v=..."
+            />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 100px', gap: '12px' }}>
-            <div>
-              <label style={labelStyle}>Temporadas (separadas por coma)</label>
-              <input style={inputStyle} value={form.season} onChange={(e) => setForm((f) => ({ ...f, season: e.target.value }))} placeholder="2024, 2025" />
+          {/* Season + flags */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="sm:col-span-1">
+              <label className="label-base">Temporadas</label>
+              <input
+                className="input-base"
+                value={form.season}
+                onChange={(e) => setForm((f) => ({ ...f, season: e.target.value }))}
+                placeholder="2024, 2025"
+              />
             </div>
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <div style={{ flex: 1 }}>
-                <label style={labelStyle}>Activa</label>
-                <div style={{ display: 'flex', gap: '12px', paddingTop: '10px' }}>
-                  {[true, false].map((v) => (
-                    <label key={String(v)} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px', cursor: 'pointer', color: 'rgba(255,255,255,0.7)' }}>
-                      <input type="radio" checked={form.is_active === v} onChange={() => setForm((f) => ({ ...f, is_active: v }))} />
-                      {v ? 'Sí' : 'No'}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div style={{ flex: 1 }}>
-                <label style={labelStyle}>Destacada</label>
-                <div style={{ display: 'flex', gap: '12px', paddingTop: '10px' }}>
-                  {[true, false].map((v) => (
-                    <label key={String(v)} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px', cursor: 'pointer', color: 'rgba(255,255,255,0.7)' }}>
-                      <input type="radio" checked={form.is_featured === v} onChange={() => setForm((f) => ({ ...f, is_featured: v }))} />
-                      {v ? 'Sí' : 'No'}
-                    </label>
-                  ))}
-                </div>
+            <div>
+              <label className="label-base">Activa</label>
+              <div className="flex gap-3 pt-2.5">
+                {[true, false].map((v) => (
+                  <label key={String(v)} className="flex items-center gap-1.5 text-sm cursor-pointer text-white/70">
+                    <input
+                      type="radio"
+                      checked={form.is_active === v}
+                      onChange={() => setForm((f) => ({ ...f, is_active: v }))}
+                    />
+                    {v ? 'Sí' : 'No'}
+                  </label>
+                ))}
               </div>
             </div>
             <div>
-              <label style={labelStyle}>Orden</label>
-              <input style={inputStyle} type="number" value={form.sort_order} onChange={(e) => setForm((f) => ({ ...f, sort_order: parseInt(e.target.value) || 0 }))} />
+              <label className="label-base">Destacada</label>
+              <div className="flex gap-3 pt-2.5">
+                {[true, false].map((v) => (
+                  <label key={String(v)} className="flex items-center gap-1.5 text-sm cursor-pointer text-white/70">
+                    <input
+                      type="radio"
+                      checked={form.is_featured === v}
+                      onChange={() => setForm((f) => ({ ...f, is_featured: v }))}
+                    />
+                    {v ? 'Sí' : 'No'}
+                  </label>
+                ))}
+              </div>
             </div>
+          </div>
+
+          {/* Sort order */}
+          <div className="max-w-[140px]">
+            <label className="label-base">Orden</label>
+            <input
+              className="input-base"
+              type="number"
+              value={form.sort_order}
+              onChange={(e) => setForm((f) => ({ ...f, sort_order: parseInt(e.target.value) || 0 }))}
+            />
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        {/* Right column: images */}
+        <div className="flex flex-col gap-5">
+          {/* Main image */}
           <div>
-            <label style={labelStyle}>Imagen principal</label>
+            <label className="label-base">Imagen principal</label>
             <CldUploadWidget
               uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
               options={{ folder: 'camboriu/attractions', maxFiles: 1, resourceType: 'image' }}
@@ -259,50 +346,70 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
               {({ open }) => (
                 <div>
                   {mainImage ? (
-                    <div style={{ position: 'relative' }}>
-                      <img src={mainImage} alt="" style={{ width: '100%', height: '180px', objectFit: 'cover', borderRadius: '8px', display: 'block' }} />
-                      <button type="button" onClick={() => setMainImage('')} style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(0,0,0,0.7)', border: 'none', borderRadius: '6px', padding: '6px 10px', cursor: 'pointer', color: '#fff' }}>
+                    <div className="relative">
+                      <img src={mainImage} alt="" className="w-full h-44 object-cover rounded-lg block" />
+                      <button
+                        type="button"
+                        onClick={() => setMainImage('')}
+                        className="absolute top-2 right-2 bg-black/70 text-white rounded-md p-1.5 hover:bg-black/90"
+                      >
                         <Trash2 size={13} />
                       </button>
                     </div>
                   ) : (
-                    <div onClick={() => open()} style={{ height: '180px', border: '1px dashed rgba(255,255,255,0.2)', borderRadius: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', gap: '8px', color: 'rgba(255,255,255,0.4)', fontSize: '13px' }}>
+                    <button
+                      type="button"
+                      onClick={() => open()}
+                      className="w-full h-44 border border-dashed border-white/20 rounded-lg flex flex-col items-center justify-center gap-2 text-white/40 text-sm hover:border-white/40 hover:text-white/60 transition-colors"
+                    >
                       <ImagePlus size={24} />
                       Subir imagen principal
-                    </div>
+                    </button>
                   )}
                 </div>
               )}
             </CldUploadWidget>
           </div>
 
+          {/* Gallery */}
           <div>
-            <label style={labelStyle}>Galería ({gallery.length})</label>
+            <label className="label-base">Galería ({gallery.length})</label>
             <CldUploadWidget
               uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-options={{ 
-  folder: 'camboriu/attractions', 
-  multiple: true, 
-  maxFiles: 50,
-  sources: ['local', 'url', 'camera', 'google_drive', 'dropbox'],
-  resourceType: 'image',
-  clientAllowedFormats: ['png', 'jpg', 'jpeg', 'webp', 'gif'],
-  maxFileSize: 10000000
-}}              onSuccess={(result: any) => setGallery((g) => [...g, result.info.secure_url])}
+              options={{
+                folder: 'camboriu/attractions',
+                multiple: true,
+                maxFiles: 50,
+                sources: ['local', 'url', 'camera', 'google_drive', 'dropbox'],
+                resourceType: 'image',
+                clientAllowedFormats: ['png', 'jpg', 'jpeg', 'webp', 'gif'],
+                maxFileSize: 10000000,
+              }}
+              onSuccess={(result: any) => setGallery((g) => [...g, result.info.secure_url])}
             >
               {({ open }) => (
                 <div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '8px' }}>
-                    {gallery.map((url, i) => (
-                      <div key={i} style={{ position: 'relative' }}>
-                        <img src={url} alt="" style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px', display: 'block' }} />
-                        <button type="button" onClick={() => setGallery((g) => g.filter((_, idx) => idx !== i))} style={{ position: 'absolute', top: '4px', right: '4px', background: 'rgba(0,0,0,0.7)', border: 'none', borderRadius: '4px', padding: '4px 6px', cursor: 'pointer', color: '#fff' }}>
-                          <Trash2 size={11} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                  <button type="button" onClick={() => open()} style={{ width: '100%', padding: '8px', border: '1px dashed rgba(255,255,255,0.15)', borderRadius: '6px', background: 'transparent', color: 'rgba(255,255,255,0.4)', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                  {gallery.length > 0 && (
+                    <div className="grid grid-cols-2 gap-2 mb-2">
+                      {gallery.map((url, i) => (
+                        <div key={i} className="relative">
+                          <img src={url} alt="" className="w-full h-20 object-cover rounded-md block" />
+                          <button
+                            type="button"
+                            onClick={() => setGallery((g) => g.filter((_, idx) => idx !== i))}
+                            className="absolute top-1 right-1 bg-black/70 text-white rounded p-1 hover:bg-black/90"
+                          >
+                            <Trash2 size={11} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => open()}
+                    className="w-full py-2.5 border border-dashed border-white/15 rounded-md text-white/40 text-xs hover:text-white/60 hover:border-white/30 transition-colors flex items-center justify-center gap-1.5"
+                  >
                     <ImagePlus size={13} /> Agregar fotos
                   </button>
                 </div>
@@ -310,14 +417,25 @@ options={{
             </CldUploadWidget>
           </div>
 
+          {/* Map preview */}
           {form.lat && form.lng && (
             <div>
-              <label style={labelStyle}>Vista en mapa</label>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <a href={`https://waze.com/ul?ll=${form.lat},${form.lng}&navigate=yes`} target="_blank" rel="noreferrer" style={{ flex: 1, padding: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.6)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+              <label className="label-base">Vista en mapa</label>
+              <div className="grid grid-cols-2 gap-2">
+                <a
+                  href={`https://waze.com/ul?ll=${form.lat},${form.lng}&navigate=yes`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-md py-2 text-center text-xs text-white/60 no-underline flex items-center justify-center gap-1.5 transition-colors"
+                >
                   <MapPin size={12} /> Waze
                 </a>
-                <a href={`https://maps.google.com/?q=${form.lat},${form.lng}`} target="_blank" rel="noreferrer" style={{ flex: 1, padding: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.6)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+                <a
+                  href={`https://maps.google.com/?q=${form.lat},${form.lng}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-md py-2 text-center text-xs text-white/60 no-underline flex items-center justify-center gap-1.5 transition-colors"
+                >
                   <MapPin size={12} /> Google Maps
                 </a>
               </div>
@@ -327,17 +445,25 @@ options={{
       </div>
 
       {error && (
-        <div style={{ marginTop: '16px', padding: '12px', background: 'rgba(230,30,60,0.1)', border: '0.5px solid rgba(230,30,60,0.3)', borderRadius: '8px', fontSize: '13px', color: '#ff6b6b' }}>
+        <div className="mt-4 px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
           {error}
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: '10px', marginTop: '24px' }}>
-        <button type="submit" disabled={loading} style={{ background: '#3df070', color: '#080c0a', padding: '12px 28px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '8px', opacity: loading ? 0.7 : 1 }}>
-          {loading && <Loader2 size={14} />}
+      <div className="flex flex-col sm:flex-row gap-2.5 mt-6">
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn-primary disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {loading && <Loader2 size={14} className="animate-spin" />}
           {isEdit ? 'Guardar cambios' : 'Crear atracción'}
         </button>
-        <button type="button" onClick={() => router.back()} style={{ background: 'transparent', color: 'rgba(255,255,255,0.5)', padding: '12px 20px', borderRadius: '8px', border: '0.5px solid rgba(255,255,255,0.12)', fontSize: '14px', cursor: 'pointer' }}>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="btn-secondary"
+        >
           Cancelar
         </button>
       </div>

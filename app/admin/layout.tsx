@@ -1,9 +1,19 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '../../lib/supabase/client'
-import { LayoutDashboard, MapPin, Users, LogOut, ChevronRight, MessageSquare } from 'lucide-react'
+import {
+  LayoutDashboard,
+  MapPin,
+  Users,
+  LogOut,
+  ChevronRight,
+  MessageSquare,
+  Menu,
+  X,
+} from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
@@ -16,8 +26,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-  // Si estamos en login, no mostrar el layout con sidebar
+  // Login no usa el layout con sidebar
   if (pathname === '/admin/login') {
     return <>{children}</>
   }
@@ -28,37 +39,88 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#080c0a', color: '#fff', fontFamily: 'system-ui, sans-serif' }}>
-      <aside style={{ width: '220px', flexShrink: 0, background: 'rgba(255,255,255,0.03)', borderRight: '0.5px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', padding: '24px 0', position: 'sticky', top: 0, height: '100vh' }}>
-        <div style={{ padding: '0 20px 24px', borderBottom: '0.5px solid rgba(255,255,255,0.08)' }}>
-          <div style={{ fontSize: '15px', fontWeight: 700, letterSpacing: '0.04em' }}>
-            CAMBORIU <span style={{ color: '#3df070' }}>ADMIN</span>
+    <div className="min-h-screen bg-[#080c0a] text-white flex flex-col lg:flex-row">
+      {/* Mobile top bar */}
+      <header className="lg:hidden flex items-center justify-between px-4 h-14 border-b border-white/10 sticky top-0 z-40 glass-dark">
+        <div className="flex items-center gap-2">
+          <span className="text-base font-bold tracking-wider">
+            CAMBORIU <span className="text-brand-green">ADMIN</span>
+          </span>
+        </div>
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="btn-icon"
+          aria-label="Menu"
+        >
+          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+      </header>
+
+      {/* Mobile menu overlay */}
+      {mobileOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed lg:sticky top-0 left-0 h-screen w-64 lg:w-56 z-50
+          bg-white/[0.03] border-r border-white/10
+          flex flex-col py-6 transition-transform duration-200
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}
+      >
+        {/* Logo */}
+        <div className="px-5 pb-5 border-b border-white/10">
+          <div className="text-base font-bold tracking-wider">
+            CAMBORIU <span className="text-brand-green">ADMIN</span>
           </div>
-          <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>Panel de administración</div>
+          <div className="text-[10px] text-white/40 mt-0.5">Panel de administración</div>
         </div>
 
-        <nav style={{ flex: 1, padding: '16px 12px' }}>
+        {/* Nav */}
+        <nav className="flex-1 px-3 py-4">
           {navItems.map(({ href, label, icon: Icon, exact }) => {
             const active = exact ? pathname === href : pathname.startsWith(href)
             return (
-              <Link key={href} href={href} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', marginBottom: '2px', textDecoration: 'none', background: active ? 'rgba(61,240,112,0.1)' : 'transparent', color: active ? '#3df070' : 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: active ? 500 : 400 }}>
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                className={`
+                  flex items-center gap-2.5 px-3 py-2.5 rounded-lg mb-0.5 no-underline text-sm transition-colors
+                  ${
+                    active
+                      ? 'bg-brand-green/10 text-brand-green font-medium'
+                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                  }
+                `}
+              >
                 <Icon size={16} />
-                {label}
-                {active && <ChevronRight size={12} style={{ marginLeft: 'auto' }} />}
+                <span className="flex-1">{label}</span>
+                {active && <ChevronRight size={12} />}
               </Link>
             )
           })}
         </nav>
 
-        <div style={{ padding: '16px 12px', borderTop: '0.5px solid rgba(255,255,255,0.08)' }}>
-          <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', borderRadius: '8px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', fontSize: '14px' }}>
+        {/* Logout */}
+        <div className="px-3 pt-4 border-t border-white/10">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-lg text-sm text-white/40 hover:text-white hover:bg-white/5 transition-colors"
+          >
             <LogOut size={16} />
             Cerrar sesión
           </button>
         </div>
       </aside>
 
-      <main style={{ flex: 1, padding: '32px 36px', overflowY: 'auto' }}>
+      {/* Main content */}
+      <main className="flex-1 p-5 sm:p-7 lg:p-9 overflow-y-auto min-w-0">
         {children}
       </main>
     </div>

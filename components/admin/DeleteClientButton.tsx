@@ -26,20 +26,9 @@ export function DeleteClientButton({ id, name }: { id: string; name: string }) {
     <button
       onClick={handleDelete}
       disabled={loading}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '5px',
-        padding: '6px 12px',
-        borderRadius: '6px',
-        fontSize: '13px',
-        background: 'rgba(230,30,60,0.08)',
-        border: '0.5px solid rgba(230,30,60,0.25)',
-        color: '#ff8080',
-        cursor: loading ? 'not-allowed' : 'pointer',
-      }}
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs bg-red-500/10 border border-red-500/25 text-red-400 hover:bg-red-500/20 disabled:cursor-not-allowed transition-colors"
     >
-      {loading ? <Loader2 size={13} /> : <Trash2 size={13} />}
+      {loading ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
       Eliminar
     </button>
   )

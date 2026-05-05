@@ -31,34 +31,56 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#080c0a', fontFamily: 'system-ui, sans-serif' }}>
-      <div style={{ width: '360px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-          <div style={{ fontSize: '20px', fontWeight: 700, letterSpacing: '0.04em', color: '#fff', marginBottom: '4px' }}>
-            CAMBORIU <span style={{ color: '#3df070' }}>ADMIN</span>
+    <div className="min-h-screen flex items-center justify-center bg-[#080c0a] px-4">
+      <div className="w-full max-w-sm">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <div className="text-xl font-bold tracking-wider text-white mb-1">
+            CAMBORIU <span className="text-brand-green">ADMIN</span>
           </div>
-          <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>Ingresá con tu cuenta de administrador</div>
+          <div className="text-sm text-white/40">Ingresá con tu cuenta de administrador</div>
         </div>
 
-        <form onSubmit={handleLogin} style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        {/* Form */}
+        <form onSubmit={handleLogin} className="card-base p-6 sm:p-7 flex flex-col gap-3.5">
           <div>
-            <label style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '6px' }}>Email</label>
-            <input type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '0.5px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: '#fff', fontSize: '14px', padding: '10px 14px', outline: 'none', boxSizing: 'border-box' }} />
+            <label className="label-base">Email</label>
+            <input
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input-base"
+              placeholder="admin@camboriuestudiantil.com"
+            />
           </div>
 
           <div>
-            <label style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '6px' }}>Contraseña</label>
-            <input type="password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '0.5px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: '#fff', fontSize: '14px', padding: '10px 14px', outline: 'none', boxSizing: 'border-box' }} />
+            <label className="label-base">Contraseña</label>
+            <input
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input-base"
+              placeholder="••••••••"
+            />
           </div>
 
           {error && (
-            <div style={{ padding: '10px 14px', background: 'rgba(230,30,60,0.1)', border: '0.5px solid rgba(230,30,60,0.3)', borderRadius: '7px', fontSize: '13px', color: '#ff8080' }}>
+            <div className="px-3.5 py-2.5 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
               {error}
             </div>
           )}
 
-          <button type="submit" disabled={loading} style={{ background: '#3df070', color: '#080c0a', padding: '12px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '4px', opacity: loading ? 0.7 : 1 }}>
-            {loading && <Loader2 size={14} />}
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn-primary mt-1 disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {loading && <Loader2 size={14} className="animate-spin" />}
             Ingresar
           </button>
         </form>

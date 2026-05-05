@@ -22,9 +22,9 @@ export default async function EditClientPage({
 
   return (
     <div>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '22px', fontWeight: 600, margin: 0 }}>Editar agencia</h1>
-        <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', marginTop: '4px' }}>{client.name}</p>
+      <div className="mb-7">
+        <h1 className="text-xl sm:text-2xl font-semibold">Editar agencia</h1>
+        <p className="text-sm text-white/45 mt-1">{client.name}</p>
       </div>
       <ClientForm client={client} />
     </div>
