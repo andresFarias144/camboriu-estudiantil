@@ -17,11 +17,11 @@ export default async function ClientesPublicPage() {
     .order('country', { ascending: true })
     .order('name', { ascending: true })
 
-  const grouped = (clients || []).reduce((acc, c) => {
-    if (!acc[c.country]) acc[c.country] = []
-    acc[c.country].push(c)
-    return acc
-  }, {} as Record<string, Client[]>)
+ const grouped: Record<string, Client[]> = {}
+for (const c of (clients ?? [])) {
+  if (!grouped[c.country]) grouped[c.country] = []
+  grouped[c.country].push(c)
+}
 
   const totalClients = clients?.length || 0
   const countriesCount = Object.keys(grouped).length
