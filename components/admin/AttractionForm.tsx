@@ -22,6 +22,8 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
   const [form, setForm] = useState({
     title: attraction?.title ?? '',
     title_pt: attraction?.title_pt ?? '',
+    subtitle: attraction?.subtitle ?? '',
+    subtitle_pt: attraction?.subtitle_pt ?? '',
     slug: attraction?.slug ?? '',
     category: attraction?.category ?? ('dia' as AttractionCategory),
     type: attraction?.type ?? ('paseo' as AttractionType),
@@ -118,6 +120,17 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
             <div>
               <label style={labelStyle}>Título (PT)</label>
               <input style={inputStyle} value={form.title_pt} onChange={(e) => setForm((f) => ({ ...f, title_pt: e.target.value }))} placeholder="Green Valley" />
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div>
+              <label style={labelStyle}>Subtítulo (ES)</label>
+              <input style={inputStyle} value={form.subtitle} onChange={(e) => setForm((f) => ({ ...f, subtitle: e.target.value }))} placeholder="Diversión, agua y naturaleza" />
+            </div>
+            <div>
+              <label style={labelStyle}>Subtítulo (PT)</label>
+              <input style={inputStyle} value={form.subtitle_pt} onChange={(e) => setForm((f) => ({ ...f, subtitle_pt: e.target.value }))} placeholder="Diversão, água e natureza" />
             </div>
           </div>
 

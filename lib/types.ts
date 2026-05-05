@@ -20,6 +20,8 @@ export interface Attraction {
   id:               string
   title:            string
   title_pt:         string | null
+  subtitle:         string | null
+  subtitle_pt:      string | null
   slug:             string
   category:         AttractionCategory
   type:             AttractionType

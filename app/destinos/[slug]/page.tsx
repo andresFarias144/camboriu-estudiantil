@@ -59,6 +59,11 @@ export default async function AttractionDetailPage({
           )}
 
           <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', fontWeight: 800, textTransform: 'uppercase', lineHeight: 0.95, margin: 0 }}>{a.title}</h1>
+          {a.subtitle && (
+            <p style={{ fontSize: '20px', color: '#3df070', marginTop: '12px', maxWidth: '700px', lineHeight: 1.4 }}>
+              {a.subtitle}
+            </p>
+          )}
           <p style={{ fontSize: '14px', color: '#3df070', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '12px' }}>
             {a.category === 'noche' ? 'Noche' : 'Día'} · {a.type.replace('_', ' ')}
           </p>
