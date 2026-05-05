@@ -1,0 +1,103 @@
+{
+  "nav": {
+    "destinations": "Destinos",
+    "services": "Serviços",
+    "companies": "Empresas",
+    "safety": "Segurança",
+    "contact": "Contato",
+    "quote": "Cotar viagem"
+  },
+  "hero": {
+    "eyebrow": "Temporada 2025 · Balneário Camboriú, Brasil",
+    "title_1": "A viagem",
+    "title_2": "que marca",
+    "title_3": "uma geração",
+    "subtitle": "Experiências únicas no Brasil com operação profissional para agências e grupos estudantis.",
+    "cta_primary": "Ver destinos",
+    "cta_secondary": "Solicitar proposta"
+  },
+  "stats": {
+    "years": "Anos de experiência",
+    "students": "Estudantes viajados",
+    "countries": "Países atendidos",
+    "support": "Suporte em viagem",
+    "live": "Operação em tempo real",
+    "weather": "Clima em Camboriú",
+    "students_now": "Estudantes no destino",
+    "groups": "Grupos viajando hoje",
+    "events": "Eventos esta semana"
+  },
+  "destinations": {
+    "eyebrow": "Destinos imperdíveis",
+    "title": "O que te espera em",
+    "title_accent": "Camboriú",
+    "see_all": "Ver todos os destinos",
+    "day": "Dia",
+    "night": "Noite",
+    "all": "Todos",
+    "consult": "Consultar disponibilidade",
+    "directions_waze": "Abrir no Waze",
+    "directions_google": "Abrir no Google Maps"
+  },
+  "nights": {
+    "eyebrow": "As melhores noites",
+    "title": "Greenvalley ·",
+    "title_accent": "5 clubes, uma experiência"
+  },
+  "why": {
+    "eyebrow": "Por que nos escolher",
+    "title": "O aliado estratégico da sua",
+    "title_accent": "temporada",
+    "local_ops_title": "Operação local no Brasil",
+    "local_ops_desc": "Equipe própria em Camboriú. Coordenação antes, durante e depois da viagem.",
+    "support_title": "Suporte 24/7",
+    "support_desc": "Acompanhamento real e permanente. Sempre disponíveis quando você precisar.",
+    "platform_title": "Plataforma de gestão",
+    "platform_desc": "Tecnologia própria para gerenciar vagas, itinerários e reservas em tempo real.",
+    "exclusive_title": "Exclusividades únicas",
+    "exclusive_desc": "Acesso exclusivo ao Green Valley, Eclipse, Maria's e as melhores atrações."
+  },
+  "clients": {
+    "eyebrow": "Nossas agências",
+    "title": "+50 agências em",
+    "title_accent": "5 países",
+    "subtitle": "As melhores agências de turismo estudantil confiam em nós.",
+    "all": "Todos"
+  },
+  "testimonials": {
+    "eyebrow": "Depoimentos",
+    "title": "O que dizem quem",
+    "title_accent": "já viaja"
+  },
+  "cta": {
+    "title": "Sua próxima temporada",
+    "title_accent": "começa hoje",
+    "subtitle": "Solicite sua proposta personalizada e leve seus grupos a viver a melhor experiência.",
+    "name": "Nome e sobrenome",
+    "email": "Email corporativo",
+    "agency": "Agência / Colégio",
+    "country": "País",
+    "interest": "Destino de interesse",
+    "passengers": "Quantidade de passageiros",
+    "submit": "Falar com um consultor pelo WhatsApp",
+    "response_time": "Respondemos em menos de 24h"
+  },
+  "footer": {
+    "description": "Líderes em turismo estudantil no Brasil. Operação profissional e respaldo garantido.",
+    "destinations": "Destinos",
+    "companies": "Empresas",
+    "agencies": "Agências",
+    "schools": "Colégios",
+    "coordinators": "Coordenadores",
+    "parents": "Pais",
+    "contact": "Contato",
+    "rights": "Todos os direitos reservados.",
+    "privacy": "Política de privacidade",
+    "terms": "Termos e condições"
+  },
+  "badge": {
+    "exclusivo": "Exclusivo",
+    "nuevo": "Novo",
+    "popular": "Popular"
+  }
+}
