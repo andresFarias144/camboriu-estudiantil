@@ -82,16 +82,33 @@ export default async function AttractionDetailPage({
               </p>
             )}
 
-            {a.video_url && (
-              <div style={{ marginTop: '32px', borderRadius: '12px', overflow: 'hidden', aspectRatio: '16/9' }}>
-                <iframe
-                  src={a.video_url}
-                  style={{ width: '100%', height: '100%', border: 'none' }}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
-                  allowFullScreen
-                />
-              </div>
-            )}
+            {a.video_url && (() => {
+                // Convertir cualquier URL de YouTube o Vimeo a formato embed
+                let embedUrl = a.video_url
+                
+                // YouTube: youtu.be/ID, youtube.com/watch?v=ID, youtube.com/shorts/ID
+                const ytMatch = a.video_url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)
+                if (ytMatch) {
+                  embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`
+                }
+                
+                // Vimeo: vimeo.com/ID
+                const vimeoMatch = a.video_url.match(/vimeo\.com\/(\d+)/)
+                if (vimeoMatch) {
+                  embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}`
+                }
+
+                return (
+                  <div style={{ marginTop: '32px', borderRadius: '12px', overflow: 'hidden', aspectRatio: '16/9' }}>
+                    <iframe
+                      src={embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )
+              })()}
 
             {a.gallery && a.gallery.length > 0 && (
               <div style={{ marginTop: '40px' }}>
