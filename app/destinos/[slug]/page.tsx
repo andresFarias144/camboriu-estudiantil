@@ -5,6 +5,8 @@ import { WhatsAppFab } from '../../../components/public/WhatsAppFab'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, MapPin, Navigation } from 'lucide-react'
+import { Gallery } from '../../../components/public/Gallery'
+
 
 export const revalidate = 60
 
@@ -93,12 +95,10 @@ export default async function AttractionDetailPage({
 
             {a.gallery && a.gallery.length > 0 && (
               <div style={{ marginTop: '40px' }}>
-                <h2 style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#3df070', marginBottom: '14px' }}>Galería</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px' }}>
-                  {a.gallery.map((url: string, i: number) => (
-                    <img key={i} src={url} alt={`${a.title} ${i + 1}`} style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', borderRadius: '8px' }} />
-                  ))}
-                </div>
+                <h2 style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#3df070', marginBottom: '14px' }}>
+                  Galería
+                </h2>
+                <Gallery images={a.gallery} alt={a.title} />
               </div>
             )}
           </div>
