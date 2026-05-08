@@ -44,21 +44,21 @@ export default async function AttractionDetailPage({
 
  {/* HERO */}
 <section
-  className="relative min-h-[60vh] sm:min-h-[70vh] flex items-end pt-20 pb-8 sm:pt-24 sm:pb-10"
+  className="relative min-h-[60vh] sm:min-h-[70vh] flex items-start pt-8 sm:pt-12"
   style={{
     backgroundImage: a.main_image
-      ? `linear-gradient(to right, rgba(8,12,10,0.85) 0%, rgba(8,12,10,0.4) 35%, transparent 60%), url(${a.main_image})`
+      ? `linear-gradient(180deg, rgba(8,12,10,0.75) 0%, rgba(8,12,10,0.3) 35%, transparent 60%), url(${a.main_image})`
       : 'linear-gradient(135deg, #041208 0%, #0a2a18 50%, #0d3a20 100%)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   }}
 >
-<div className="container-page w-full">
-  <div className="max-w-xl text-left">
+  <div className="container-page w-full">
+    <div className="max-w-xl">
       <div className="flex items-center gap-3 mb-3">
         <Link
           href="/destinos"
-          className="inline-flex items-center gap-1.5 text-sm text-white/70 hover:text-white no-underline transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-white/80 hover:text-white no-underline transition-colors"
         >
           <ArrowLeft size={14} /> Volver a destinos
         </Link>
@@ -78,17 +78,17 @@ export default async function AttractionDetailPage({
         )}
       </div>
 
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight mt-2">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-light leading-tight tracking-tight">
         {a.title}
       </h1>
 
       {a.subtitle && (
-        <p className="text-base sm:text-lg text-brand-green mt-2">
+        <p className="text-sm sm:text-base text-brand-green mt-1.5">
           {a.subtitle}
         </p>
       )}
 
-      <p className="text-xs sm:text-sm text-white/70 uppercase tracking-widest mt-3">
+      <p className="text-[11px] sm:text-xs text-white/70 uppercase tracking-widest mt-2">
         {a.category === 'noche' ? 'Noche' : 'Día'} · <span className="capitalize">{a.type.replace('_', ' ')}</span>
       </p>
     </div>
