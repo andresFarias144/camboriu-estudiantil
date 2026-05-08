@@ -42,53 +42,58 @@ export default async function AttractionDetailPage({
     <div className="min-h-screen bg-[#080c0a] text-white">
       <PublicNavbar />
 
-      {/* HERO */}
-      <section
-        className="relative min-h-[55vh] sm:min-h-[60vh] flex items-end pt-16 pb-10 sm:pt-24 sm:pb-14"
-        style={{
-          backgroundImage: a.main_image
-            ? `linear-gradient(to top, rgba(8,12,10,0.95) 0%, rgba(8,12,10,0.2) 40%, rgba(8,12,10,0.3) 100%), url(${a.main_image})`
-            : 'linear-gradient(135deg, #041208 0%, #0a2a18 50%, #0d3a20 100%)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div className="container-page">
-          <Link
-            href="/destinos"
-            className="inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white mb-5 no-underline transition-colors"
+ {/* HERO */}
+<section
+  className="relative min-h-[60vh] sm:min-h-[70vh] flex items-end pt-20 pb-8 sm:pt-24 sm:pb-10"
+  style={{
+    backgroundImage: a.main_image
+      ? `linear-gradient(to right, rgba(8,12,10,0.85) 0%, rgba(8,12,10,0.4) 35%, transparent 60%), url(${a.main_image})`
+      : 'linear-gradient(135deg, #041208 0%, #0a2a18 50%, #0d3a20 100%)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }}
+>
+  <div className="container-page">
+    <div className="max-w-xl">
+      <div className="flex items-center gap-3 mb-3">
+        <Link
+          href="/destinos"
+          className="inline-flex items-center gap-1.5 text-sm text-white/70 hover:text-white no-underline transition-colors"
+        >
+          <ArrowLeft size={14} /> Volver a destinos
+        </Link>
+
+        {a.badge && (
+          <span
+            className={`inline-block text-[11px] font-bold tracking-wider uppercase px-2 py-1 rounded ${
+              a.badge === 'exclusivo'
+                ? 'bg-brand-magenta text-white'
+                : a.badge === 'popular'
+                ? 'bg-brand-green text-[#080c0a]'
+                : 'bg-white text-[#080c0a]'
+            }`}
           >
-            <ArrowLeft size={14} /> Volver a destinos
-          </Link>
+            {a.badge}
+          </span>
+        )}
+      </div>
 
-          {a.badge && (
-            <span
-              className={`inline-block text-xs font-extrabold tracking-wider uppercase px-2.5 py-1 rounded mb-3 ${
-                a.badge === 'exclusivo'
-                  ? 'bg-brand-magenta text-white'
-                  : a.badge === 'popular'
-                  ? 'bg-brand-green text-[#080c0a]'
-                  : 'bg-white/15 text-white border border-white/30'
-              }`}
-            >
-              {a.badge}
-            </span>
-          )}
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight mt-2">
+        {a.title}
+      </h1>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight max-w-3xl">
-            {a.title}
-          </h1>
-          {a.subtitle && (
-            <p className="text-lg sm:text-xl text-brand-green mt-3 max-w-2xl">
-              {a.subtitle}
-            </p>
-          )}
+      {a.subtitle && (
+        <p className="text-base sm:text-lg text-brand-green mt-2">
+          {a.subtitle}
+        </p>
+      )}
 
-          <p className="text-xs sm:text-sm text-white/70 uppercase tracking-widest mt-3">
-            {a.category === 'noche' ? 'Noche' : 'Día'} · <span className="capitalize">{a.type.replace('_', ' ')}</span>
-          </p>
-        </div>
-      </section>
+      <p className="text-xs sm:text-sm text-white/70 uppercase tracking-widest mt-3">
+        {a.category === 'noche' ? 'Noche' : 'Día'} · <span className="capitalize">{a.type.replace('_', ' ')}</span>
+      </p>
+    </div>
+  </div>
+</section>
 
       {/* CONTENT */}
       <section className="container-page py-12 sm:py-16">
