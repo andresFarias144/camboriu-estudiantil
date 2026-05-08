@@ -53,8 +53,8 @@ export default async function AttractionDetailPage({
     backgroundPosition: 'center',
   }}
 >
-  <div className="container-page">
-    <div className="max-w-xl">
+<div className="container-page w-full">
+  <div className="max-w-xl text-left">
       <div className="flex items-center gap-3 mb-3">
         <Link
           href="/destinos"
