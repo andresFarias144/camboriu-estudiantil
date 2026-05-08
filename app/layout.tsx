@@ -1,4 +1,12 @@
 import './globals.css'
+import { Open_Sans } from 'next/font/google'
+
+const openSans = Open_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-open-sans',
+  display: 'swap',
+})
 
 export const metadata = {
   title: 'Camboriu Estudiantil',
@@ -11,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
-      <body>{children}</body>
+    <html lang="es" className={openSans.variable}>
+      <body className="font-sans">{children}</body>
     </html>
   )
 }

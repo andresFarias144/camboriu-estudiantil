@@ -47,7 +47,7 @@ export default async function AttractionDetailPage({
         className="relative min-h-[55vh] sm:min-h-[60vh] flex items-end pt-16 pb-10 sm:pt-24 sm:pb-14"
         style={{
           backgroundImage: a.main_image
-            ? `linear-gradient(to top, rgba(8,12,10,1) 0%, rgba(8,12,10,0.4) 50%, rgba(8,12,10,0.6) 100%), url(${a.main_image})`
+            ? `linear-gradient(to top, rgba(8,12,10,0.95) 0%, rgba(8,12,10,0.2) 40%, rgba(8,12,10,0.3) 100%), url(${a.main_image})`
             : 'linear-gradient(135deg, #041208 0%, #0a2a18 50%, #0d3a20 100%)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -75,8 +75,9 @@ export default async function AttractionDetailPage({
             </span>
           )}
 
-          <h1 className="h-display">{a.title}</h1>
-
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight max-w-3xl">
+            {a.title}
+          </h1>
           {a.subtitle && (
             <p className="text-lg sm:text-xl text-brand-green mt-3 max-w-2xl">
               {a.subtitle}

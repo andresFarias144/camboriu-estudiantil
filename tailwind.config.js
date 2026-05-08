@@ -21,9 +21,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        display: ['var(--font-syne)', 'system-ui', 'sans-serif'],
-        body:    ['var(--font-outfit)', 'system-ui', 'sans-serif'],
-        mono:    ['var(--font-mono)', 'monospace'],
+        sans: ['var(--font-open-sans)', 'system-ui', '-apple-system', 'sans-serif'],
       },
       backgroundImage: {
         'hero-glow': 'radial-gradient(ellipse at 30% 50%, rgba(61,240,112,0.10) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(230,30,140,0.09) 0%, transparent 55%)',
