@@ -34,7 +34,7 @@ export default async function HomePage() {
               Temporada 2025 · Balneário Camboriú, Brasil
             </div>
 
-            <h1 className="h-display mb-5">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight tracking-tight mb-5">
               El viaje<br />
               que <span className="text-brand-green">marca</span><br />
               <span className="text-brand-magenta">una generación</span>
@@ -69,7 +69,7 @@ export default async function HomePage() {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8">
           <div>
             <div className="eyebrow mb-2">Destinos imperdibles</div>
-            <h2 className="h-section">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
               Lo que te espera<br />en <span className="text-brand-green">Camboriú</span>
             </h2>
           </div>
@@ -90,7 +90,7 @@ export default async function HomePage() {
         <section className="bg-brand-magenta/[0.03] border-y border-brand-magenta/[0.12] py-16 sm:py-20">
           <div className="container-page">
             <div className="eyebrow-pink mb-2">Las mejores noches</div>
-            <h2 className="h-section mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight mb-8">
               Greenvalley · <span className="text-brand-magenta">5 clubes,</span><br />una experiencia
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -105,7 +105,7 @@ export default async function HomePage() {
       {/* WHY US */}
       <section className="container-page py-16 sm:py-20">
         <div className="eyebrow mb-2">Por qué elegirnos</div>
-        <h2 className="h-section mb-8">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight mb-8">
           El aliado estratégico<br />de tu <span className="text-brand-green">temporada</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -121,7 +121,7 @@ export default async function HomePage() {
         <section className="container-page py-12 sm:py-16 border-t border-white/10">
           <div className="text-center max-w-3xl mx-auto">
             <div className="eyebrow justify-center mb-2 inline-flex">Nuestras agencias</div>
-            <h2 className="h-section mb-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight mb-2">
               +{totalClients} agencias en <span className="text-brand-green">{countriesCount} países</span>
             </h2>
             <p className="text-sm sm:text-base text-white/50 mb-8">
@@ -157,8 +157,8 @@ export default async function HomePage() {
           <div className="w-[600px] h-[600px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(61,240,112,0.08) 0%, transparent 70%)' }} />
         </div>
         <div className="relative z-10">
-          <h2 className="h-display mb-4">
-            Tu próxima temporada<br />
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight tracking-tight mb-4">
+               Tu próxima temporada<br />
             <span className="text-brand-green">empieza hoy</span>
           </h2>
           <p className="text-base sm:text-lg text-white/60 max-w-xl mx-auto mb-8">
@@ -205,10 +205,10 @@ function DestinationCard({ attraction: a, variant }: { attraction: any; variant?
   return (
     <Link
       href={`/destinos/${a.slug}`}
-      className="relative rounded-xl overflow-hidden border border-white/10 h-64 sm:h-72 flex flex-col justify-end no-underline group"
+      className="relative rounded-xl overflow-hidden border border-white/10 h-64 sm:h-72 flex flex-col justify-start no-underline group hover:border-brand-green/40 transition-colors"
       style={{
         backgroundImage: a.main_image
-          ? `linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%, transparent 100%), url(${a.main_image})`
+          ? `linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 40%, transparent 70%), url(${a.main_image})`
           : `linear-gradient(135deg, ${variant === 'night' ? '#1a0820 0%, #2a1030 50%, #3a1840' : '#041208 0%, #0a2a18 50%, #0d3a20'} 100%)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -220,9 +220,9 @@ function DestinationCard({ attraction: a, variant }: { attraction: any; variant?
             {a.badge}
           </span>
         )}
-        <div className="h-card text-white">{a.title}</div>
+        <div className="text-xl sm:text-2xl font-light leading-tight text-white">{a.title}</div>
         {a.subtitle && (
-          <div className="text-xs sm:text-sm text-brand-green mt-1.5 font-medium">{a.subtitle}</div>
+          <div className="text-xs sm:text-sm text-brand-green mt-1 font-medium">{a.subtitle}</div>
         )}
         <div className="text-xs text-white/60 mt-1 capitalize">{a.type.replace('_', ' ')}</div>
       </div>

@@ -33,7 +33,7 @@ export default async function ClientesPublicPage() {
       {/* Header */}
       <section className="container-page py-10 sm:py-14">
         <div className="eyebrow mb-2">Nuestras agencias</div>
-        <h1 className="h-display">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
           +{totalClients} agencias en <span className="text-brand-green">{countriesCount} países</span>
         </h1>
         <p className="text-base sm:text-lg text-white/50 mt-4 max-w-2xl">

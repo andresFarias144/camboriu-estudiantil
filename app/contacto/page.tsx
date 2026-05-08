@@ -14,7 +14,7 @@ export default function ContactoPage() {
           {/* Texto */}
           <div>
             <div className="eyebrow mb-2">Contacto</div>
-            <h1 className="h-display">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
               Tu próxima<br />temporada<br />
               <span className="text-brand-green">empieza acá</span>
             </h1>
