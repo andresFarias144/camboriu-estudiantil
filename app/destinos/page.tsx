@@ -25,7 +25,7 @@ export default async function DestinosPage() {
       {/* Header */}
       <section className="container-page py-10 sm:py-14">
         <div className="eyebrow mb-2">Destinos</div>
-        <h1 className="h-display">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
           Todas las <span className="text-brand-green">experiencias</span>
         </h1>
         <p className="text-base sm:text-lg text-white/50 mt-4 max-w-2xl">
@@ -79,10 +79,10 @@ function AttractionCard({ attraction: a, variant }: { attraction: any; variant?:
   return (
     <Link
       href={`/destinos/${a.slug}`}
-      className="relative rounded-xl overflow-hidden border border-white/10 h-72 sm:h-80 flex flex-col justify-end no-underline group hover:border-brand-green/40 transition-colors"
+      className="relative rounded-xl overflow-hidden border border-white/10 h-72 sm:h-80 flex flex-col justify-start no-underline group hover:border-brand-green/40 transition-colors"
       style={{
         backgroundImage: a.main_image
-          ? `linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%, transparent 100%), url(${a.main_image})`
+          ? `linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 40%, transparent 70%), url(${a.main_image})`
           : `linear-gradient(135deg, ${variant === 'night' ? '#1a0820 0%, #2a1030 50%, #3a1840' : '#041208 0%, #0a2a18 50%, #0d3a20'} 100%)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -94,9 +94,9 @@ function AttractionCard({ attraction: a, variant }: { attraction: any; variant?:
             {a.badge}
           </span>
         )}
-        <div className="h-card text-white">{a.title}</div>
+        <div className="text-xl sm:text-2xl font-light leading-tight text-white">{a.title}</div>
         {a.subtitle && (
-          <div className="text-xs sm:text-sm text-brand-green mt-1.5 font-medium">{a.subtitle}</div>
+          <div className="text-xs sm:text-sm text-brand-green mt-1 font-medium">{a.subtitle}</div>
         )}
         <div className="text-xs text-white/60 mt-1 capitalize">{a.type.replace('_', ' ')}</div>
       </div>
