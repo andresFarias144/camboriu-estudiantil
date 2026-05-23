@@ -4,31 +4,39 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
-export function PublicNavbar() {
+const logoUrl = 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779534472/camboriu-gv_rrdiec.svg'
+
+export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const navClass = overlay
+    ? 'absolute top-0 inset-x-0 z-50'
+    : 'sticky top-0 z-50 glass-dark border-b border-white/10'
 
   return (
     <>
-      <nav className="sticky top-0 z-50 glass-dark border-b border-white/10">
-        <div className="container-page flex items-center justify-between h-16 md:h-20">
+      <nav className={navClass}>
+        {overlay && (
+          <div
+            className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#080c0a]/95 via-[#080c0a]/72 via-[42%] to-transparent pointer-events-none"
+            aria-hidden="true"
+          />
+        )}
+
+        <div className="container-page relative z-10 flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 md:gap-3 text-white no-underline">
-            <div className="text-lg md:text-xl font-extrabold tracking-wider">
-              CAMBORI<span className="text-brand-green">U</span>
-            </div>
-            <div className="hidden sm:flex flex-col leading-none">
-              <small className="text-[9px] text-white/40 tracking-widest uppercase">Estudiantil</small>
-              <span className="text-[10px] bg-brand-green text-[#080c0a] px-1.5 py-0.5 rounded font-extrabold tracking-wider mt-0.5">
-                × GREENVALLEY
-              </span>
-            </div>
+          <Link href="/" className="flex items-center text-white no-underline">
+            <img
+              src={logoUrl}
+              alt="Camboriú Estudiantil Greenvalley"
+              className="h-10 w-auto sm:h-12 md:h-14"
+            />
           </Link>
 
           {/* Desktop nav */}
           <div className="hidden lg:flex gap-8">
-            <Link href="/destinos" className="text-sm text-white/60 hover:text-white transition-colors no-underline">Destinos</Link>
-            <Link href="/clientes" className="text-sm text-white/60 hover:text-white transition-colors no-underline">Agencias</Link>
-            <Link href="/contacto" className="text-sm text-white/60 hover:text-white transition-colors no-underline">Contacto</Link>
+            <Link href="/destinos" className="text-sm text-white/75 hover:text-white transition-colors no-underline">Destinos</Link>
+            <Link href="/clientes" className="text-sm text-white/75 hover:text-white transition-colors no-underline">Agencias</Link>
+            <Link href="/contacto" className="text-sm text-white/75 hover:text-white transition-colors no-underline">Contacto</Link>
           </div>
 
           {/* Right actions */}

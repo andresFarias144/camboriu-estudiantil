@@ -31,10 +31,26 @@ const heroVideos = [
   },
 ]
 
+const heroBackground =
+  'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502549/background_jt0bng.jpg'
+
 export function HeroVideoGrid() {
   return (
-    <section className="relative overflow-hidden hero-glow">
-      <div className="container-page py-12 sm:py-20 relative z-10">
+    <section className="relative overflow-hidden bg-[#080c0a]">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-100"
+        style={{ backgroundImage: `url(${heroBackground})` }}
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#080c0a]/80 via-[#080c0a]/34 via-[48%] to-transparent" aria-hidden="true" />
+      <div
+        className="absolute inset-y-0 left-0 w-[58%] bg-[radial-gradient(ellipse_at_34%_52%,rgba(8,12,10,0.72)_0%,rgba(8,12,10,0.56)_34%,rgba(8,12,10,0.18)_62%,transparent_82%)]"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#080c0a]/42" aria-hidden="true" />
+      <div className="absolute inset-0 hero-glow mix-blend-screen opacity-30" aria-hidden="true" />
+
+      <div className="container-page pt-28 pb-12 sm:pt-32 sm:pb-20 md:pt-36 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr,1fr] gap-8 lg:gap-12 items-center">
           {/* COLUMNA IZQUIERDA: Texto */}
           <div className="order-2 lg:order-1">

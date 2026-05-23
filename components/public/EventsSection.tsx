@@ -6,6 +6,12 @@ import { ArrowRight } from 'lucide-react'
 
 type Category = 'dia' | 'tarde' | 'noche'
 
+const categoryBackgrounds: Record<Category, string> = {
+  dia: 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502573/DIA_mtta1g.png',
+  tarde: 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502574/TARDE_ps6xcn.png',
+  noche: 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502572/NOCHE_zfrmyh.png',
+}
+
 export function EventsSection({ attractions }: { attractions: any[] }) {
   const [activeTab, setActiveTab] = useState<Category>('dia')
 
@@ -18,42 +24,53 @@ export function EventsSection({ attractions }: { attractions: any[] }) {
   }
 
   return (
-    <section className="container-page py-16 sm:py-20">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8">
-        <div>
-          <div className="eyebrow mb-2">Eventos</div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
-            Descubrí nuestros<br />servicios <span className="text-brand-green">destacados</span>
-          </h2>
-        </div>
-        <Link
-          href="/destinos"
-          className="text-sm text-brand-green hover:text-brand-green/80 inline-flex items-center gap-1.5 no-underline"
-        >
-          Ver todos los destinos <ArrowRight size={14} />
-        </Link>
-      </div>
+    <section className="relative overflow-hidden py-16 sm:py-20">
+      <div
+        className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
+        style={{ backgroundImage: `url(${categoryBackgrounds[activeTab]})` }}
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-[#080c0a]/72" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#080c0a] via-transparent to-[#080c0a]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#080c0a]/88 via-[#080c0a]/48 to-[#080c0a]/78" aria-hidden="true" />
 
-      {/* Tabs DÍA / TARDE / NOCHE */}
-      <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
-        <TabButton label="Día" count={counts.dia} active={activeTab === 'dia'} onClick={() => setActiveTab('dia')} color="green" />
-        <TabButton label="Tarde" count={counts.tarde} active={activeTab === 'tarde'} onClick={() => setActiveTab('tarde')} color="green" />
-        <TabButton label="Noche" count={counts.noche} active={activeTab === 'noche'} onClick={() => setActiveTab('noche')} color="magenta" />
-      </div>
+      <div className="container-page relative z-10">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8">
+          <div>
+            <div className="eyebrow mb-2">Eventos</div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
+              Descubrí nuestros<br />servicios <span className="text-brand-green">destacados</span>
+            </h2>
+          </div>
+          <Link
+            href="/destinos"
+            className="text-sm text-brand-green hover:text-brand-green/80 inline-flex items-center gap-1.5 no-underline"
+          >
+            Ver todos los destinos <ArrowRight size={14} />
+          </Link>
+        </div>
 
-      {/* Grid de atracciones */}
-      {filtered.length === 0 ? (
-        <div className="text-center py-16 text-white/40 text-sm border border-dashed border-white/10 rounded-xl">
-          Próximamente más experiencias en esta categoría
+        {/* Tabs DÍA / TARDE / NOCHE */}
+        <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
+          <TabButton label="Día" count={counts.dia} active={activeTab === 'dia'} onClick={() => setActiveTab('dia')} color="green" />
+          <TabButton label="Tarde" count={counts.tarde} active={activeTab === 'tarde'} onClick={() => setActiveTab('tarde')} color="green" />
+          <TabButton label="Noche" count={counts.noche} active={activeTab === 'noche'} onClick={() => setActiveTab('noche')} color="magenta" />
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((a) => (
-            <DestinationCard key={a.id} attraction={a} />
-          ))}
-        </div>
-      )}
+
+        {/* Grid de atracciones */}
+        {filtered.length === 0 ? (
+          <div className="text-center py-16 text-white/40 text-sm border border-dashed border-white/10 rounded-xl">
+            Próximamente más experiencias en esta categoría
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map((a) => (
+              <DestinationCard key={a.id} attraction={a} />
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   )
 }
