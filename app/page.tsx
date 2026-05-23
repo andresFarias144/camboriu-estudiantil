@@ -1,3 +1,4 @@
+import { FAQSection } from '../components/public/FAQSection'
 import { AboutSection } from '../components/public/AboutSection'
 import { HeroVideoGrid } from '../components/public/HeroVideoGrid'
 import Link from 'next/link'
@@ -82,6 +83,8 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+<FAQSection />
 
       <section className="container-page py-20 sm:py-28 text-center relative overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
