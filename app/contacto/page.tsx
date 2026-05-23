@@ -1,6 +1,5 @@
 import { PublicNavbar } from '../../components/public/PublicNavbar'
 import { PublicFooter } from '../../components/public/PublicFooter'
-import { WhatsAppFab } from '../../components/public/WhatsAppFab'
 import { ContactForm } from '../../components/public/ContactForm'
 import { Mail, Phone, MapPin } from 'lucide-react'
 
@@ -49,7 +48,6 @@ export default function ContactoPage() {
       </section>
 
       <PublicFooter />
-      <WhatsAppFab />
     </div>
   )
 }

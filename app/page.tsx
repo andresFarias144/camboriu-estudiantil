@@ -5,7 +5,6 @@ import { HeroVideoGrid } from '../components/public/HeroVideoGrid'
 import { createClient } from '../lib/supabase/server'
 import { PublicNavbar } from '../components/public/PublicNavbar'
 import { PublicFooter } from '../components/public/PublicFooter'
-import { WhatsAppFab } from '../components/public/WhatsAppFab'
 import { EventsSection } from '../components/public/EventsSection'
 import { PartnersSection } from '../components/public/PartnersSection'
 import { ClientsTabsSection } from '../components/public/ClientsTabsSection'
@@ -41,7 +40,6 @@ export default async function HomePage() {
       <FinalCTA />
 
       <PublicFooter />
-      <WhatsAppFab />
     </div>
   )
 }

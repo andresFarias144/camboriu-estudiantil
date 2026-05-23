@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { createClient } from '../../lib/supabase/client'
 import { PublicNavbar } from '../../components/public/PublicNavbar'
 import { PublicFooter } from '../../components/public/PublicFooter'
-import { WhatsAppFab } from '../../components/public/WhatsAppFab'
 
 type Category = 'todos' | 'dia' | 'tarde' | 'noche'
 
@@ -81,7 +80,6 @@ export default function DestinosPage() {
       </section>
 
       <PublicFooter />
-      <WhatsAppFab />
     </div>
   )
 }

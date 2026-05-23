@@ -2,7 +2,6 @@ import { createClient } from '../../lib/supabase/server'
 import { COUNTRY_LABELS, type Client, type ClientCountry } from '../../lib/types'
 import { PublicNavbar } from '../../components/public/PublicNavbar'
 import { PublicFooter } from '../../components/public/PublicFooter'
-import { WhatsAppFab } from '../../components/public/WhatsAppFab'
 import { ExternalLink } from 'lucide-react'
 
 export const revalidate = 60
@@ -55,7 +54,6 @@ export default async function ClientesPublicPage() {
       </section>
 
       <PublicFooter />
-      <WhatsAppFab />
     </div>
   )
 }

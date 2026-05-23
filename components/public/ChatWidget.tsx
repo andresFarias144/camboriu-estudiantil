@@ -97,7 +97,7 @@ export function ChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-5 left-5 z-50 flex flex-col items-start gap-2 md:bottom-7 md:left-7">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2 md:bottom-7 md:right-7">
       {showBubble && !open && (
         <button
           type="button"
@@ -105,7 +105,7 @@ export function ChatWidget() {
             setOpen(true)
             setShowBubble(false)
           }}
-          className="max-w-56 rounded-2xl rounded-bl-none border border-white/10 bg-[#080c0a]/95 px-4 py-3 text-left text-xs text-white/80 shadow-2xl backdrop-blur no-underline"
+          className="max-w-56 rounded-2xl rounded-br-none border border-white/10 bg-[#080c0a]/95 px-4 py-3 text-left text-xs text-white/80 shadow-2xl backdrop-blur no-underline"
         >
           ¿Necesitás ayuda con tu viaje o agencia?
         </button>

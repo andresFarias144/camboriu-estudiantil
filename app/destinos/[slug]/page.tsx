@@ -1,7 +1,6 @@
 import { createClient } from '../../../lib/supabase/server'
 import { PublicNavbar } from '../../../components/public/PublicNavbar'
 import { PublicFooter } from '../../../components/public/PublicFooter'
-import { WhatsAppFab } from '../../../components/public/WhatsAppFab'
 import { Gallery } from '../../../components/public/Gallery'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -192,7 +191,6 @@ export default async function AttractionDetailPage({
       </section>
 
       <PublicFooter />
-      <WhatsAppFab />
     </div>
   )
 }
