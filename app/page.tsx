@@ -5,6 +5,7 @@ import { PublicNavbar } from '../components/public/PublicNavbar'
 import { PublicFooter } from '../components/public/PublicFooter'
 import { WhatsAppFab } from '../components/public/WhatsAppFab'
 import { EventsSection } from '../components/public/EventsSection'
+import { PartnersSection } from '../components/public/PartnersSection'
 import { ArrowRight, Star, Shield, Headphones, Sparkles } from 'lucide-react'
 
 export const revalidate = 60
@@ -35,6 +36,7 @@ export default async function HomePage() {
       </div>
 
       <EventsSection attractions={attractions} />
+      <PartnersSection />
 
       <section className="container-page py-16 sm:py-20">
         <div className="eyebrow mb-2">Por qué elegirnos</div>
