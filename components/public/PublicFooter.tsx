@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+const logoUrl = 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779534472/camboriu-gv_rrdiec.svg'
+
 export function PublicFooter() {
   return (
     <footer className="border-t border-white/10 bg-[#080c0a] mt-12">
@@ -7,10 +9,13 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="sm:col-span-2 md:col-span-1">
-            <div className="text-xl font-extrabold tracking-wider text-white">
-              CAMBORI<span className="text-brand-green">U</span>{' '}
-              <span className="text-sm text-white/40 font-normal">ESTUDIANTIL</span>
-            </div>
+            <Link href="/" className="inline-flex no-underline">
+              <img
+                src={logoUrl}
+                alt="Camboriú Estudiantil Greenvalley"
+                className="h-12 w-auto"
+              />
+            </Link>
             <p className="text-sm text-white/45 mt-3 leading-relaxed">
               Líderes en turismo estudiantil en Brasil. Experiencias únicas, operación profesional y respaldo garantizado.
             </p>
