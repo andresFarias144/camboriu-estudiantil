@@ -1,6 +1,4 @@
 {
-  "/admin/consultas/page": "app/admin/consultas/page.js",
-  "/admin/clientes/page": "app/admin/clientes/page.js",
-  "/admin/atracciones/page": "app/admin/atracciones/page.js",
-  "/admin/page": "app/admin/page.js"
+  "/destinos/page": "app/destinos/page.js",
+  "/page": "app/page.js"
 }

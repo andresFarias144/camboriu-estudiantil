@@ -14,8 +14,9 @@ export default async function AtraccionesPage() {
 
   if (error) throw error
 
-  const dia = attractions?.filter((a) => a.category === 'dia') ?? []
-  const noche = attractions?.filter((a) => a.category === 'noche') ?? []
+    const dia = attractions?.filter((a) => a.category === 'dia') ?? []
+    const tarde = attractions?.filter((a) => a.category === 'tarde') ?? []
+    const noche = attractions?.filter((a) => a.category === 'noche') ?? []
 
   return (
     <div>
@@ -36,6 +37,7 @@ export default async function AtraccionesPage() {
       </div>
 
       <Section title="Día" count={dia.length} items={dia} />
+      <Section title="Tarde" count={tarde.length} items={tarde} />
       <Section title="Noche" count={noche.length} items={noche} />
     </div>
   )

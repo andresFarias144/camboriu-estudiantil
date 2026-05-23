@@ -157,6 +157,7 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
                 onChange={(e) => setForm((f) => ({ ...f, category: e.target.value as AttractionCategory }))}
               >
                 <option value="dia">Día</option>
+                <option value="tarde">Tarde</option>
                 <option value="noche">Noche</option>
               </select>
             </div>

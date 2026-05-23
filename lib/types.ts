@@ -4,7 +4,7 @@
 
 export type Locale = 'es' | 'pt'
 
-export type AttractionCategory = 'dia' | 'noche'
+export type AttractionCategory = 'dia' | 'tarde' | 'noche'
 
 export type AttractionType =
   | 'paseo'
