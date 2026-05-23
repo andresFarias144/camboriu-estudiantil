@@ -1,5 +1,6 @@
 import './globals.css'
 import { Open_Sans } from 'next/font/google'
+import { ChatWidget } from '../components/public/ChatWidget'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -20,7 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={openSans.variable}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <ChatWidget />
+      </body>
     </html>
   )
 }
