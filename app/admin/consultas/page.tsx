@@ -44,6 +44,11 @@ function ConsultaCard({ request: r }: { request: ContactRequest }) {
     contacted: 'Contactado',
     closed: 'Cerrada',
   }
+  const sourceLabel = r.source === 'chatbot' ? 'Chatbot' : 'Web'
+  const sourceClass =
+    r.source === 'chatbot'
+      ? 'bg-brand-magenta/15 text-brand-magenta'
+      : 'bg-white/8 text-white/45'
 
   const date = new Date(r.created_at).toLocaleString('es-AR', {
     day: '2-digit',
@@ -63,6 +68,9 @@ function ConsultaCard({ request: r }: { request: ContactRequest }) {
           </div>
         </div>
         <div className="flex items-center gap-2.5 flex-shrink-0">
+          <span className={`text-[11px] px-2.5 py-1 rounded font-semibold ${sourceClass}`}>
+            {sourceLabel}
+          </span>
           <span className={`text-[11px] px-2.5 py-1 rounded font-semibold ${statusStyles[r.status]}`}>
             {statusLabels[r.status]}
           </span>
@@ -81,7 +89,7 @@ function ConsultaCard({ request: r }: { request: ContactRequest }) {
             <strong className="text-white/50">Pasajeros:</strong> {r.passengers}
           </span>
         )}
-        {r.message && <p className="mt-2">{r.message}</p>}
+        {r.message && <p className="mt-2 whitespace-pre-wrap">{r.message}</p>}
       </div>
     </div>
   )

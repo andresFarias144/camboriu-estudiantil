@@ -18,6 +18,18 @@ const WELCOME_MESSAGE: Message = {
 const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
 const whatsappMessage = 'Hola, consulto por Camboriú Estudiantil.'
 
+function buildWhatsAppMessage(messages: Message[]) {
+  const conversation = messages
+    .filter((message) => message.content.trim().length > 0)
+    .slice(-8)
+    .map((message) => `${message.role === 'user' ? 'Yo' : 'Cambo'}: ${message.content}`)
+    .join('\n')
+
+  if (!conversation) return whatsappMessage
+
+  return `Hola, consulto por Camboriú Estudiantil. Este es el contexto de mi conversación con Cambo:\n\n${conversation}`
+}
+
 export function ChatWidget() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
@@ -26,6 +38,7 @@ export function ChatWidget() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(messages))}`
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -186,7 +199,7 @@ export function ChatWidget() {
             </div>
 
             <a
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`}
+              href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
               className="mt-2 flex w-full items-center justify-center rounded-xl bg-[#25d366] px-3 py-2 text-xs font-semibold text-white no-underline transition-opacity hover:opacity-90"
