@@ -1,3 +1,4 @@
+import { AboutSection } from '../components/public/AboutSection'
 import { HeroVideoGrid } from '../components/public/HeroVideoGrid'
 import Link from 'next/link'
 import { createClient } from '../lib/supabase/server'
@@ -27,6 +28,7 @@ export default async function HomePage() {
       <PublicNavbar />
 
 <HeroVideoGrid />
+<AboutSection />
 
       <div className="grid grid-cols-2 md:grid-cols-4 border-y border-white/10">
         <StatBar num="+30" label="Años de experiencia" />
