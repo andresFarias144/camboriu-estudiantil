@@ -1,3 +1,4 @@
+import { HeroVideoGrid } from '../components/public/HeroVideoGrid'
 import Link from 'next/link'
 import { createClient } from '../lib/supabase/server'
 import { PublicNavbar } from '../components/public/PublicNavbar'
@@ -24,35 +25,7 @@ export default async function HomePage() {
     <div className="min-h-screen bg-[#080c0a] text-white">
       <PublicNavbar />
 
-      <section className="relative min-h-[80vh] sm:min-h-[88vh] flex items-center hero-glow overflow-hidden">
-        <div className="container-page py-16 sm:py-24 relative z-10">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-[11px] sm:text-xs text-brand-green tracking-widest uppercase font-medium mb-5">
-              <span className="block w-2 h-2 bg-brand-green rounded-full animate-pulse" />
-              Temporada 2025 · Balneário Camboriú, Brasil
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight tracking-tight mb-5">
-              El viaje<br />
-              que <span className="text-brand-green">marca</span><br />
-              <span className="text-brand-magenta">una generación</span>
-            </h1>
-
-            <p className="text-base sm:text-lg text-white/60 leading-relaxed mb-8 max-w-xl">
-              Experiencias únicas en Brasil con operación profesional para agencias y grupos estudiantiles. Más de 30 años siendo líderes del turismo receptivo.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/destinos" className="btn-primary">
-                Ver destinos <ArrowRight size={16} />
-              </Link>
-              <Link href="/contacto" className="btn-secondary">
-                Solicitar propuesta
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+<HeroVideoGrid />
 
       <div className="grid grid-cols-2 md:grid-cols-4 border-y border-white/10">
         <StatBar num="+30" label="Años de experiencia" />
