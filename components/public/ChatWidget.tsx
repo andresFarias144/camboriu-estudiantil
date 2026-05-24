@@ -234,9 +234,9 @@ export function ChatWidget() {
                 d="M 50, 50 m -42, 0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"
               />
             </defs>
-            <text className="fill-white text-[9px] font-black uppercase tracking-[0.18em] drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
-              <textPath href="#chat-widget-text-path" startOffset="2%">
-                Preguntame - Hablemos - Despeja tus dudas - 
+            <text className="fill-white text-[8px] font-black uppercase tracking-[0.12em] drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+              <textPath href="#chat-widget-text-path" startOffset="0%">
+                Preguntame tus dudas - Hablemos - 
               </textPath>
             </text>
           </svg>
