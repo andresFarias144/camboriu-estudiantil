@@ -217,11 +217,34 @@ export function ChatWidget() {
             setOpen(true)
             setShowBubble(false)
           }}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-green to-brand-magenta text-white shadow-2xl transition-transform hover:scale-110"
+          className="group relative flex h-24 w-24 items-center justify-center rounded-full text-white transition-transform hover:scale-105"
           aria-label="Abrir chat"
         >
-          <MessageCircle size={26} />
-          <span className="absolute right-0 top-0 h-3.5 w-3.5 rounded-full border-2 border-[#080c0a] bg-brand-green" />
+          <span className="absolute inset-2 rounded-full bg-gradient-to-br from-[#3df070] via-[#00c8ff] to-[#e61e8c] opacity-95 shadow-[0_0_38px_rgba(61,240,112,0.32)] transition-opacity group-hover:opacity-100" />
+          <span className="absolute inset-4 rounded-full bg-[#080c0a]/18 backdrop-blur-[1px]" />
+
+          <svg
+            className="absolute inset-0 h-full w-full animate-spin [animation-duration:12s]"
+            viewBox="0 0 100 100"
+            aria-hidden="true"
+          >
+            <defs>
+              <path
+                id="chat-widget-text-path"
+                d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
+              />
+            </defs>
+            <text className="fill-white text-[8px] font-extrabold uppercase tracking-[0.22em]">
+              <textPath href="#chat-widget-text-path" startOffset="0%">
+                Preguntame - Hablemos - Despeja tus dudas -
+              </textPath>
+            </text>
+          </svg>
+
+          <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-white/25 bg-[#080c0a]/30 shadow-[inset_0_0_18px_rgba(255,255,255,0.16)]">
+            <MessageCircle size={29} strokeWidth={2.2} />
+          </span>
+          <span className="absolute right-4 top-4 h-4 w-4 rounded-full border-2 border-[#080c0a] bg-brand-green shadow-[0_0_12px_rgba(61,240,112,0.8)]" />
         </button>
       )}
     </div>
