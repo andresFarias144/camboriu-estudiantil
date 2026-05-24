@@ -217,34 +217,34 @@ export function ChatWidget() {
             setOpen(true)
             setShowBubble(false)
           }}
-          className="group relative flex h-24 w-24 items-center justify-center rounded-full text-white transition-transform hover:scale-105"
+          className="group relative flex h-28 w-28 items-center justify-center rounded-full text-white transition-transform hover:scale-105"
           aria-label="Abrir chat"
         >
-          <span className="absolute inset-2 rounded-full bg-gradient-to-br from-[#3df070] via-[#00c8ff] to-[#e61e8c] opacity-95 shadow-[0_0_38px_rgba(61,240,112,0.32)] transition-opacity group-hover:opacity-100" />
-          <span className="absolute inset-4 rounded-full bg-[#080c0a]/18 backdrop-blur-[1px]" />
+          <span className="absolute inset-3 rounded-full bg-gradient-to-br from-[#3df070] via-[#00c8ff] to-[#e61e8c] opacity-95 shadow-[0_0_42px_rgba(61,240,112,0.36)] transition-opacity group-hover:opacity-100" />
+          <span className="absolute inset-6 rounded-full bg-[#080c0a]/16 backdrop-blur-[1px]" />
 
           <svg
-            className="absolute inset-0 h-full w-full animate-spin [animation-duration:12s]"
+            className="absolute inset-0 h-full w-full animate-spin [animation-duration:18s]"
             viewBox="0 0 100 100"
             aria-hidden="true"
           >
             <defs>
               <path
                 id="chat-widget-text-path"
-                d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
+                d="M 50, 50 m -42, 0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"
               />
             </defs>
-            <text className="fill-white text-[8px] font-extrabold uppercase tracking-[0.22em]">
-              <textPath href="#chat-widget-text-path" startOffset="0%">
-                Preguntame - Hablemos - Despeja tus dudas -
+            <text className="fill-white text-[9px] font-black uppercase tracking-[0.18em] drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+              <textPath href="#chat-widget-text-path" startOffset="2%">
+                Preguntame - Hablemos - Despeja tus dudas - 
               </textPath>
             </text>
           </svg>
 
-          <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-white/25 bg-[#080c0a]/30 shadow-[inset_0_0_18px_rgba(255,255,255,0.16)]">
-            <MessageCircle size={29} strokeWidth={2.2} />
+          <span className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-[#080c0a]/28 shadow-[inset_0_0_18px_rgba(255,255,255,0.16)]">
+            <MessageCircle size={31} strokeWidth={2.2} />
           </span>
-          <span className="absolute right-4 top-4 h-4 w-4 rounded-full border-2 border-[#080c0a] bg-brand-green shadow-[0_0_12px_rgba(61,240,112,0.8)]" />
+          <span className="absolute right-5 top-5 h-4 w-4 rounded-full border-2 border-[#080c0a] bg-brand-green shadow-[0_0_12px_rgba(61,240,112,0.8)]" />
         </button>
       )}
     </div>
