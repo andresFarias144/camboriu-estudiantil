@@ -22,13 +22,13 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
           />
         )}
 
-        <div className="container-page relative z-10 flex items-center justify-between h-16 md:h-20">
+        <div className="container-page relative z-10 flex items-center justify-between h-20 pt-2 md:h-24 md:pt-3">
           {/* Logo */}
           <Link href="/" className="flex items-center text-white no-underline">
             <img
               src={logoUrl}
               alt="Camboriú Estudiantil Greenvalley"
-              className="h-10 w-auto sm:h-12 md:h-14"
+              className="h-12 w-auto sm:h-14 md:h-[5.5rem]"
             />
           </Link>
 

@@ -50,7 +50,7 @@ export function HeroVideoGrid() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#080c0a]/42" aria-hidden="true" />
       <div className="absolute inset-0 hero-glow mix-blend-screen opacity-30" aria-hidden="true" />
 
-      <div className="container-page pt-28 pb-12 sm:pt-32 sm:pb-20 md:pt-36 relative z-10">
+      <div className="container-page pt-32 pb-12 sm:pt-36 sm:pb-20 md:pt-40 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr,1fr] gap-8 lg:gap-12 items-center">
           {/* COLUMNA IZQUIERDA: Texto */}
           <div className="order-2 lg:order-1">
