@@ -2,6 +2,7 @@ import { createClient } from '../../lib/supabase/server'
 import { PublicNavbar } from '../../components/public/PublicNavbar'
 import { PublicFooter } from '../../components/public/PublicFooter'
 import { ClientsDirectory } from '../../components/public/ClientsDirectory'
+import { AgenciesCTA } from '../../components/public/AgenciesCTA'
 
 export const revalidate = 60
 
@@ -38,6 +39,7 @@ export default async function ClientesPublicPage() {
         <ClientsDirectory clients={clients || []} />
       </section>
 
+      <AgenciesCTA />
       <PublicFooter />
     </div>
   )
