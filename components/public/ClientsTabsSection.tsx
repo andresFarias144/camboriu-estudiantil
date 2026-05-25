@@ -68,7 +68,7 @@ export function ClientsTabsSection({ clients }: { clients: Client[] }) {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 max-w-5xl mx-auto">
+        <div className="mx-auto grid max-w-7xl grid-cols-[repeat(auto-fit,minmax(92px,1fr))] gap-2.5 sm:grid-cols-[repeat(auto-fit,minmax(108px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(118px,1fr))]">
           {activeClients.map((client) => (
             <ClientLogoCard key={client.id} client={client} />
           ))}
@@ -129,9 +129,9 @@ function ClientLogoCard({ client }: { client: Client }) {
       : `https://${rawHref.replace(/^@/, 'instagram.com/')}`
     : null
   const card = (
-    <div className="aspect-square w-full max-w-[150px] rounded-lg border border-white/10 bg-white/[0.04] p-2.5 flex items-center justify-center transition-colors hover:border-brand-green/35">
+    <div className="aspect-square w-full rounded-md border border-white/10 bg-white/[0.04] p-1.5 flex items-center justify-center transition-colors hover:border-brand-green/35">
       {client.logo_url ? (
-        <div className="h-full w-full rounded-md bg-white p-3 flex items-center justify-center">
+        <div className="h-full w-full rounded bg-white p-2.5 flex items-center justify-center">
           <img src={client.logo_url} alt={client.name} className="h-full w-full object-contain" />
         </div>
       ) : (
@@ -141,7 +141,7 @@ function ClientLogoCard({ client }: { client: Client }) {
   )
 
   if (!href) {
-    return <div className="flex justify-center">{card}</div>
+    return card
   }
 
   return (
@@ -150,7 +150,7 @@ function ClientLogoCard({ client }: { client: Client }) {
       target="_blank"
       rel="noreferrer"
       aria-label={`Abrir sitio de ${client.name}`}
-      className="flex justify-center no-underline transition-transform hover:scale-[1.03]"
+      className="no-underline transition-transform hover:scale-[1.03]"
     >
       {card}
     </a>
