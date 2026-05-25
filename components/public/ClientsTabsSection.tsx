@@ -122,15 +122,37 @@ function CountryTab({
 }
 
 function ClientLogoCard({ client }: { client: Client }) {
-  return (
-    <div className="min-h-[74px] rounded-lg border border-white/10 bg-white/[0.04] p-3 flex items-center justify-center transition-colors hover:border-brand-green/35">
+  const rawHref = client.website || client.instagram
+  const href = rawHref
+    ? rawHref.startsWith('http')
+      ? rawHref
+      : `https://${rawHref.replace(/^@/, 'instagram.com/')}`
+    : null
+  const card = (
+    <div className="aspect-square w-full max-w-[150px] rounded-lg border border-white/10 bg-white/[0.04] p-2.5 flex items-center justify-center transition-colors hover:border-brand-green/35">
       {client.logo_url ? (
-        <div className="h-14 w-full rounded-md bg-white px-3 py-2 flex items-center justify-center">
-          <img src={client.logo_url} alt={client.name} className="max-h-full max-w-full object-contain" />
+        <div className="h-full w-full rounded-md bg-white p-3 flex items-center justify-center">
+          <img src={client.logo_url} alt={client.name} className="h-full w-full object-contain" />
         </div>
       ) : (
-        <span className="text-xs text-white/45 text-center leading-snug">{client.name}</span>
+        <span className="text-xs text-white/55 text-center leading-snug">{client.name}</span>
       )}
     </div>
+  )
+
+  if (!href) {
+    return <div className="flex justify-center">{card}</div>
+  }
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Abrir sitio de ${client.name}`}
+      className="flex justify-center no-underline transition-transform hover:scale-[1.03]"
+    >
+      {card}
+    </a>
   )
 }
