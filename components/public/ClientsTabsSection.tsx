@@ -68,7 +68,7 @@ export function ClientsTabsSection({ clients }: { clients: Client[] }) {
           ))}
         </div>
 
-        <div className="mx-auto grid max-w-7xl grid-cols-[repeat(auto-fit,minmax(92px,1fr))] gap-2.5 sm:grid-cols-[repeat(auto-fit,minmax(108px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(118px,1fr))]">
+        <div className="mx-auto grid max-w-7xl grid-cols-[repeat(auto-fit,92px)] justify-center gap-2.5 sm:grid-cols-[repeat(auto-fit,118px)] lg:grid-cols-[repeat(auto-fit,150px)]">
           {activeClients.map((client) => (
             <ClientLogoCard key={client.id} client={client} />
           ))}
@@ -129,7 +129,7 @@ function ClientLogoCard({ client }: { client: Client }) {
       : `https://${rawHref.replace(/^@/, 'instagram.com/')}`
     : null
   const card = (
-    <div className="aspect-square w-full rounded-md border border-white/10 bg-white/[0.04] p-1.5 flex items-center justify-center transition-colors hover:border-brand-green/35">
+    <div className="h-[92px] w-[92px] rounded-md border border-white/10 bg-white/[0.04] p-1.5 flex items-center justify-center transition-colors hover:border-brand-green/35 sm:h-[118px] sm:w-[118px] lg:h-[150px] lg:w-[150px]">
       {client.logo_url ? (
         <div className="h-full w-full rounded bg-white p-2.5 flex items-center justify-center">
           <img src={client.logo_url} alt={client.name} className="h-full w-full object-contain" />
