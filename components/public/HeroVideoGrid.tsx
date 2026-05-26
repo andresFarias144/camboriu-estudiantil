@@ -34,6 +34,16 @@ const heroVideos = [
 const heroBackground =
   'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502549/background_jt0bng.jpg'
 
+function getOptimizedVideoUrl(src: string) {
+  return src.replace('/video/upload/', '/video/upload/q_auto:eco,w_620,vc_auto/')
+}
+
+function getVideoPosterUrl(src: string) {
+  return src
+    .replace('/video/upload/', '/video/upload/so_1,w_420,q_auto:eco,f_jpg/')
+    .replace(/\.(mp4|mov)$/i, '.jpg')
+}
+
 export function HeroVideoGrid() {
   return (
     <section className="relative overflow-hidden bg-[#080c0a]">
@@ -123,15 +133,26 @@ function VideoCard({
   video: { src: string; label: string; title: string }
   className?: string
 }) {
+  const poster = getVideoPosterUrl(video.src)
+
   return (
     <div className={`relative rounded-2xl overflow-hidden group ${className}`}>
+      <img
+        src={poster}
+        alt=""
+        aria-hidden="true"
+        loading="eager"
+        className="absolute inset-0 h-full w-full object-cover md:hidden"
+      />
       <video
-        src={video.src}
+        src={getOptimizedVideoUrl(video.src)}
         autoPlay
         loop
         muted
         playsInline
-        className="w-full h-full object-cover absolute inset-0"
+        preload="metadata"
+        poster={poster}
+        className="absolute inset-0 hidden h-full w-full object-cover md:block"
       />
 
       {/* Overlay con gradiente */}
