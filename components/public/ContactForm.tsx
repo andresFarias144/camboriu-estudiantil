@@ -6,9 +6,11 @@ import { Loader2, CheckCircle2 } from 'lucide-react'
 
 export function ContactForm() {
   const supabase = createClient()
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [lastWhatsappUrl, setLastWhatsappUrl] = useState<string | null>(null)
 
   const [form, setForm] = useState({
     name: '',
@@ -19,6 +21,22 @@ export function ContactForm() {
     passengers: '',
     message: '',
   })
+
+  function buildWhatsappUrl(data: typeof form) {
+    const lines = [
+      'Hola! Envié una consulta desde la web de Camboriú Estudiantil.',
+      '',
+      `Nombre: ${data.name}`,
+      `Email: ${data.email}`,
+      data.agency ? `Agencia/Colegio: ${data.agency}` : null,
+      data.country ? `País: ${data.country}` : null,
+      data.interest ? `Interés: ${data.interest}` : null,
+      data.passengers ? `Pasajeros: ${data.passengers}` : null,
+      data.message ? `Mensaje: ${data.message}` : null,
+    ].filter(Boolean)
+
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -36,6 +54,7 @@ export function ContactForm() {
     if (error) {
       setError(error.message)
     } else {
+      setLastWhatsappUrl(buildWhatsappUrl(form))
       setSuccess(true)
       setForm({ name: '', email: '', agency: '', country: '', interest: '', passengers: '', message: '' })
     }
@@ -49,9 +68,22 @@ export function ContactForm() {
         <p className="text-sm text-white/60 leading-relaxed">
           Recibimos tu consulta. Te respondemos en menos de 24 horas.
         </p>
+        {lastWhatsappUrl && (
+          <a
+            href={lastWhatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-primary mt-5 !py-3 !px-5 !text-xs no-underline"
+          >
+            Enviar también por WhatsApp
+          </a>
+        )}
         <button
-          onClick={() => setSuccess(false)}
-          className="btn-secondary mt-5 !py-2.5 !px-5 !text-xs"
+          onClick={() => {
+            setSuccess(false)
+            setLastWhatsappUrl(null)
+          }}
+          className="btn-secondary mt-3 !py-2.5 !px-5 !text-xs"
         >
           Enviar otra consulta
         </button>
