@@ -6,7 +6,7 @@ export function FinalCTA() {
   const email = 'info@camboriuestudiantil.com'
 
   return (
-    <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden">
+    <section id="contacto" className="relative py-20 sm:py-28 lg:py-32 overflow-hidden scroll-mt-28">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div
           className="w-[800px] h-[800px] rounded-full opacity-30"

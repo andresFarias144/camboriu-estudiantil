@@ -31,7 +31,7 @@ export function ClientsTabsSection({ clients }: { clients: Client[] }) {
   if (clients.length === 0) return null
 
   return (
-    <section className="relative overflow-hidden border-t border-white/10 py-16 sm:py-20">
+    <section id="agencias" className="relative overflow-hidden border-t border-white/10 py-16 sm:py-20 scroll-mt-28">
       <video
         src={backgroundVideo}
         autoPlay

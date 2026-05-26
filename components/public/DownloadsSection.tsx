@@ -27,7 +27,7 @@ const downloads = [
 
 export function DownloadsSection() {
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20">
+    <section id="descargas" className="relative overflow-hidden py-16 sm:py-20 scroll-mt-28">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_16%_22%,rgba(230,30,140,0.18)_0%,rgba(230,30,140,0.08)_28%,transparent_58%)]" aria-hidden="true" />
       <div className="absolute inset-0 bg-gradient-to-b from-[#080c0a] via-[#150711] to-[#080c0a]" aria-hidden="true" />
 

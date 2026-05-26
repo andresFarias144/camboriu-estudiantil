@@ -6,6 +6,16 @@ import { Menu, X } from 'lucide-react'
 
 const logoUrl = 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779534472/camboriu-gv_rrdiec.svg'
 
+const navItems = [
+  { href: '/#inicio', label: 'Inicio' },
+  { href: '/#nosotros', label: 'Nosotros' },
+  { href: '/#eventos', label: 'Atracciones' },
+  { href: '/#partners', label: 'Partners' },
+  { href: '/#agencias', label: 'Agencias' },
+  { href: '/#descargas', label: 'Descargas' },
+  { href: '/#contacto', label: 'Contacto' },
+]
+
 export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const navClass = overlay
@@ -33,10 +43,16 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden lg:flex gap-8">
-            <Link href="/destinos" className="text-sm text-white/75 hover:text-white transition-colors no-underline">Destinos</Link>
-            <Link href="/clientes" className="text-sm text-white/75 hover:text-white transition-colors no-underline">Agencias</Link>
-            <Link href="/contacto" className="text-sm text-white/75 hover:text-white transition-colors no-underline">Contacto</Link>
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-xs xl:text-sm text-white/75 hover:text-white transition-colors no-underline"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           {/* Right actions */}
@@ -44,7 +60,7 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
             <div className="hidden md:block text-xs text-white/50 border border-white/10 px-2.5 py-1 rounded">
               <span className="text-brand-green font-semibold">ES</span> | PT
             </div>
-            <Link href="/contacto" className="hidden md:inline-flex btn-primary !py-2 !px-4 !text-xs">
+            <Link href="/#contacto" className="hidden md:inline-flex btn-primary !py-2 !px-4 !text-xs">
               Cotizar
             </Link>
             <button
@@ -62,29 +78,18 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
       {mobileOpen && (
         <div className="lg:hidden bg-[#080c0a] border-b border-white/10 animate-slide-up">
           <div className="container-page py-4 flex flex-col gap-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="text-base text-white/80 py-3 px-2 hover:bg-white/5 rounded-lg no-underline"
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
-              href="/destinos"
-              onClick={() => setMobileOpen(false)}
-              className="text-base text-white/80 py-3 px-2 hover:bg-white/5 rounded-lg no-underline"
-            >
-              Destinos
-            </Link>
-            <Link
-              href="/clientes"
-              onClick={() => setMobileOpen(false)}
-              className="text-base text-white/80 py-3 px-2 hover:bg-white/5 rounded-lg no-underline"
-            >
-              Agencias
-            </Link>
-            <Link
-              href="/contacto"
-              onClick={() => setMobileOpen(false)}
-              className="text-base text-white/80 py-3 px-2 hover:bg-white/5 rounded-lg no-underline"
-            >
-              Contacto
-            </Link>
-            <Link
-              href="/contacto"
+              href="/#contacto"
               onClick={() => setMobileOpen(false)}
               className="btn-primary mt-2"
             >

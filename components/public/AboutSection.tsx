@@ -1,7 +1,8 @@
 export function AboutSection() {
   return (
     <section
-      className="relative py-20 sm:py-28 overflow-hidden"
+      id="nosotros"
+      className="relative py-20 sm:py-28 overflow-hidden scroll-mt-28"
       style={{
         backgroundImage: `linear-gradient(135deg, rgba(8,12,10,0.85) 0%, rgba(8,12,10,0.6) 50%, rgba(8,12,10,0.4) 100%), url(https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502205/nosotros_eesclu.jpg)`,
         backgroundSize: 'cover',

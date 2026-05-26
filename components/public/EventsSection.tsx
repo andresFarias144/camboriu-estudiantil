@@ -24,7 +24,7 @@ export function EventsSection({ attractions }: { attractions: any[] }) {
   }
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20">
+    <section id="eventos" className="relative overflow-hidden py-16 sm:py-20 scroll-mt-28">
       <div
         className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
         style={{ backgroundImage: `url(${categoryBackgrounds[activeTab]})` }}

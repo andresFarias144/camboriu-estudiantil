@@ -61,7 +61,7 @@ export function HeroVideoGrid() {
   }, [])
 
   return (
-    <section className="relative overflow-hidden bg-[#080c0a]">
+    <section id="inicio" className="relative overflow-hidden bg-[#080c0a] scroll-mt-28">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-100"
         style={{ backgroundImage: `url(${heroBackground})` }}
