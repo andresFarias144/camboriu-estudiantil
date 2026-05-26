@@ -17,7 +17,7 @@ const navItems = [
   { href: '/#partners', label: 'Partners' },
   { href: '/#agencias', label: 'Agencias' },
   { href: '/#descargas', label: 'Descargas' },
-  { href: '/#contacto', label: 'Contacto' },
+  { href: '/contacto', label: 'Contacto' },
 ]
 
 export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
