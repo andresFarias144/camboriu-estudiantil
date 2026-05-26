@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
@@ -38,6 +39,10 @@ function getOptimizedVideoUrl(src: string) {
   return src.replace('/video/upload/', '/video/upload/q_auto:eco,w_620,vc_auto/')
 }
 
+function getMobileVideoUrl(src: string) {
+  return src.replace('/video/upload/', '/video/upload/q_auto:eco,w_360,vc_auto,so_0,du_6/')
+}
+
 function getVideoPosterUrl(src: string) {
   return src
     .replace('/video/upload/', '/video/upload/so_1,w_420,q_auto:eco,f_jpg/')
@@ -45,6 +50,16 @@ function getVideoPosterUrl(src: string) {
 }
 
 export function HeroVideoGrid() {
+  const [activeMobileVideo, setActiveMobileVideo] = useState(0)
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveMobileVideo((current) => (current + 1) % heroVideos.length)
+    }, 5200)
+
+    return () => window.clearInterval(interval)
+  }, [])
+
   return (
     <section className="relative overflow-hidden bg-[#080c0a]">
       <div
@@ -105,19 +120,19 @@ export function HeroVideoGrid() {
           <div className="order-1 lg:order-2">
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
               {/* Video 1 - Cascatas (alto) */}
-              <VideoCard video={heroVideos[0]} className="row-span-2" />
+              <VideoCard video={heroVideos[0]} index={0} activeMobileVideo={activeMobileVideo} className="row-span-2" />
 
               {/* Video 2 - Shows */}
-              <VideoCard video={heroVideos[1]} />
+              <VideoCard video={heroVideos[1]} index={1} activeMobileVideo={activeMobileVideo} />
 
               {/* Video 3 - Greenvalley (alto) */}
-              <VideoCard video={heroVideos[3]} className="row-span-2" />
+              <VideoCard video={heroVideos[3]} index={3} activeMobileVideo={activeMobileVideo} className="row-span-2" />
 
               {/* Video 4 - Campamentos */}
-              <VideoCard video={heroVideos[2]} />
+              <VideoCard video={heroVideos[2]} index={2} activeMobileVideo={activeMobileVideo} />
 
               {/* Video 5 - Fiestas (ancho) */}
-              <VideoCard video={heroVideos[4]} className="col-span-2" />
+              <VideoCard video={heroVideos[4]} index={4} activeMobileVideo={activeMobileVideo} className="col-span-2" />
             </div>
           </div>
         </div>
@@ -128,12 +143,17 @@ export function HeroVideoGrid() {
 
 function VideoCard({
   video,
+  index,
+  activeMobileVideo,
   className = '',
 }: {
   video: { src: string; label: string; title: string }
+  index: number
+  activeMobileVideo: number
   className?: string
 }) {
   const poster = getVideoPosterUrl(video.src)
+  const isActiveMobileVideo = activeMobileVideo === index
 
   return (
     <div className={`relative rounded-2xl overflow-hidden group ${className}`}>
@@ -144,6 +164,19 @@ function VideoCard({
         loading="eager"
         className="absolute inset-0 h-full w-full object-cover md:hidden"
       />
+      {isActiveMobileVideo && (
+        <video
+          key={`mobile-${video.src}`}
+          src={getMobileVideoUrl(video.src)}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster={poster}
+          className="absolute inset-0 h-full w-full object-cover md:hidden"
+        />
+      )}
       <video
         src={getOptimizedVideoUrl(video.src)}
         autoPlay
