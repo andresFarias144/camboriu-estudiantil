@@ -1,9 +1,8 @@
-import { MessageCircle, Mail } from 'lucide-react'
+import { MessageCircle } from 'lucide-react'
 
 export function FinalCTA() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
   const whatsappMsg = encodeURIComponent('Hola! Consulto sobre Camboriu Estudiantil.')
-  const email = 'info@camboriuestudiantil.com'
 
   return (
     <section id="contacto" className="relative py-20 sm:py-28 lg:py-32 overflow-hidden scroll-mt-28">
@@ -26,7 +25,7 @@ export function FinalCTA() {
           Si sos una agencia o querés armar el viaje de tus egresados, escribinos.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+        <div className="flex justify-center">
           <a
             href={`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`}
             target="_blank"
@@ -35,14 +34,6 @@ export function FinalCTA() {
           >
             <MessageCircle size={18} />
             WhatsApp
-          </a>
-
-          <a
-            href={`mailto:${email}`}
-            className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#080c0a] font-bold rounded-full px-7 py-3.5 text-sm transition-colors no-underline"
-          >
-            <Mail size={18} />
-            Enviar email
           </a>
         </div>
       </div>

@@ -5,6 +5,10 @@ import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
 const logoUrl = 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779534472/camboriu-gv_rrdiec.svg'
+const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
+const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+  'Hola! Quiero hablar con Camboriú Estudiantil.'
+)}`
 
 const navItems = [
   { href: '/#inicio', label: 'Inicio' },
@@ -60,9 +64,14 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
             <div className="hidden md:block text-xs text-white/50 border border-white/10 px-2.5 py-1 rounded">
               <span className="text-brand-green font-semibold">ES</span> | PT
             </div>
-            <Link href="/#contacto" className="hidden md:inline-flex btn-primary !py-2 !px-4 !text-xs">
-              Cotizar
-            </Link>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden md:inline-flex btn-primary !py-2 !px-4 !text-xs"
+            >
+              Hablemos
+            </a>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden btn-icon"
@@ -88,13 +97,15 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/#contacto"
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
               onClick={() => setMobileOpen(false)}
               className="btn-primary mt-2"
             >
-              Cotizar viaje
-            </Link>
+              Hablemos
+            </a>
             <div className="text-xs text-white/40 text-center pt-3 mt-2 border-t border-white/10">
               <span className="text-brand-green font-semibold">ES</span> | PT
             </div>
