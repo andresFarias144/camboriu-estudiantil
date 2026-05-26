@@ -185,16 +185,16 @@ export function ChatWidget() {
                 onKeyDown={handleKeyDown}
                 placeholder="Escribí tu consulta..."
                 disabled={loading}
-                className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-brand-green/50 disabled:opacity-60"
+                className="min-w-0 flex-1 rounded-2xl border border-white/15 bg-white/[0.09] px-4 py-3.5 text-[15px] text-white outline-none transition-colors placeholder:text-white/45 focus:border-brand-green/70 focus:bg-white/[0.12] disabled:opacity-60"
               />
               <button
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading || !input.trim()}
-                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-green text-[#080c0a] transition-opacity disabled:opacity-45"
+                className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-green to-[#18b854] text-[#080c0a] shadow-[0_12px_28px_rgba(61,240,112,0.22)] transition hover:scale-[1.03] disabled:scale-100 disabled:opacity-45"
                 aria-label="Enviar mensaje"
               >
-                <Send size={17} />
+                <Send size={21} />
               </button>
             </div>
 
@@ -202,7 +202,7 @@ export function ChatWidget() {
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-2 flex w-full items-center justify-center rounded-xl bg-[#25d366] px-3 py-2 text-xs font-semibold text-white no-underline transition-opacity hover:opacity-90"
+              className="mt-2 flex w-full items-center justify-center rounded-xl border border-[#25d366]/25 bg-[#25d366]/8 px-3 py-2 text-[11px] font-medium text-[#8bf0ad] no-underline transition-colors hover:border-[#25d366]/45 hover:bg-[#25d366]/12"
             >
               Hablar con el equipo por WhatsApp
             </a>
