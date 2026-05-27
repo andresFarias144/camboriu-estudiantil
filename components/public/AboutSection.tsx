@@ -17,6 +17,9 @@ export function AboutSection() {
           {/* Texto a la izquierda */}
           <div>
             <div className="eyebrow mb-4">Nosotros</div>
+            <div className="mb-4 inline-flex rounded-full border border-brand-green/25 bg-brand-green/10 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.22em] text-brand-green">
+              Since 1993
+            </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6">
               Más de 30 años creando<br />
@@ -25,7 +28,7 @@ export function AboutSection() {
 
             <div className="space-y-4 text-sm sm:text-base text-white/75 leading-relaxed max-w-xl">
               <p>
-                En Camboriú Estudiantil, nos especializamos en organizar giras de estudios y viajes de egresados para estudiantes de toda Latinoamérica. Nuestro equipo de profesionales con años de experiencia se dedica a crear itinerarios personalizados que combinan educación, aventura y diversión.
+                En Camboriú Estudiantil, nos especializamos en organizar giras de estudios y viajes de egresados para estudiantes de toda Latinoamérica. Nuestro equipo de profesionales con años de experiencia se dedica a crear experiencias que combinan educación, aventura y diversión.
               </p>
               <p>
                 Trabajamos con las mejores agencias de viajes de cada país para garantizar la seguridad, calidad y satisfacción de todos nuestros participantes. Desde campamentos en la naturaleza hasta fiestas épicas, tenemos el viaje perfecto para cada grupo.

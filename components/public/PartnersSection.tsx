@@ -45,10 +45,18 @@ const partners = [
     link: '',
     linkLabel: '',
   },
+  {
+    image: 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779860181/camboriu/attractions/r5pkz1k0pjdxgxavavty.png',
+    label: 'Experiencia',
+    title: 'Ice Bar Experience',
+    link: '/destinos/ice-bar-experience-camboriu',
+    linkLabel: 'Ver atracción',
+  },
 ]
 
 interface Partner {
-  src: string
+  src?: string
+  image?: string
   label: string
   title: string
   link: string
@@ -68,7 +76,7 @@ export function PartnersSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 px-2 sm:px-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2 sm:gap-3 px-2 sm:px-4">
         {partners.map((p, i) => (
           <PartnerCard key={i} partner={p} />
         ))}
@@ -80,14 +88,22 @@ export function PartnersSection() {
 function PartnerCard({ partner }: { partner: Partner }) {
   const cardInner = (
     <div className="relative aspect-[9/16] rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer">
-      <video
-        src={partner.src}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500"
-      />
+      {partner.src ? (
+        <video
+          src={partner.src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500"
+        />
+      ) : (
+        <img
+          src={partner.image}
+          alt=""
+          className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500"
+        />
+      )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
 

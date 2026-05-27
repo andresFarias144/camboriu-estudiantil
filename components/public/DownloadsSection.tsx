@@ -19,7 +19,7 @@ const downloads = [
   {
     eyebrow: 'Evento especial',
     title: 'Quinceañeras',
-    description: 'Material exclusivo para fiestas de quinceañeras.',
+    description: 'Material exclusivo para viajes de quinceañeras.',
     icon: Star,
     href: 'https://drive.google.com/drive/folders/1iYYWWZDPbiziLwVycxlr3Qf1Hlb10JAx',
   },

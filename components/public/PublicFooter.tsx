@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const logoUrl = 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779534472/camboriu-gv_rrdiec.svg'
+const logoUrl = '/camboriu-gv.svg'
 
 export function PublicFooter() {
   return (

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
-const logoUrl = 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779534472/camboriu-gv_rrdiec.svg'
+const logoUrl = '/camboriu-gv.svg'
 const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
   'Hola! Quiero hablar con Camboriú Estudiantil.'
