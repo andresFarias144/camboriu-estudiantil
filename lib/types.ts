@@ -86,6 +86,16 @@ export interface ContactRequest {
   created_at: string
 }
 
+export interface FAQ {
+  id:         string
+  question:   string
+  answer:     string
+  sort_order: number
+  is_active:  boolean
+  created_at: string
+  updated_at: string
+}
+
 // ── Label maps for UI ─────────────────────────────────────────
 
 export const COUNTRY_LABELS: Record<ClientCountry, { es: string; pt: string; flag: string }> = {

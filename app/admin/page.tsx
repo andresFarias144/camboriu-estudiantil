@@ -1,15 +1,22 @@
 import Link from 'next/link'
 import { createClient } from '../../lib/supabase/server'
-import { MapPin, Users, MessageSquare, Plus, ArrowRight } from 'lucide-react'
+import { MapPin, Users, MessageSquare, Plus, ArrowRight, HelpCircle } from 'lucide-react'
 
 export const revalidate = 0
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
 
-  const [{ count: attractionsCount }, { count: clientsCount }, { count: requestsCount }, { count: newRequestsCount }] = await Promise.all([
+  const [
+    { count: attractionsCount },
+    { count: clientsCount },
+    { count: faqsCount },
+    { count: requestsCount },
+    { count: newRequestsCount },
+  ] = await Promise.all([
     supabase.from('attractions').select('*', { count: 'exact', head: true }),
     supabase.from('clients').select('*', { count: 'exact', head: true }),
+    supabase.from('faqs').select('*', { count: 'exact', head: true }),
     supabase.from('contact_requests').select('*', { count: 'exact', head: true }),
     supabase.from('contact_requests').select('*', { count: 'exact', head: true }).eq('status', 'new'),
   ])
@@ -47,6 +54,13 @@ export default async function AdminDashboard() {
           href="/admin/consultas"
           color="magenta"
         />
+        <StatCard
+          icon={<HelpCircle size={18} />}
+          label="Preguntas frecuentes"
+          value={faqsCount ?? 0}
+          href="/admin/faqs"
+          color="green"
+        />
       </div>
 
       {/* Quick actions */}
@@ -79,6 +93,20 @@ export default async function AdminDashboard() {
             <div className="flex-1">
               <div className="text-sm font-medium">Nueva agencia</div>
               <div className="text-xs text-white/45">Cargar cliente</div>
+            </div>
+            <ArrowRight size={14} className="text-white/30" />
+          </Link>
+
+          <Link
+            href="/admin/faqs/nueva"
+            className="flex items-center gap-3 p-4 bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 rounded-lg no-underline transition-colors"
+          >
+            <div className="w-9 h-9 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green">
+              <Plus size={18} />
+            </div>
+            <div className="flex-1">
+              <div className="text-sm font-medium">Nueva pregunta</div>
+              <div className="text-xs text-white/45">Cargar FAQ del home</div>
             </div>
             <ArrowRight size={14} className="text-white/30" />
           </Link>

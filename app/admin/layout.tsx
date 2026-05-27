@@ -11,6 +11,7 @@ import {
   LogOut,
   ChevronRight,
   MessageSquare,
+  HelpCircle,
   Menu,
   X,
 } from 'lucide-react'
@@ -19,6 +20,7 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/atracciones', label: 'Atracciones', icon: MapPin },
   { href: '/admin/clientes', label: 'Clientes', icon: Users },
+  { href: '/admin/faqs', label: 'Preguntas frecuentes', icon: HelpCircle },
   { href: '/admin/consultas', label: 'Consultas', icon: MessageSquare },
 ]
 

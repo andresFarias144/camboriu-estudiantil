@@ -15,9 +15,14 @@ export const revalidate = 60
 export default async function HomePage() {
   const supabase = await createClient()
 
-  const [{ data: allAttractions }, { data: clients }] = await Promise.all([
+  const [{ data: allAttractions }, { data: clients }, { data: faqs }] = await Promise.all([
     supabase.from('attractions').select('*').eq('is_active', true).order('sort_order'),
     supabase.from('clients').select('*').eq('is_active', true).order('country').order('name'),
+    supabase
+      .from('faqs')
+      .select('question, answer')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true }),
   ])
 
   const attractions = allAttractions || []
@@ -35,7 +40,7 @@ export default async function HomePage() {
       <ClientsTabsSection clients={clients || []} />
       <DownloadsSection />
 
-<FAQSection />
+      <FAQSection faqs={faqs || undefined} />
 
       <FinalCTA />
 
