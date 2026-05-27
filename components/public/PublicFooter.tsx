@@ -35,6 +35,7 @@ export function PublicFooter() {
           <div>
             <div className="text-[11px] font-bold tracking-widest uppercase mb-3 text-white">Empresa</div>
             <ul className="space-y-2">
+              <li><Link href="/seguridad" className="text-sm text-white/50 hover:text-white transition-colors no-underline">Seguridad</Link></li>
               <li><Link href="/contacto" className="text-sm text-white/50 hover:text-white transition-colors no-underline">Contacto</Link></li>
             </ul>
           </div>
