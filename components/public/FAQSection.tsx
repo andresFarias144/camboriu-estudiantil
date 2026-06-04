@@ -10,7 +10,7 @@ type FAQItemData = {
 }
 
 export function FAQSection({ faqs = defaultFaqs }: { faqs?: FAQItemData[] }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
   const items = faqs.length > 0 ? faqs : defaultFaqs
 
   return (
