@@ -40,7 +40,7 @@ export function EventsSection({ attractions }: { attractions: any[] }) {
           <div>
             <div className="eyebrow mb-2">Eventos</div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
-              Descubrí nuestros<br />servicios <span className="text-brand-green">destacados</span>
+              Nuestros eventos<br />y <span className="text-brand-green">experiencias</span>
             </h2>
           </div>
           <Link

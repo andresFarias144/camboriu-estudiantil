@@ -67,12 +67,12 @@ export function PartnersSection() {
   return (
     <section id="partners" className="py-16 sm:py-20 overflow-hidden scroll-mt-28">
       <div className="container-page mb-8 sm:mb-12 text-center">
-        <div className="eyebrow inline-flex justify-center mb-3">Partners</div>
+        <div className="eyebrow inline-flex justify-center mb-3">Aliados</div>
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
-          Nuestros <span className="text-brand-magenta">destinos y aliados</span>
+          Nuestros <span className="text-brand-magenta">aliados estratégicos</span>
         </h2>
         <p className="text-sm sm:text-base text-white/50 mt-4">
-          Tocá cada experiencia para descubrir más
+          Marcas y experiencias asociadas que potencian cada programa en Camboriú.
         </p>
       </div>
 

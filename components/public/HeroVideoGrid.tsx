@@ -85,21 +85,21 @@ export function HeroVideoGrid() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-light leading-[1.05] tracking-tight mb-5">
-              Giras de <span className="text-brand-magenta">Estudios</span><br />
-              & Viajes de <br />
-              <span className="text-brand-magenta">Egresados</span>
+              La experiencia líder en<br />
+              <span className="text-brand-magenta">turismo estudiantil</span><br />
+              del Mercosur
             </h1>
 
             <p className="text-base sm:text-lg text-white/60 leading-relaxed mb-8 max-w-xl">
-              Organizamos experiencias inolvidables para estudiantes de todo Mercosur.
+              Recibimos grupos de Argentina, Chile, Uruguay, Paraguay, Bolivia y Perú con programas diseñados para vivir Balneário Camboriú al máximo.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mb-10">
-              <Link href="/destinos" className="btn-primary !rounded-full">
-                Ver eventos <ArrowRight size={16} />
+              <Link href="/contacto" className="btn-primary !rounded-full">
+                Solicitar presupuesto <ArrowRight size={16} />
               </Link>
-              <Link href="/contacto" className="btn-secondary !rounded-full">
-                Contactanos
+              <Link href="/destinos" className="btn-secondary !rounded-full">
+                Ver programas
               </Link>
             </div>
 

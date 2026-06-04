@@ -10,7 +10,7 @@ export function AboutSection() {
       }}
     >
       {/* Overlay adicional para mejor contraste */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#080c0a]/95 via-[#080c0a]/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#080c0a]/95 via-[#080c0a]/68 to-[#080c0a]/20" />
 
       <div className="container-page relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,1fr] gap-10 lg:gap-16 items-center">
@@ -26,19 +26,19 @@ export function AboutSection() {
               <span className="text-brand-magenta">experiencias inolvidables</span>
             </h2>
 
-            <div className="space-y-4 text-sm sm:text-base text-white/75 leading-relaxed max-w-xl">
+            <div className="space-y-4 text-sm sm:text-base text-white/78 leading-relaxed max-w-xl">
               <p>
-                En Camboriú Estudiantil, nos especializamos en organizar giras de estudios y viajes de egresados para estudiantes de toda Latinoamérica. Nuestro equipo de profesionales con años de experiencia se dedica a crear experiencias que combinan educación, aventura y diversión.
+                Desde 1993 recibimos estudiantes y agencias de toda Latinoamérica con operación local en Balneário Camboriú, coordinación profesional y experiencias diseñadas para que cada grupo viaje seguro, acompañado y con actividades memorables.
               </p>
               <p>
-                Trabajamos con las mejores agencias de viajes de cada país para garantizar la seguridad, calidad y satisfacción de todos nuestros participantes. Desde campamentos en la naturaleza hasta fiestas épicas, tenemos el viaje perfecto para cada grupo.
+                Trabajamos junto a agencias de Argentina, Chile, Uruguay, Paraguay, Bolivia, Perú y Brasil para crear viajes que combinan educación, aventura y diversión.
               </p>
             </div>
 
             {/* Tarjeta del fundador */}
             <div className="mt-8 inline-block bg-[#080c0a]/80 backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-4">
               <div className="text-base font-semibold text-white">Claudio González Kenner</div>
-              <div className="text-xs text-brand-magenta font-medium mt-0.5">Fundador</div>
+              <div className="text-xs text-brand-magenta font-medium mt-0.5">Fundador & Director General</div>
             </div>
           </div>
 

@@ -49,10 +49,10 @@ export function ClientsTabsSection({ clients }: { clients: Client[] }) {
         <div className="text-center max-w-3xl mx-auto">
           <div className="eyebrow justify-center mb-2 inline-flex">Nuestras agencias</div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight mb-2">
-            +{clients.length} agencias en <span className="text-brand-green">{countriesCount} países</span>
+            Más de {clients.length} agencias<br className="hidden sm:block" /> <span className="text-brand-green">confían en Camboriú Estudiantil</span>
           </h2>
           <p className="text-sm sm:text-base text-white/50 mb-8">
-            Las mejores agencias de turismo estudiantil confían en nosotros temporada tras temporada.
+            Trabajamos temporada tras temporada junto a agencias de {countriesCount} países que eligen nuestra operación local en Brasil.
           </p>
         </div>
 
