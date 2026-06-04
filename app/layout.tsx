@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Open_Sans } from 'next/font/google'
 import { ChatWidget } from '../components/public/ChatWidget'
+import { GoogleAnalytics } from '../components/public/GoogleAnalytics'
+import { MetaPixel } from '../components/public/MetaPixel'
 import { PWARegister } from '../components/public/PWARegister'
+import { TikTokPixel } from '../components/public/TikTokPixel'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -51,6 +54,9 @@ export default function RootLayout({
   return (
     <html lang="es" className={openSans.variable}>
       <body className="font-sans">
+        <GoogleAnalytics />
+        <MetaPixel />
+        <TikTokPixel />
         {children}
         <ChatWidget />
         <PWARegister />
