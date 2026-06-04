@@ -5,7 +5,7 @@ import Script from 'next/script'
 
 export function MetaPixel() {
   const pathname = usePathname()
-  const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || '6869494493071751'
+  const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || '989738017103348'
 
   if (!pixelId || pathname.startsWith('/admin')) return null
 
