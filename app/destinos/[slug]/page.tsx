@@ -2,6 +2,8 @@ import { createClient } from '../../../lib/supabase/server'
 import { PublicNavbar } from '../../../components/public/PublicNavbar'
 import { PublicFooter } from '../../../components/public/PublicFooter'
 import { Gallery } from '../../../components/public/Gallery'
+import { TrackedWhatsAppLink } from '../../../components/public/TrackedWhatsAppLink'
+import { ViewContentTracker } from '../../../components/public/ViewContentTracker'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, MapPin, Navigation } from 'lucide-react'
@@ -39,6 +41,7 @@ export default async function AttractionDetailPage({
 
   return (
     <div className="min-h-screen bg-[#080c0a] text-white">
+      <ViewContentTracker contentName={a.title} contentCategory={a.category} contentType={a.type} />
       <PublicNavbar />
 
  {/* HERO */}
@@ -132,14 +135,16 @@ export default async function AttractionDetailPage({
               Información
             </h3>
 
-            <a
+            <TrackedWhatsAppLink
               href={`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`}
+              source="attraction_detail"
+              label={a.title}
               target="_blank"
               rel="noreferrer"
               className="btn-primary w-full !py-3.5 mb-3"
             >
               {a.consultation_cta || 'Consultar disponibilidad'}
-            </a>
+            </TrackedWhatsAppLink>
 
             {a.address && (
               <div className="py-5 border-t border-white/10">

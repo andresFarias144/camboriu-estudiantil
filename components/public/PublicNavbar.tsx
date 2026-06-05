@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { TrackedWhatsAppLink } from './TrackedWhatsAppLink'
 
 const logoUrl = '/camboriu-gv.svg'
 const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
@@ -64,14 +65,16 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
             <div className="hidden md:block text-xs text-white/50 border border-white/10 px-2.5 py-1 rounded">
               <span className="text-brand-green font-semibold">ES</span> | PT
             </div>
-            <a
+            <TrackedWhatsAppLink
               href={whatsappUrl}
+              source="navbar"
+              label="Hablemos"
               target="_blank"
               rel="noreferrer"
               className="hidden md:inline-flex btn-primary !py-2 !px-4 !text-xs"
             >
               Hablemos
-            </a>
+            </TrackedWhatsAppLink>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden btn-icon"
@@ -97,15 +100,17 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
                 {item.label}
               </Link>
             ))}
-            <a
+            <TrackedWhatsAppLink
               href={whatsappUrl}
+              source="mobile_navbar"
+              label="Hablemos"
               target="_blank"
               rel="noreferrer"
               onClick={() => setMobileOpen(false)}
               className="btn-primary mt-2"
             >
               Hablemos
-            </a>
+            </TrackedWhatsAppLink>
             <div className="text-xs text-white/40 text-center pt-3 mt-2 border-t border-white/10">
               <span className="text-brand-green font-semibold">ES</span> | PT
             </div>

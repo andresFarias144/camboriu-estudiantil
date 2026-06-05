@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '../../lib/supabase/client'
 import { Loader2, CheckCircle2 } from 'lucide-react'
+import { trackContact, trackLead } from '../../lib/marketingEvents'
 
 export function ContactForm() {
   const supabase = createClient()
@@ -54,6 +55,12 @@ export function ContactForm() {
     if (error) {
       setError(error.message)
     } else {
+      trackLead({
+        source: 'contact_form',
+        content_name: form.interest || 'Consulta web',
+        country: form.country,
+        passengers: form.passengers ? parseInt(form.passengers) : undefined,
+      })
       setLastWhatsappUrl(buildWhatsappUrl(form))
       setSuccess(true)
       setForm({ name: '', email: '', agency: '', country: '', interest: '', passengers: '', message: '' })
@@ -73,6 +80,13 @@ export function ContactForm() {
             href={lastWhatsappUrl}
             target="_blank"
             rel="noreferrer"
+            onClick={() =>
+              trackContact({
+                source: 'contact_form_success',
+                contact_method: 'whatsapp',
+                label: 'Enviar también por WhatsApp',
+              })
+            }
             className="btn-primary mt-5 !py-3 !px-5 !text-xs no-underline"
           >
             Enviar también por WhatsApp

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { MessageCircle, Send, X } from 'lucide-react'
+import { trackContact, trackLead } from '../../lib/marketingEvents'
 
 type Message = {
   role: 'user' | 'assistant'
@@ -38,6 +39,7 @@ export function ChatWidget() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const trackedLeadRef = useRef(false)
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(messages))}`
 
   useEffect(() => {
@@ -61,6 +63,14 @@ export function ChatWidget() {
     setMessages(nextMessages)
     setInput('')
     setLoading(true)
+
+    if (!trackedLeadRef.current) {
+      trackedLeadRef.current = true
+      trackLead({
+        source: 'chatbot',
+        content_name: 'Primer mensaje en chatbot',
+      })
+    }
 
     try {
       const response = await fetch('/api/chat', {
@@ -202,6 +212,13 @@ export function ChatWidget() {
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
+              onClick={() =>
+                trackContact({
+                  source: 'chatbot',
+                  contact_method: 'whatsapp',
+                  label: 'Hablar con el equipo por WhatsApp',
+                })
+              }
               className="mt-2 flex w-full items-center justify-center rounded-xl border border-[#25d366]/25 bg-[#25d366]/8 px-3 py-2 text-[11px] font-medium text-[#8bf0ad] no-underline transition-colors hover:border-[#25d366]/45 hover:bg-[#25d366]/12"
             >
               Hablar con el equipo por WhatsApp

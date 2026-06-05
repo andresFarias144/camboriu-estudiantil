@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, MessageCircle } from 'lucide-react'
+import { TrackedWhatsAppLink } from './TrackedWhatsAppLink'
 
 export function AgenciesCTA() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
@@ -24,15 +25,17 @@ export function AgenciesCTA() {
           </div>
 
           <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
-            <a
+            <TrackedWhatsAppLink
               href={`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`}
+              source="agencies_cta"
+              label="Hablar por WhatsApp"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25d366] px-7 py-3.5 text-sm font-bold text-white no-underline transition-colors hover:bg-[#1ebe5b]"
             >
               <MessageCircle size={18} />
               Hablar por WhatsApp
-            </a>
+            </TrackedWhatsAppLink>
             <Link
               href="/contacto"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-bold text-white no-underline transition-colors hover:bg-white/10"

@@ -1,4 +1,5 @@
 import { MessageCircle } from 'lucide-react'
+import { TrackedWhatsAppLink } from './TrackedWhatsAppLink'
 
 export function FinalCTA() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
@@ -26,15 +27,17 @@ export function FinalCTA() {
         </p>
 
         <div className="flex justify-center">
-          <a
+          <TrackedWhatsAppLink
             href={`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`}
+            source="final_cta"
+            label="WhatsApp"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center justify-center gap-2 bg-[#25d366] hover:bg-[#1ebe5b] text-white font-bold rounded-full px-7 py-3.5 text-sm transition-colors no-underline"
           >
             <MessageCircle size={18} />
             WhatsApp
-          </a>
+          </TrackedWhatsAppLink>
         </div>
       </div>
     </section>
