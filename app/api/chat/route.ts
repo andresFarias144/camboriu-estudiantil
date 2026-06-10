@@ -7,6 +7,13 @@ type ChatMessage = {
   content: string
 }
 
+type VisitorType = 'agency' | 'parent' | 'student' | 'other'
+
+type VisitorProfile = {
+  name: string
+  type: VisitorType
+}
+
 type LeadData = {
   name: string | null
   email: string | null
@@ -18,6 +25,13 @@ type LeadData = {
 }
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
+
+const visitorTypeLabels: Record<VisitorType, string> = {
+  agency: 'Agencia de viajes',
+  parent: 'Padre / madre de pasajero',
+  student: 'Estudiante',
+  other: 'Otro contacto',
+}
 
 const SYSTEM_PROMPT = `Sos "Cambo", el asistente virtual de Camboriú Estudiantil.
 
@@ -113,6 +127,18 @@ function normalizeMessages(messages: unknown): ChatMessage[] {
     }))
 }
 
+function normalizeVisitor(visitor: unknown): VisitorProfile | null {
+  if (!visitor || typeof visitor !== 'object') return null
+
+  const value = visitor as Partial<VisitorProfile>
+  const validTypes: VisitorType[] = ['agency', 'parent', 'student', 'other']
+  const name = typeof value.name === 'string' ? value.name.trim().slice(0, 100) : ''
+
+  if (!name || !value.type || !validTypes.includes(value.type)) return null
+
+  return { name, type: value.type }
+}
+
 function latestUserMessage(messages: ChatMessage[]) {
   return [...messages].reverse().find((message) => message.role === 'user')?.content || ''
 }
@@ -184,7 +210,7 @@ function asksHowToContract(text: string) {
   )
 }
 
-function extractLeadData(messages: ChatMessage[]): LeadData {
+function extractLeadData(messages: ChatMessage[], visitor: VisitorProfile | null): LeadData {
   const transcript = messages.map((message) => message.content).join('\n')
   const latestMessage = latestUserMessage(messages)
   const email = transcript.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0] || null
@@ -194,13 +220,13 @@ function extractLeadData(messages: ChatMessage[]): LeadData {
   const interestMatch = transcript.match(/\b(cascata carolina|zacarias|beto carrero|green valley|eclipse|maria'?s|barco pirata|campamento|playa|disco|discoteca)\b/i)
 
   return {
-    name: null,
+    name: visitor?.name || null,
     email,
-    agency: agencyMatch?.[1]?.trim() || null,
+    agency: agencyMatch?.[1]?.trim() || (visitor ? visitorTypeLabels[visitor.type] : null),
     country: countryMatch?.[1] || null,
     interest: interestMatch?.[1] || latestMessage.slice(0, 120),
     passengers: passengersMatch ? Number(passengersMatch[1]) : null,
-    shouldSave: includesCommercialIntent(transcript),
+    shouldSave: Boolean(visitor) || includesCommercialIntent(transcript),
   }
 }
 
@@ -212,14 +238,23 @@ function cleanAssistantReply(text: string) {
     .trim()
 }
 
-async function saveChatLead(messages: ChatMessage[], assistantReply: string) {
-  const lead = extractLeadData(messages)
+async function saveChatLead(
+  messages: ChatMessage[],
+  assistantReply: string,
+  visitor: VisitorProfile | null
+) {
+  const lead = extractLeadData(messages, visitor)
   if (!lead.shouldSave) return
 
   const supabase = createAdminClient()
-  const transcript = [...messages, { role: 'assistant' as const, content: assistantReply }]
-    .map((message) => `${message.role === 'user' ? 'Usuario' : 'Cambo'}: ${message.content}`)
-    .join('\n\n')
+  const visitorHeader = visitor
+    ? `Contacto: ${visitor.name}\nPerfil: ${visitorTypeLabels[visitor.type]}\n\n`
+    : ''
+  const transcript =
+    visitorHeader +
+    [...messages, { role: 'assistant' as const, content: assistantReply }]
+      .map((message) => `${message.role === 'user' ? 'Usuario' : 'Cambo'}: ${message.content}`)
+      .join('\n\n')
 
   await supabase.from('contact_requests').insert({
     name: lead.name || 'Lead desde chatbot',
@@ -245,8 +280,9 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { messages } = await req.json()
+    const { messages, visitor } = await req.json()
     const normalizedMessages = normalizeMessages(messages)
+    const normalizedVisitor = normalizeVisitor(visitor)
 
     if (normalizedMessages.length === 0) {
       return NextResponse.json({ error: 'Mensajes inválidos' }, { status: 400 })
@@ -256,7 +292,7 @@ export async function POST(req: NextRequest) {
 
     if (asksHowToContract(userMessage)) {
       try {
-        await saveChatLead(normalizedMessages, AGENCY_CONTRACTING_ANSWER)
+        await saveChatLead(normalizedMessages, AGENCY_CONTRACTING_ANSWER, normalizedVisitor)
       } catch (error) {
         console.error('Chat lead save error:', error)
       }
@@ -277,7 +313,11 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: process.env.ANTHROPIC_MODEL || 'claude-haiku-4-5-20251001',
         max_tokens: 650,
-        system: `${SYSTEM_PROMPT}${attractionsContext}`,
+        system: `${SYSTEM_PROMPT}${
+          normalizedVisitor
+            ? `\n\nDATOS DEL VISITANTE:\n- Nombre: ${normalizedVisitor.name}\n- Perfil: ${visitorTypeLabels[normalizedVisitor.type]}`
+            : ''
+        }${attractionsContext}`,
         messages: normalizedMessages,
       }),
     })
@@ -298,7 +338,7 @@ export async function POST(req: NextRequest) {
       'No pude responder en este momento. Podés escribirnos por WhatsApp y el equipo te ayuda enseguida.'
 
     try {
-      await saveChatLead(normalizedMessages, finalMessage)
+      await saveChatLead(normalizedMessages, finalMessage, normalizedVisitor)
     } catch (error) {
       console.error('Chat lead save error:', error)
     }

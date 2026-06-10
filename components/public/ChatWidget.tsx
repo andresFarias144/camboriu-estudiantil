@@ -10,16 +10,24 @@ type Message = {
   content: string
 }
 
-const WELCOME_MESSAGE: Message = {
-  role: 'assistant',
-  content:
-    '¡Hola! Soy Cambo, el asistente de Camboriú Estudiantil. ¿Querés consultar por eventos, agencias, materiales o una propuesta para tu grupo?',
+type VisitorType = 'agency' | 'parent' | 'student' | 'other'
+
+type VisitorProfile = {
+  name: string
+  type: VisitorType
+}
+
+const visitorTypeLabels: Record<VisitorType, string> = {
+  agency: 'Agencia de viajes',
+  parent: 'Padre / madre',
+  student: 'Estudiante',
+  other: 'Otro',
 }
 
 const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5547992816769'
 const whatsappMessage = 'Hola, consulto por Camboriú Estudiantil.'
 
-function buildWhatsAppMessage(messages: Message[]) {
+function buildWhatsAppMessage(messages: Message[], visitor: VisitorProfile | null) {
   const conversation = messages
     .filter((message) => message.content.trim().length > 0)
     .slice(-8)
@@ -28,19 +36,26 @@ function buildWhatsAppMessage(messages: Message[]) {
 
   if (!conversation) return whatsappMessage
 
-  return `Hola, consulto por Camboriú Estudiantil. Este es el contexto de mi conversación con Cambo:\n\n${conversation}`
+  const visitorContext = visitor
+    ? `Nombre: ${visitor.name}\nPerfil: ${visitorTypeLabels[visitor.type]}\n\n`
+    : ''
+
+  return `Hola, consulto por Camboriú Estudiantil. Este es el contexto de mi conversación con Cambo:\n\n${visitorContext}${conversation}`
 }
 
 export function ChatWidget() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [showBubble, setShowBubble] = useState(true)
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE])
+  const [visitor, setVisitor] = useState<VisitorProfile | null>(null)
+  const [visitorName, setVisitorName] = useState('')
+  const [visitorType, setVisitorType] = useState<VisitorType | ''>('')
+  const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const trackedLeadRef = useRef(false)
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(messages))}`
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(messages, visitor))}`
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -53,9 +68,23 @@ export function ChatWidget() {
 
   if (pathname.startsWith('/admin')) return null
 
+  function startConversation() {
+    const name = visitorName.trim()
+    if (!name || !visitorType) return
+
+    const profile: VisitorProfile = { name, type: visitorType }
+    setVisitor(profile)
+    setMessages([
+      {
+        role: 'assistant',
+        content: `¡Hola, ${name}! Soy Cambo, el asistente de Camboriú Estudiantil. ¿En qué puedo ayudarte?`,
+      },
+    ])
+  }
+
   async function sendMessageWithText(text: string) {
     const trimmed = text.trim()
-    if (!trimmed || loading) return
+    if (!trimmed || loading || !visitor) return
 
     const userMessage: Message = { role: 'user', content: trimmed }
     const nextMessages = [...messages, userMessage]
@@ -76,7 +105,7 @@ export function ChatWidget() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: nextMessages }),
+        body: JSON.stringify({ messages: nextMessages, visitor }),
       })
 
       const data = await response.json()
@@ -144,7 +173,7 @@ export function ChatWidget() {
               <div>
                 <div className="text-sm font-semibold text-white leading-none">Cambo</div>
                 <div className="mt-1 text-xs text-white/45">
-                  {loading ? 'Respondiendo...' : 'Asistente virtual'}
+                  {loading ? 'Respondiendo...' : visitor ? `Hablando con ${visitor.name}` : 'Asistente virtual'}
                 </div>
               </div>
             </div>
@@ -159,71 +188,130 @@ export function ChatWidget() {
             </button>
           </div>
 
-          <div className="flex-1 space-y-3 overflow-y-auto bg-[#0d120f] px-4 py-4">
-            {messages.map((message, index) => (
-              <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div
-                  className={`max-w-[82%] whitespace-pre-wrap rounded-2xl px-3 py-2.5 text-xs leading-relaxed ${
-                    message.role === 'user'
-                      ? 'rounded-br-none bg-brand-green text-[#080c0a]'
-                      : 'rounded-bl-none border border-white/10 bg-white/[0.06] text-white/80'
-                  }`}
-                >
-                  {message.content}
-                </div>
+          {!visitor ? (
+            <div className="flex flex-1 flex-col justify-center overflow-y-auto bg-[#0d120f] px-5 py-6">
+              <div className="mb-5">
+                <div className="text-lg font-semibold text-white">Antes de comenzar</div>
+                <p className="mt-2 text-sm leading-relaxed text-white/55">
+                  Contanos quién nos escribe para identificar tu consulta y ayudarte mejor.
+                </p>
               </div>
-            ))}
 
-            {loading && (
-              <div className="flex justify-start">
-                <div className="flex items-center gap-1 rounded-2xl rounded-bl-none border border-white/10 bg-white/[0.06] px-4 py-3">
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/35" />
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/35 [animation-delay:150ms]" />
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/35 [animation-delay:300ms]" />
-                </div>
-              </div>
-            )}
-
-            <div ref={messagesEndRef} />
-          </div>
-
-          <div className="border-t border-white/10 bg-[#080c0a] p-3">
-            <div className="flex gap-2">
+              <label className="mb-2 text-[11px] font-bold uppercase tracking-wider text-white/45">
+                Tu nombre
+              </label>
               <input
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Escribí tu consulta..."
-                disabled={loading}
-                className="min-w-0 flex-1 rounded-2xl border border-white/15 bg-white/[0.09] px-4 py-3.5 text-[15px] text-white outline-none transition-colors placeholder:text-white/45 focus:border-brand-green/70 focus:bg-white/[0.12] disabled:opacity-60"
+                value={visitorName}
+                onChange={(event) => setVisitorName(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') startConversation()
+                }}
+                placeholder="Nombre y apellido"
+                autoFocus
+                className="rounded-xl border border-white/15 bg-white/[0.08] px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-brand-green/65"
               />
+
+              <label className="mb-2 mt-4 text-[11px] font-bold uppercase tracking-wider text-white/45">
+                ¿Quién nos escribe?
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {(Object.keys(visitorTypeLabels) as VisitorType[]).map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => setVisitorType(type)}
+                    className={`min-h-12 rounded-xl border px-3 py-2 text-xs font-medium transition-colors ${
+                      visitorType === type
+                        ? 'border-brand-green bg-brand-green text-[#080c0a]'
+                        : 'border-white/10 bg-white/[0.05] text-white/65 hover:bg-white/[0.09]'
+                    }`}
+                  >
+                    {visitorTypeLabels[type]}
+                  </button>
+                ))}
+              </div>
+
               <button
                 type="button"
-                onClick={handleSubmit}
-                disabled={loading || !input.trim()}
-                className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-green to-[#18b854] text-[#080c0a] shadow-[0_12px_28px_rgba(61,240,112,0.22)] transition hover:scale-[1.03] disabled:scale-100 disabled:opacity-45"
-                aria-label="Enviar mensaje"
+                onClick={startConversation}
+                disabled={!visitorName.trim() || !visitorType}
+                className="mt-5 rounded-xl bg-brand-green px-4 py-3 text-sm font-bold text-[#080c0a] transition-colors hover:bg-brand-green/90 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <Send size={21} />
+                Comenzar conversación
               </button>
+              <p className="mt-3 text-center text-[10px] leading-relaxed text-white/30">
+                Usaremos estos datos únicamente para identificar y responder tu consulta.
+              </p>
             </div>
+          ) : (
+            <>
+              <div className="flex-1 space-y-3 overflow-y-auto bg-[#0d120f] px-4 py-4">
+                {messages.map((message, index) => (
+                  <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div
+                      className={`max-w-[82%] whitespace-pre-wrap rounded-2xl px-3 py-2.5 text-xs leading-relaxed ${
+                        message.role === 'user'
+                          ? 'rounded-br-none bg-brand-green text-[#080c0a]'
+                          : 'rounded-bl-none border border-white/10 bg-white/[0.06] text-white/80'
+                      }`}
+                    >
+                      {message.content}
+                    </div>
+                  </div>
+                ))}
 
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() =>
-                trackContact({
-                  source: 'chatbot',
-                  contact_method: 'whatsapp',
-                  label: 'Hablar con el equipo por WhatsApp',
-                })
-              }
-              className="mt-2 flex w-full items-center justify-center rounded-xl border border-[#25d366]/25 bg-[#25d366]/8 px-3 py-2 text-[11px] font-medium text-[#8bf0ad] no-underline transition-colors hover:border-[#25d366]/45 hover:bg-[#25d366]/12"
-            >
-              Hablar con el equipo por WhatsApp
-            </a>
-          </div>
+                {loading && (
+                  <div className="flex justify-start">
+                    <div className="flex items-center gap-1 rounded-2xl rounded-bl-none border border-white/10 bg-white/[0.06] px-4 py-3">
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/35" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/35 [animation-delay:150ms]" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/35 [animation-delay:300ms]" />
+                    </div>
+                  </div>
+                )}
+
+                <div ref={messagesEndRef} />
+              </div>
+
+              <div className="border-t border-white/10 bg-[#080c0a] p-3">
+                <div className="flex gap-2">
+                  <input
+                    value={input}
+                    onChange={(event) => setInput(event.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Escribí tu consulta..."
+                    disabled={loading}
+                    className="min-w-0 flex-1 rounded-2xl border border-white/15 bg-white/[0.09] px-4 py-3.5 text-[15px] text-white outline-none transition-colors placeholder:text-white/45 focus:border-brand-green/70 focus:bg-white/[0.12] disabled:opacity-60"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSubmit}
+                    disabled={loading || !input.trim()}
+                    className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-green to-[#18b854] text-[#080c0a] shadow-[0_12px_28px_rgba(61,240,112,0.22)] transition hover:scale-[1.03] disabled:scale-100 disabled:opacity-45"
+                    aria-label="Enviar mensaje"
+                  >
+                    <Send size={21} />
+                  </button>
+                </div>
+
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() =>
+                    trackContact({
+                      source: 'chatbot',
+                      contact_method: 'whatsapp',
+                      label: 'Hablar con el equipo por WhatsApp',
+                    })
+                  }
+                  className="mt-2 flex w-full items-center justify-center rounded-xl border border-[#25d366]/25 bg-[#25d366]/8 px-3 py-2 text-[11px] font-medium text-[#8bf0ad] no-underline transition-colors hover:border-[#25d366]/45 hover:bg-[#25d366]/12"
+                >
+                  Hablar con el equipo por WhatsApp
+                </a>
+              </div>
+            </>
+          )}
         </div>
       )}
 
