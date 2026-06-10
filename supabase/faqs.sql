@@ -68,31 +68,49 @@ Las discotecas, Pool Party y Campamento Americano están diseñados exclusivamen
 
 CONTROL DE ACCESO
 En el caso de las discotecas y Pool Party, el ingreso está bajo la supervisión del coordinador designado por la empresa de viajes y nuestra portería. A ningún estudiante o egresado se le permitirá abandonar el establecimiento sin la debida autorización por parte de los responsables del grupo.$$,
-    1,
+    0,
+    true
+  ),
+  (
+    '¿Cómo puedo contratar un viaje de egresados o una gira de estudio con Camboriú Estudiantil?',
+    $$Nuestra empresa opera exclusivamente a través de agencias de viajes autorizadas, que son las encargadas de comercializar nuestros programas de giras de estudio y viajes de egresados en cada país.
+
+En nuestra página web, dentro de la sección Agencias, podrán encontrar el listado completo de las agencias que mantienen contrato vigente con nosotros. A través de ellas podrán recibir asesoramiento y acceder a las distintas propuestas disponibles, que incluyen vuelos, alojamiento, excursiones, actividades y eventos.
+
+Es importante destacar que la disponibilidad para las temporadas de diciembre de 2026 y diciembre de 2027 es muy limitada, ya que gran parte de la capacidad hotelera ha sido reservada con anticipación por las agencias de viajes que trabajan con nuestra empresa.
+
+Por este motivo, recomendamos realizar las consultas y reservas con la mayor anticipación posible para asegurar disponibilidad y acceder a las mejores opciones.
+
+Para cualquier consulta, desde cualquier país, les recomendamos contactar a una de las agencias autorizadas que figuran en nuestra página web, quienes podrán brindar información actualizada sobre programas, disponibilidad y condiciones de contratación.$$,
+    -1,
     true
   ),
   (
     '¿Puedo personalizar el itinerario?',
     'Sí, trabajamos con cada empresa para adaptar el viaje a sus necesidades específicas. Podemos modificar actividades, duración, presupuesto.',
-    2,
+    3,
     true
   ),
   (
     '¿Cuentan con oficina física?',
     'Sí, nos encontramos en el centro de la ciudad de Balneario Camboriú. Dirección: Av. Central, 151 - Centro, Balneário Camboriú - Ed. Washington, Piso 5, Sala 504 - SC.',
-    3,
+    4,
     true
   ),
   (
     '¿Cómo reservo?',
-    'Contactanos a través de WhatsApp, email o nuestras redes sociales.',
-    4,
+    'Camboriú Estudiantil no vende directamente al público. Para consultar programas, disponibilidad y condiciones de contratación, elegí una de las agencias autorizadas que figuran en la sección Agencias de nuestra página web.',
+    5,
     true
   ),
   (
     'Vuelos y traslados, ¿están incluidos?',
     'No, no realizamos vuelos ni traslados internacionales. Sí contamos con la posibilidad de brindar servicio de traslado internos dentro del destino, desde aeropuertos hasta Balneario Camboriú o para la realización de actividades.',
-    5,
+    6,
     true
   )
-on conflict (question) do nothing;
+on conflict (question) do update
+set
+  answer = excluded.answer,
+  sort_order = excluded.sort_order,
+  is_active = excluded.is_active;

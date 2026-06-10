@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '../../../lib/supabase/server'
+import { AGENCY_CONTRACTING_ANSWER } from '../../../lib/agencyContracting'
 
 type ChatMessage = {
   role: 'user' | 'assistant'
@@ -25,6 +26,8 @@ Ayudar a agencias de turismo estudiantil, coordinadores y familias a entender la
 
 SOBRE CAMBORIÚ ESTUDIANTIL:
 - Empresa de turismo receptivo en Balneário Camboriú, Brasil.
+- No vende viajes, entradas ni servicios directamente a estudiantes, familias, turistas o público general.
+- Opera exclusivamente a través de agencias de viajes autorizadas que comercializan sus programas en cada país.
 - Más de 30 años de trayectoria.
 - Recibe estudiantes secundarios y agencias de Argentina, Uruguay, Chile, Paraguay, Bolivia, Perú y Brasil.
 - Opera experiencias de día, tarde y noche.
@@ -50,7 +53,10 @@ REGLAS:
 - Copiá exactamente los nombres propios de atracciones como aparecen cargados. No traduzcas ni corrijas nombres propios.
 - Si no tenés información concreta sobre una atracción, decí que el equipo puede confirmarlo por WhatsApp.
 - Usá como fuente principal la sección "ATRACCIONES CARGADAS EN EL ADMIN" cuando esté disponible.
-- Si preguntan por cotización, fechas, cupos, contratación, itinerarios o propuestas, explicá que el equipo prepara una propuesta personalizada y sugerí escribir por WhatsApp.
+- Si preguntan cómo contratar, reservar o comprar un viaje, si pueden contratar directamente, o si venden al público, aclarales que Camboriú Estudiantil opera exclusivamente a través de agencias autorizadas y que deben consultar el listado de la sección Agencias.
+- Nunca sugieras que un estudiante, familiar o turista puede contratar directamente con Camboriú Estudiantil.
+- Si preguntan por disponibilidad, fechas o cupos, aclarales que deben consultarlo con una agencia autorizada. La disponibilidad para diciembre de 2026 y diciembre de 2027 es muy limitada.
+- Si quien consulta representa una agencia y quiere trabajar con Camboriú Estudiantil, sí puede derivarse al equipo mediante el botón de WhatsApp.
 - Si el visitante representa una agencia, intentá obtener naturalmente país, nombre de agencia, cantidad estimada de pasajeros y temporada de interés.
 - No pidas todos los datos juntos como formulario.
 - Podés usar emojis con moderación.
@@ -136,6 +142,48 @@ function includesCommercialIntent(text: string) {
   return keywords.some((keyword) => normalized.includes(keyword))
 }
 
+function asksHowToContract(text: string) {
+  const normalized = text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+
+  const directSalePhrases = [
+    'como reservo',
+    'como reservar',
+    'quiero reservar',
+    'como contrato',
+    'como contratar',
+    'quiero contratar',
+    'como compro',
+    'como comprar',
+    'venden directo',
+    'venta directa',
+    'venden al publico',
+    'comprar directo',
+    'contratar directo',
+    'sin agencia',
+    'por mi cuenta',
+    'necesito una agencia',
+  ]
+
+  const contractingTerms = ['contratar', 'reservar', 'comprar', 'cotizar', 'conseguir']
+  const travelTerms = [
+    'viaje de egresados',
+    'gira de estudio',
+    'viaje estudiantil',
+    'programa',
+    'paquete',
+    'viaje',
+  ]
+
+  return (
+    directSalePhrases.some((phrase) => normalized.includes(phrase)) ||
+    (contractingTerms.some((term) => normalized.includes(term)) &&
+      travelTerms.some((term) => normalized.includes(term)))
+  )
+}
+
 function extractLeadData(messages: ChatMessage[]): LeadData {
   const transcript = messages.map((message) => message.content).join('\n')
   const latestMessage = latestUserMessage(messages)
@@ -202,6 +250,20 @@ export async function POST(req: NextRequest) {
 
     if (normalizedMessages.length === 0) {
       return NextResponse.json({ error: 'Mensajes inválidos' }, { status: 400 })
+    }
+
+    const userMessage = latestUserMessage(normalizedMessages)
+
+    if (asksHowToContract(userMessage)) {
+      try {
+        await saveChatLead(normalizedMessages, AGENCY_CONTRACTING_ANSWER)
+      } catch (error) {
+        console.error('Chat lead save error:', error)
+      }
+
+      return NextResponse.json({
+        message: AGENCY_CONTRACTING_ANSWER,
+      })
     }
 
     const attractionsContext = await getAttractionsContext()

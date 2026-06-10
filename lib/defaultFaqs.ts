@@ -1,4 +1,13 @@
+import {
+  AGENCY_CONTRACTING_ANSWER,
+  AGENCY_CONTRACTING_QUESTION,
+} from './agencyContracting'
+
 export const defaultFaqs = [
+  {
+    question: AGENCY_CONTRACTING_QUESTION,
+    answer: AGENCY_CONTRACTING_ANSWER,
+  },
   {
     question: '¿Qué medidas de seguridad toman?',
     answer: `A lo largo de los años de trayectoria de nuestra empresa, siempre nos hemos enfocado en diversas facetas del entretenimiento, y una de gran importancia es la seguridad de nuestros eventos y participantes. Para detallar de manera más precisa cada componente de seguridad, nos complace informarles sobre los servicios que ofrecemos en nuestros variados productos:
@@ -25,7 +34,7 @@ En el caso de las discotecas y Pool Party, el ingreso está bajo la supervisión
   {
     question: '¿Cómo reservo?',
     answer:
-      'Contactanos a través de WhatsApp, email o nuestras redes sociales.',
+      'Camboriú Estudiantil no vende directamente al público. Para consultar programas, disponibilidad y condiciones de contratación, elegí una de las agencias autorizadas que figuran en la sección Agencias de nuestra página web.',
   },
   {
     question: 'Vuelos y traslados, ¿están incluidos?',
