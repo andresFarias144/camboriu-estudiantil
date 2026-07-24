@@ -41,20 +41,16 @@ const heroBackground =
   'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/image/background_jt0bng.jpg'
 
 function getOptimizedVideoUrl(src: string) {
-  if (!src.includes('res.cloudinary.com')) return src
-  return src.replace('/video/upload/', '/video/upload/q_auto:eco,w_620,vc_auto/')
+  return src
 }
 
 function getMobileVideoUrl(src: string) {
-  if (!src.includes('res.cloudinary.com')) return src
-  return src.replace('/video/upload/', '/video/upload/q_auto:eco,w_360,vc_auto,so_0,du_6/')
+  return src
 }
 
 function getVideoPosterUrl(src: string, poster?: string) {
   if (poster) return poster
-  return src
-    .replace('/video/upload/', '/video/upload/so_1,w_420,q_auto:eco,f_jpg/')
-    .replace(/\.(mp4|mov)$/i, '.jpg')
+  return src.replace(/\.(mp4|mov)$/i, '.jpg')
 }
 
 export function HeroVideoGrid() {
