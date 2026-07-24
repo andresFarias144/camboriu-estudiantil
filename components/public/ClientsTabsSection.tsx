@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import { COUNTRY_LABELS, type Client, type ClientCountry } from '../../lib/types'
 
 const countryOrder: ClientCountry[] = ['argentina', 'uruguay', 'chile', 'paraguay', 'bolivia', 'peru', 'brasil']
-const backgroundVideo = 'https://res.cloudinary.com/dea2a4o1z/video/upload/v1779502204/background_lwsrar.mp4'
+const backgroundVideo = 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/video/background_lwsrar.mp4'
 
 // Reemplazar estos valores por URLs de Cloudinary cuando estén disponibles.
 const countryFlagImages: Partial<Record<ClientCountry, string>> = {}

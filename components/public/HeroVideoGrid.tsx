@@ -6,44 +6,52 @@ import { ArrowRight } from 'lucide-react'
 
 const heroVideos = [
   {
-    src: 'https://res.cloudinary.com/dea2a4o1z/video/upload/v1779501984/cascata_azzvgj.mp4',
+    src: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/video/cascata_azzvgj.mp4',
+    poster: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary-posters/video/cascata_azzvgj.jpg',
     label: 'Naturaleza',
     title: 'Cascatas',
   },
   {
-    src: 'https://res.cloudinary.com/dea2a4o1z/video/upload/v1779501972/artista_km3pai.mp4',
+    src: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/video/artista_km3pai.mp4',
+    poster: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary-posters/video/artista_km3pai.jpg',
     label: 'Entretenimiento',
     title: 'Shows Artísticos',
   },
   {
-    src: 'https://res.cloudinary.com/dea2a4o1z/video/upload/v1779501977/campamento_lli3iw.mov',
+    src: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/video/campamento_lli3iw.mov',
+    poster: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary-posters/video/campamento_lli3iw.jpg',
     label: 'Aventura',
     title: 'Campamentos',
   },
   {
-    src: 'https://res.cloudinary.com/dea2a4o1z/video/upload/v1779501980/gv_lhjd7o.mov',
+    src: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/video/gv_lhjd7o.mov',
+    poster: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary-posters/video/gv_lhjd7o.jpg',
     label: 'Greenvalley',
     title: 'Club nº1 del mundo',
   },
   {
-    src: 'https://res.cloudinary.com/dea2a4o1z/video/upload/v1779501979/espuma_bq9qnd.mov',
+    src: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/video/espuma_bq9qnd.mov',
+    poster: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary-posters/video/espuma_bq9qnd.jpg',
     label: 'Diversión',
     title: 'Fiestas',
   },
 ]
 
 const heroBackground =
-  'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502549/background_jt0bng.jpg'
+  'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/image/background_jt0bng.jpg'
 
 function getOptimizedVideoUrl(src: string) {
+  if (!src.includes('res.cloudinary.com')) return src
   return src.replace('/video/upload/', '/video/upload/q_auto:eco,w_620,vc_auto/')
 }
 
 function getMobileVideoUrl(src: string) {
+  if (!src.includes('res.cloudinary.com')) return src
   return src.replace('/video/upload/', '/video/upload/q_auto:eco,w_360,vc_auto,so_0,du_6/')
 }
 
-function getVideoPosterUrl(src: string) {
+function getVideoPosterUrl(src: string, poster?: string) {
+  if (poster) return poster
   return src
     .replace('/video/upload/', '/video/upload/so_1,w_420,q_auto:eco,f_jpg/')
     .replace(/\.(mp4|mov)$/i, '.jpg')
@@ -147,12 +155,12 @@ function VideoCard({
   activeMobileVideo,
   className = '',
 }: {
-  video: { src: string; label: string; title: string }
+  video: { src: string; poster?: string; label: string; title: string }
   index: number
   activeMobileVideo: number
   className?: string
 }) {
-  const poster = getVideoPosterUrl(video.src)
+  const poster = getVideoPosterUrl(video.src, video.poster)
   const isActiveMobileVideo = activeMobileVideo === index
 
   return (

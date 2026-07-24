@@ -7,9 +7,9 @@ import { ArrowRight } from 'lucide-react'
 type Category = 'dia' | 'tarde' | 'noche'
 
 const categoryBackgrounds: Record<Category, string> = {
-  dia: 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502573/DIA_mtta1g.png',
-  tarde: 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502574/TARDE_ps6xcn.png',
-  noche: 'https://res.cloudinary.com/dea2a4o1z/image/upload/v1779502572/NOCHE_zfrmyh.png',
+  dia: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/image/DIA_mtta1g.png',
+  tarde: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/image/TARDE_ps6xcn.png',
+  noche: 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/image/NOCHE_zfrmyh.png',
 }
 
 export function EventsSection({ attractions }: { attractions: any[] }) {

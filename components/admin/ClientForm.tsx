@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '../../lib/supabase/client'
-import { CldUploadWidget } from 'next-cloudinary'
-import { ImagePlus, Trash2, Loader2 } from 'lucide-react'
+import { Trash2, Loader2 } from 'lucide-react'
+import { R2UploadButton } from './R2UploadButton'
 import type { Client, ClientCountry } from '../../lib/types'
 
 interface ClientFormProps {
@@ -226,40 +226,30 @@ export function ClientForm({ client }: ClientFormProps) {
         {/* Logo upload */}
         <div>
           <label className="label-base">Logo de la agencia</label>
-          <CldUploadWidget
-            uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-            options={{ folder: 'camboriu/clients', maxFiles: 1, resourceType: 'image' }}
-            onSuccess={(result: any) => setLogoUrl(result.info.secure_url)}
-          >
-            {({ open }) => (
-              <div>
-                {logoUrl ? (
-                  <div className="relative">
-                    <div className="w-full h-40 bg-white rounded-lg flex items-center justify-center p-5">
-                      <img src={logoUrl} alt="" className="max-w-full max-h-full object-contain" />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setLogoUrl('')}
-                      className="absolute top-2 right-2 bg-black/70 text-white rounded-md p-1.5 hover:bg-black/90"
-                    >
-                      <Trash2 size={13} />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => open()}
-                    className="w-full h-40 border border-dashed border-white/20 rounded-lg flex flex-col items-center justify-center gap-2 text-white/40 text-sm hover:border-white/40 hover:text-white/60 transition-colors"
-                  >
-                    <ImagePlus size={24} />
-                    Subir logo
-                    <span className="text-[11px] opacity-70">PNG con fondo transparente</span>
-                  </button>
-                )}
+          <div>
+            {logoUrl ? (
+              <div className="relative">
+                <div className="w-full h-40 bg-white rounded-lg flex items-center justify-center p-5">
+                  <img src={logoUrl} alt="" className="max-w-full max-h-full object-contain" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setLogoUrl('')}
+                  className="absolute top-2 right-2 bg-black/70 text-white rounded-md p-1.5 hover:bg-black/90"
+                >
+                  <Trash2 size={13} />
+                </button>
               </div>
+            ) : (
+              <R2UploadButton
+                folder="camboriu/clients"
+                label="Subir logo"
+                helper="PNG con fondo transparente"
+                onUploaded={setLogoUrl}
+                className="w-full h-40 border border-dashed border-white/20 rounded-lg flex flex-col items-center justify-center gap-2 text-white/40 text-sm hover:border-white/40 hover:text-white/60 transition-colors"
+              />
             )}
-          </CldUploadWidget>
+          </div>
         </div>
       </div>
 

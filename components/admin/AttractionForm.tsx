@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '../../lib/supabase/client'
-import { CldUploadWidget } from 'next-cloudinary'
-import { ImagePlus, Trash2, MapPin, Loader2 } from 'lucide-react'
+import { Trash2, MapPin, Loader2 } from 'lucide-react'
+import { R2UploadButton } from './R2UploadButton'
 import type { Attraction, AttractionCategory, AttractionType } from '../../lib/types'
 
 interface AttractionFormProps {
@@ -339,83 +339,55 @@ export function AttractionForm({ attraction }: AttractionFormProps) {
           {/* Main image */}
           <div>
             <label className="label-base">Imagen principal</label>
-            <CldUploadWidget
-              uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-              options={{ folder: 'camboriu/attractions', maxFiles: 1, resourceType: 'image' }}
-              onSuccess={(result: any) => setMainImage(result.info.secure_url)}
-            >
-              {({ open }) => (
-                <div>
-                  {mainImage ? (
-                    <div className="relative">
-                      <img src={mainImage} alt="" className="w-full h-44 object-cover rounded-lg block" />
-                      <button
-                        type="button"
-                        onClick={() => setMainImage('')}
-                        className="absolute top-2 right-2 bg-black/70 text-white rounded-md p-1.5 hover:bg-black/90"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => open()}
-                      className="w-full h-44 border border-dashed border-white/20 rounded-lg flex flex-col items-center justify-center gap-2 text-white/40 text-sm hover:border-white/40 hover:text-white/60 transition-colors"
-                    >
-                      <ImagePlus size={24} />
-                      Subir imagen principal
-                    </button>
-                  )}
-                </div>
-              )}
-            </CldUploadWidget>
+            {mainImage ? (
+              <div className="relative">
+                <img src={mainImage} alt="" className="w-full h-44 object-cover rounded-lg block" />
+                <button
+                  type="button"
+                  onClick={() => setMainImage('')}
+                  className="absolute top-2 right-2 bg-black/70 text-white rounded-md p-1.5 hover:bg-black/90"
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            ) : (
+              <R2UploadButton
+                folder="camboriu/attractions"
+                label="Subir imagen principal"
+                onUploaded={setMainImage}
+                className="w-full h-44 border border-dashed border-white/20 rounded-lg flex flex-col items-center justify-center gap-2 text-white/40 text-sm hover:border-white/40 hover:text-white/60 transition-colors"
+              />
+            )}
           </div>
 
           {/* Gallery */}
           <div>
             <label className="label-base">Galería ({gallery.length})</label>
-            <CldUploadWidget
-              uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-              options={{
-                folder: 'camboriu/attractions',
-                multiple: true,
-                maxFiles: 50,
-                sources: ['local', 'url', 'camera', 'google_drive', 'dropbox'],
-                resourceType: 'image',
-                clientAllowedFormats: ['png', 'jpg', 'jpeg', 'webp', 'gif'],
-                maxFileSize: 10000000,
-              }}
-              onSuccess={(result: any) => setGallery((g) => [...g, result.info.secure_url])}
-            >
-              {({ open }) => (
-                <div>
-                  {gallery.length > 0 && (
-                    <div className="grid grid-cols-2 gap-2 mb-2">
-                      {gallery.map((url, i) => (
-                        <div key={i} className="relative">
-                          <img src={url} alt="" className="w-full h-20 object-cover rounded-md block" />
-                          <button
-                            type="button"
-                            onClick={() => setGallery((g) => g.filter((_, idx) => idx !== i))}
-                            className="absolute top-1 right-1 bg-black/70 text-white rounded p-1 hover:bg-black/90"
-                          >
-                            <Trash2 size={11} />
-                          </button>
-                        </div>
-                      ))}
+            <div>
+              {gallery.length > 0 && (
+                <div className="grid grid-cols-2 gap-2 mb-2">
+                  {gallery.map((url, i) => (
+                    <div key={i} className="relative">
+                      <img src={url} alt="" className="w-full h-20 object-cover rounded-md block" />
+                      <button
+                        type="button"
+                        onClick={() => setGallery((g) => g.filter((_, idx) => idx !== i))}
+                        className="absolute top-1 right-1 bg-black/70 text-white rounded p-1 hover:bg-black/90"
+                      >
+                        <Trash2 size={11} />
+                      </button>
                     </div>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => open()}
-                    className="w-full py-2.5 border border-dashed border-white/15 rounded-md text-white/40 text-xs hover:text-white/60 hover:border-white/30 transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    <ImagePlus size={13} /> Agregar fotos
-                  </button>
+                  ))}
                 </div>
               )}
-            </CldUploadWidget>
+              <R2UploadButton
+                folder="camboriu/attractions"
+                multiple
+                label="Agregar fotos"
+                onUploaded={(url) => setGallery((g) => [...g, url])}
+                className="w-full py-2.5 border border-dashed border-white/15 rounded-md text-white/40 text-xs hover:text-white/60 hover:border-white/30 transition-colors flex items-center justify-center gap-1.5"
+              />
+            </div>
           </div>
 
           {/* Map preview */}
