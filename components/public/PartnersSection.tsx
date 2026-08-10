@@ -112,6 +112,8 @@ function PartnerCard({ partner }: { partner: Partner }) {
           alt=""
           width={420}
           height={746}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500"
         />
       )}
