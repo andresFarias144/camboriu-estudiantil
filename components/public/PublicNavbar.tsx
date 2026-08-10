@@ -43,6 +43,8 @@ export function PublicNavbar({ overlay = false }: { overlay?: boolean }) {
             <img
               src={logoUrl}
               alt="Camboriú Estudiantil Greenvalley"
+              width={260}
+              height={88}
               className="h-12 w-auto sm:h-14 md:h-[5.5rem]"
             />
           </Link>

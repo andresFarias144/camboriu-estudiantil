@@ -95,7 +95,7 @@ function ClientLogoCard({ client }: { client: Client }) {
     <div className="h-[92px] w-[92px] rounded-md border border-white/10 bg-white/[0.04] p-1.5 flex items-center justify-center transition-colors hover:border-brand-green/35 sm:h-[118px] sm:w-[118px] lg:h-[150px] lg:w-[150px]">
       {client.logo_url ? (
         <div className="h-full w-full rounded bg-white p-2.5 flex items-center justify-center">
-          <img src={client.logo_url} alt={client.name} className="h-full w-full object-contain" />
+          <img src={client.logo_url} alt={client.name} width={150} height={150} className="h-full w-full object-contain" />
         </div>
       ) : (
         <span className="text-xs text-white/55 text-center leading-snug">{client.name}</span>

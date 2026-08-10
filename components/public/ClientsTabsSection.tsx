@@ -1,9 +1,10 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { COUNTRY_LABELS, type Client, type ClientCountry } from '../../lib/types'
+import { useNearViewport } from './useNearViewport'
 
 const countryOrder: ClientCountry[] = ['argentina', 'uruguay', 'chile', 'paraguay', 'bolivia', 'peru', 'brasil']
 const backgroundVideo = 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/video/background_lwsrar.mp4'
@@ -12,6 +13,8 @@ const backgroundVideo = 'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/clo
 const countryFlagImages: Partial<Record<ClientCountry, string>> = {}
 
 export function ClientsTabsSection({ clients }: { clients: Client[] }) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const shouldLoadBackgroundVideo = useNearViewport(sectionRef, '700px')
   const grouped = useMemo(() => {
     const byCountry: Partial<Record<ClientCountry, Client[]>> = {}
 
@@ -31,16 +34,19 @@ export function ClientsTabsSection({ clients }: { clients: Client[] }) {
   if (clients.length === 0) return null
 
   return (
-    <section id="agencias" className="relative overflow-hidden border-t border-white/10 py-16 sm:py-20 scroll-mt-28">
-      <video
-        src={backgroundVideo}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover opacity-72"
-        aria-hidden="true"
-      />
+    <section ref={sectionRef} id="agencias" className="relative overflow-hidden border-t border-white/10 py-16 sm:py-20 scroll-mt-28">
+      {shouldLoadBackgroundVideo && (
+        <video
+          src={backgroundVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          className="absolute inset-0 h-full w-full object-cover opacity-72"
+          aria-hidden="true"
+        />
+      )}
       <div className="absolute inset-0 bg-[#080c0a]/54" aria-hidden="true" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(8,12,10,0.78)_0%,rgba(8,12,10,0.60)_34%,rgba(8,12,10,0.24)_62%,transparent_82%)]" aria-hidden="true" />
       <div className="absolute inset-0 bg-gradient-to-b from-[#080c0a]/94 via-[#080c0a]/28 to-[#080c0a]/90" aria-hidden="true" />
@@ -109,7 +115,7 @@ function CountryTab({
       }`}
     >
       {flagImage ? (
-        <img src={flagImage} alt="" className="h-5 w-5 rounded-full object-cover" />
+        <img src={flagImage} alt="" width={20} height={20} className="h-5 w-5 rounded-full object-cover" />
       ) : (
         <span className="text-base leading-none">{label.flag}</span>
       )}
@@ -132,7 +138,7 @@ function ClientLogoCard({ client }: { client: Client }) {
     <div className="h-[92px] w-[92px] rounded-md border border-white/10 bg-white/[0.04] p-1.5 flex items-center justify-center transition-colors hover:border-brand-green/35 sm:h-[118px] sm:w-[118px] lg:h-[150px] lg:w-[150px]">
       {client.logo_url ? (
         <div className="h-full w-full rounded bg-white p-2.5 flex items-center justify-center">
-          <img src={client.logo_url} alt={client.name} className="h-full w-full object-contain" />
+          <img src={client.logo_url} alt={client.name} width={150} height={150} className="h-full w-full object-contain" />
         </div>
       ) : (
         <span className="text-xs text-white/55 text-center leading-snug">{client.name}</span>

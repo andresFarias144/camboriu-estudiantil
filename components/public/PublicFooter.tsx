@@ -13,6 +13,8 @@ export function PublicFooter() {
               <img
                 src={logoUrl}
                 alt="Camboriú Estudiantil Greenvalley"
+                width={260}
+                height={88}
                 className="h-12 w-auto"
               />
             </Link>

@@ -40,6 +40,24 @@ const heroVideos = [
 const heroBackground =
   'https://pub-6c7f68bfb5034991a40b2ca5bd600cf1.r2.dev/cloudinary/image/background_jt0bng.jpg'
 
+const mobileVideoIndexes = [1]
+
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia(query)
+    const update = () => setMatches(media.matches)
+
+    update()
+    media.addEventListener('change', update)
+
+    return () => media.removeEventListener('change', update)
+  }, [query])
+
+  return matches
+}
+
 function getOptimizedVideoUrl(src: string) {
   return src
 }
@@ -54,11 +72,17 @@ function getVideoPosterUrl(src: string, poster?: string) {
 }
 
 export function HeroVideoGrid() {
-  const [activeMobileVideo, setActiveMobileVideo] = useState(0)
+  const [activeMobileVideo, setActiveMobileVideo] = useState(mobileVideoIndexes[0])
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   useEffect(() => {
+    if (mobileVideoIndexes.length <= 1) return
+
     const interval = window.setInterval(() => {
-      setActiveMobileVideo((current) => (current + 1) % heroVideos.length)
+      setActiveMobileVideo((current) => {
+        const currentIndex = mobileVideoIndexes.indexOf(current)
+        return mobileVideoIndexes[(currentIndex + 1) % mobileVideoIndexes.length]
+      })
     }, 5200)
 
     return () => window.clearInterval(interval)
@@ -124,19 +148,19 @@ export function HeroVideoGrid() {
           <div className="order-1 lg:order-2">
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
               {/* Video 1 - Cascatas (alto) */}
-              <VideoCard video={heroVideos[0]} index={0} activeMobileVideo={activeMobileVideo} className="row-span-2" />
+              <VideoCard video={heroVideos[0]} index={0} activeMobileVideo={activeMobileVideo} isDesktop={isDesktop} className="row-span-2" />
 
               {/* Video 2 - Shows */}
-              <VideoCard video={heroVideos[1]} index={1} activeMobileVideo={activeMobileVideo} />
+              <VideoCard video={heroVideos[1]} index={1} activeMobileVideo={activeMobileVideo} isDesktop={isDesktop} />
 
               {/* Video 3 - Greenvalley (alto) */}
-              <VideoCard video={heroVideos[3]} index={3} activeMobileVideo={activeMobileVideo} className="row-span-2" />
+              <VideoCard video={heroVideos[3]} index={3} activeMobileVideo={activeMobileVideo} isDesktop={isDesktop} className="row-span-2" />
 
               {/* Video 4 - Campamentos */}
-              <VideoCard video={heroVideos[2]} index={2} activeMobileVideo={activeMobileVideo} />
+              <VideoCard video={heroVideos[2]} index={2} activeMobileVideo={activeMobileVideo} isDesktop={isDesktop} />
 
               {/* Video 5 - Fiestas (ancho) */}
-              <VideoCard video={heroVideos[4]} index={4} activeMobileVideo={activeMobileVideo} className="col-span-2" />
+              <VideoCard video={heroVideos[4]} index={4} activeMobileVideo={activeMobileVideo} isDesktop={isDesktop} className="col-span-2" />
             </div>
           </div>
         </div>
@@ -149,11 +173,13 @@ function VideoCard({
   video,
   index,
   activeMobileVideo,
+  isDesktop,
   className = '',
 }: {
   video: { src: string; poster?: string; label: string; title: string }
   index: number
   activeMobileVideo: number
+  isDesktop: boolean
   className?: string
 }) {
   const poster = getVideoPosterUrl(video.src, video.poster)
@@ -165,6 +191,8 @@ function VideoCard({
         src={poster}
         alt=""
         aria-hidden="true"
+        width={420}
+        height={746}
         loading="eager"
         className="absolute inset-0 h-full w-full object-cover md:hidden"
       />
@@ -176,21 +204,23 @@ function VideoCard({
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster={poster}
           className="absolute inset-0 h-full w-full object-cover md:hidden"
         />
       )}
-      <video
-        src={getOptimizedVideoUrl(video.src)}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        poster={poster}
-        className="absolute inset-0 hidden h-full w-full object-cover md:block"
-      />
+      {isDesktop && (
+        <video
+          src={getOptimizedVideoUrl(video.src)}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster={poster}
+          className="absolute inset-0 hidden h-full w-full object-cover md:block"
+        />
+      )}
 
       {/* Overlay con gradiente */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />

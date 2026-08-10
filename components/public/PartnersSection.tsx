@@ -1,6 +1,8 @@
 'use client'
 
+import { useRef } from 'react'
 import { ExternalLink } from 'lucide-react'
+import { useNearViewport } from './useNearViewport'
 
 const partners = [
   {
@@ -86,21 +88,30 @@ export function PartnersSection() {
 }
 
 function PartnerCard({ partner }: { partner: Partner }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const shouldLoadMedia = useNearViewport(cardRef, '500px')
   const cardInner = (
-    <div className="relative aspect-[9/16] rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer">
+    <div ref={cardRef} className="relative aspect-[9/16] rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer">
       {partner.src ? (
-        <video
-          src={partner.src}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500"
-        />
+        shouldLoadMedia ? (
+          <video
+            src={partner.src}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="none"
+            className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-white/5" aria-hidden="true" />
+        )
       ) : (
         <img
           src={partner.image}
           alt=""
+          width={420}
+          height={746}
           className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500"
         />
       )}
