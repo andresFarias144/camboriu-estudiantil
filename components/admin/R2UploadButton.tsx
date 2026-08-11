@@ -24,6 +24,24 @@ export function R2UploadButton({
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  async function uploadViaServer(file: File) {
+    const fallbackData = new FormData()
+    fallbackData.append('folder', folder)
+    fallbackData.append('file', file)
+
+    const fallbackResponse = await fetch('/api/admin/r2-upload/direct', {
+      method: 'POST',
+      body: fallbackData,
+    })
+    const fallback = await fallbackResponse.json()
+
+    if (!fallbackResponse.ok) {
+      throw new Error(fallback.error || 'No se pudo subir el archivo a Cloudflare R2.')
+    }
+
+    return fallback.publicUrl as string
+  }
+
   async function uploadFile(file: File) {
     const signResponse = await fetch('/api/admin/r2-upload', {
       method: 'POST',
@@ -40,32 +58,22 @@ export function R2UploadButton({
       throw new Error(signed.error || 'No se pudo preparar la subida.')
     }
 
-    const uploadResponse = await fetch(signed.uploadUrl, {
-      method: 'PUT',
-      headers: { 'Content-Type': file.type || 'application/octet-stream' },
-      body: file,
-    })
+    try {
+      const uploadResponse = await fetch(signed.uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type || 'application/octet-stream' },
+        body: file,
+      })
 
-    if (uploadResponse.ok) {
-      onUploaded(signed.publicUrl)
-      return
+      if (uploadResponse.ok) {
+        onUploaded(signed.publicUrl)
+        return
+      }
+    } catch {
+      // Browsers report CORS/network interruptions from R2 as "Failed to fetch".
     }
 
-    const fallbackData = new FormData()
-    fallbackData.append('folder', folder)
-    fallbackData.append('file', file)
-
-    const fallbackResponse = await fetch('/api/admin/r2-upload/direct', {
-      method: 'POST',
-      body: fallbackData,
-    })
-    const fallback = await fallbackResponse.json()
-
-    if (!fallbackResponse.ok) {
-      throw new Error(fallback.error || 'No se pudo subir el archivo a Cloudflare R2.')
-    }
-
-    onUploaded(fallback.publicUrl)
+    onUploaded(await uploadViaServer(file))
   }
 
   async function handleFiles(files: FileList | null) {
