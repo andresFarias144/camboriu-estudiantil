@@ -1,7 +1,7 @@
 import { PublicNavbar } from '../../components/public/PublicNavbar'
 import { PublicFooter } from '../../components/public/PublicFooter'
 import { ContactForm } from '../../components/public/ContactForm'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Mail, MapPin } from 'lucide-react'
 
 export default function ContactoPage() {
   return (
@@ -22,12 +22,6 @@ export default function ContactoPage() {
             </p>
 
             <div className="mt-8 flex flex-col gap-4">
-              <ContactItem
-                icon={<Phone size={18} />}
-                label="Teléfono"
-                value="+55 47 99281 6769"
-                href="tel:+5547992816769"
-              />
               <ContactItem
                 icon={<Mail size={18} />}
                 label="Email"

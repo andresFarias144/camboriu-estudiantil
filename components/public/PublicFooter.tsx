@@ -46,8 +46,14 @@ export function PublicFooter() {
           <div>
             <div className="text-[11px] font-bold tracking-widest uppercase mb-3 text-white">Contacto</div>
             <ul className="space-y-2 text-sm text-white/50">
-              <li>+55 47 99281 6769</li>
-              <li className="break-all">info@camboriuestudiantil.com</li>
+              <li className="break-all">
+                <a
+                  href="mailto:info@camboriuestudiantil.com"
+                  className="text-white/50 hover:text-white transition-colors no-underline"
+                >
+                  info@camboriuestudiantil.com
+                </a>
+              </li>
               <li>Balneário Camboriú, SC, Brasil</li>
             </ul>
           </div>
